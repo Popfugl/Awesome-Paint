@@ -71,7 +71,7 @@ function updateTool( tempTool, fill ){
   if (tempTool == 'redo'){ redo(); }
 }
 
-// write coordinates to info canvas
+// write coordinates and message to the top bar
 function writeMessage(message, x, y) {
   if (x == null) { x = dbx2; y = dby2; }
   if (message == null) { message = ''; }
@@ -79,6 +79,7 @@ function writeMessage(message, x, y) {
   if (col != null) {
     col24 = palIndex12to24bit( col );
     $('#hoverCol').css('background-color', 'rgba('+col24.r+','+col24.g+','+col24.b+','+col24.a+')' );
+    message = '#' + col + ' ' + message;
   }
   $('#info').html( message );
   $('#coordX').html(x + ' →');
@@ -94,7 +95,10 @@ function saveImageAsPNG (saveImageName){
 
 function dbug( log ) {
   console.log(log);
-  $('#output').text($('#output').text()+log+'\n');
+  var op = $('#output');
+  var h = 1000000000000; // Since .scrollHeight doesn't seem to work with jQuery, and as I only want to scroll to the bottom, this should be sufficient.
+  op.text( op.text() + log + '\n' );
+  op.scrollTop( h );
 }
 
 

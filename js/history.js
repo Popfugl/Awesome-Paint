@@ -4,15 +4,17 @@ function undo() {
     historyStep = historyBuffer.length-1;
   }
   historyStep--;
-  if (historyStep < 0) {historyStep = 0;}
+  if (historyStep < 0) {historyStep = 0; return;}
   copyFromHistory();
+  dbug('undo');
 }
 
 function redo() {
   if (historyStep == null) {return;}
   historyStep++;
-  if (historyStep > historyBuffer.length-1) {historyStep = historyBuffer.length-1;}
+  if (historyStep > historyBuffer.length-1) {historyStep = historyBuffer.length-1; return;}
   copyFromHistory();
+  dbug('redo');
 }
 
 function copyFromHistory() {
