@@ -15,8 +15,15 @@ q: curve
 f: fill
 r: rectangle
 shift+r: filled rectangle
+u: undo (also Ctrl+z, Command+z and middle mouse button)
+shift+u: redo (also Ctrl+Shift+z, Command+Shift+z and middle mouse button while holding down Shift)
 
-Planned features: (in random order)
+Planned features: (in no particular order)
+
+User Interface:
+all buttons will eventually be drawn by me in Awesome Paint.
+
+Finding a better name than Awesome Paint (and no; not Epic Paint)
 
 - Tools
 -- Circle tool (c + shift+c)
@@ -38,7 +45,7 @@ Planned features: (in random order)
 -- free rotation
 -- Perspective distortion of brush
 
-- Drawing tool handle
+- Drawing tool handling (grip)
 -- positioning relative to pointer
 -- quick snap positioning to corners / sides or middle
 
@@ -52,10 +59,12 @@ Planned features: (in random order)
 -- colour ranges
 -- colour cycling
 -- swap colours
--- 
 
-- iff
+- image formats
 -- ilbm loader
 -- ilbm saver
 -- anim loader
 -- anim saver
+-- png loader (indexed palette)
+-- png saver (indexed palette)
+
