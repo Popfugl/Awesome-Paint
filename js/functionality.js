@@ -75,7 +75,12 @@ function updateTool( tempTool, fill ){
 function writeMessage(message, x, y) {
   if (x == null) { x = dbx2; y = dby2; }
   if (message == null) { message = ''; }
-  $('#info').html('Col# ' + getColour( dbx2, dby2, currentFrame )+' '+message );
+  var col = getColour( dbx2, dby2, currentFrame );
+  if (col != null) {
+    col24 = palIndex12to24bit( col );
+    $('#hoverCol').css('background-color', 'rgba('+col24.r+','+col24.g+','+col24.b+','+col24.a+')' );
+  }
+  $('#info').html( message );
   $('#coordX').html(x + ' →');
   $('#coordY').html(y + ' ↓');
 }

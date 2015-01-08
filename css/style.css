@@ -25,9 +25,15 @@ body {
   height: 38px;
 }
 
-#title, #version, #info, #coords {
+#title, #hoverCol, #version, #info, #coords {
   float: left;
   margin: 10px;
+}
+
+#hoverCol {
+  width: 8px;
+  height: 8px;
+  border: 2px solid black;
 }
 
 #coords {
