@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="js/canvas-toBlob.js"></script>
+  <script type="text/javascript" src="js/FileSaver.js"></script>
+  <script type="text/javascript" src="js/globals.js"></script>
+  <script type="text/javascript" src="js/functionality.js"></script>
+  <script type="text/javascript" src="js/history.js"></script>
+  <script type="text/javascript" src="js/wip.js"></script>
+  <script type="text/javascript" src="js/drawOperations.js"></script>
+  <script type="text/javascript" src="js/bezier.js"></script>
+  <script type="text/javascript" src="js/palette.js"></script>
+  <script type="text/javascript" src="js/init.js"></script>
+  <script type="text/javascript" src="js/inputs.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div id="wrap">
+  <div id="resizeContainer">
+    <div id="topBar">
+      <select disabled id="initZoom">
+        <option value="1">x 1</option>
+        <option value="2">x 2</option>
+        <option value="3">x 3</option>
+        <option value="4">x 4</option>
+      </select>
+      <div id="title">Really Awesome Paint™</div>
+      <div id="version">V0.1</div>
+      <div id="info"></div>
+      <button id="saveBtn" value="Save">Save</button>
+      <div id="coords">Coords: <div id="coordX"></div><div id="coordY"></div></div>
+    </div>
+
+    <div class="sidebar left"></div>
+    <div id="middle">
+      
+      <div id="canvasContainer" oncontextmenu="return false;"></div>
+      <div id="toolContainer" oncontextmenu="return false;">
+        <div id="palette"></div>
+        <div id="foregroundColour"></div><div id="backgroundColour"></div>
+        <div id="tools">
+          <div id="row1">
+            <div id="sketch" class="tool ready">sketch</div>
+            <div id="line" class="tool ready sub">line</div>
+            <div id="fill" class="tool ready">fill</div>
+            <div id="rectangle" class="tool ready sub">rectangle</div>
+            <div id="ellipse" class="tool sub">ellipse</div>
+            <div id="undo" class="tool undo">undo</div>
+          </div>
+          <div id="row2">
+            <div id="draw" class="tool ready sub active">draw</div>
+            <div id="curve" class="tool ready sub">curve</div>
+            <div id="spray" class="tool">spray</div>
+            <div id="circle" class="tool sub">circle</div>
+            <div id="polygon" class="tool sub">polygon</div>
+            <div id="clear" class="tool clear">clear</div>
+          </div>
+          <!--
+          <select id="tooltype">
+            <option disabled>filled rectangle</option>
+            <option disabled>filled circle</option>
+            <option disabled>filled ellipse</option>
+            <option disabled>polygon</option>
+            <option disabled>filled polygon</option>
+            <option disabled>brush</option>
+            <option disabled>text tool</option>
+            <option disabled>grid</option>
+            <option disabled>symmetry</option>
+            <option disabled>magnify</option>
+          </select>
+          -->
+        </div>
+      </div>
+    </div>
+    <div class="sidebar right">
+      <div id="cmdList">Command History</div>
+      <div id="outputContainer"><div id="output"></div></div>
+    </div>
+    <div class="hidden">
+      <div id="tempC"></div>
+      <div id="tempP"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

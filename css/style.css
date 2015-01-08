@@ -1,0 +1,153 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#wrap {
+  padding-left: 50%;
+}
+
+.sidebar, #middle {float: left;}
+.sidebar { margin-top: 4px; }
+
+#initZoom, #saveBtn, #tooltype {
+  float: left;
+  margin: 10px;
+}
+
+#initZoom {
+  margin-left: 0;
+}
+
+#topBar {
+  font-family: monospace;
+  font-size: 11px;
+  height: 38px;
+}
+
+#title, #version, #info, #coords {
+  float: left;
+  margin: 10px;
+}
+
+#coords {
+  float: right;
+}
+
+#coordX, #coordY {
+  display: inline-block;
+  width: 42px;
+  text-align: right;
+}
+
+#saveBtn {
+  float: right;
+}
+
+#c, #preview {
+  cursor: none;
+  display: block;
+  line-height: 0;
+  position: absolute;
+}
+
+#foregroundColour {
+  float: left;
+  border: 2px solid;
+  border-right: 1px solid black;
+}
+
+#backgroundColour {
+  float: right;
+  border: 2px solid black;
+  border-left: 1px solid black;
+}
+
+#canvasContainer {
+  position: relative;
+}
+
+#tools {height: 22px;}
+
+#row1, #row2 {clear: both;}
+.tool {
+  overflow: hidden;
+  background-color: rgba(128, 128, 128, 0.25);
+  color: rgba(0,0,0,0.25);
+  border: 2px solid black;
+  float: left;
+  width: 128px;
+  text-align: center;
+  margin: 4px 8px 4px 0;
+  text-transform: uppercase;
+  font-size: 12px;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tool.ready, .tool.clear, .tool.undo, .tool.redo {
+  color: black;
+  background-color: rgb(185, 185, 185);
+}
+
+.tool.ready.active {
+  background-color: white;
+}
+
+.tool.ready.active.filled {background-color: rgb(0, 186, 255);}
+
+.tool.ready:hover, .tool.clear:hover, .tool.undo:hover, .tool.redo:hover {
+  cursor: pointer;
+}
+
+#foregroundColour, #backgroundColour {
+  height: 20px;
+  border-top: 0;
+}
+
+#palette {
+  border: solid 1px black;
+  clear: left;
+}
+
+.palIndex {
+  overflow: hidden;
+  text-indent: -20000px;
+  float: left;
+  border: 0;
+  height: 20px;
+  border: solid 1px;
+}
+
+.palIndex:hover {
+  cursor: pointer;
+}
+
+#cmdList {
+  font-family: monospace;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#outputContainer {
+  border: solid 2px black;
+}
+
+#output {
+font-family: monospace;
+text-overflow: ellipsis;
+margin: 4px;
+width: 160px;
+white-space: pre;
+overflow: hidden;
+overflow-y: auto;
+height: 460px;
+}
+
+
+.hidden {display: none;}
