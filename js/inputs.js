@@ -91,8 +91,6 @@ $(document).ready(function () {
     }
     
     if (dbb2 == 2) {
-      var shiftDown = 0;
-      // check for shift key
       if (shiftDown) { redo(); } else { undo(); }
     }
     
