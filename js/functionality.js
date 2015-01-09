@@ -81,7 +81,8 @@ function writeMessage(message, x, y, degrees) {
     $('#hoverCol').css('background-color', 'rgba('+col24.r+','+col24.g+','+col24.b+','+col24.a+')' );
     message = '#' + col + ' ' + message;
   }
-  if (!degrees){x += ' →'; y += ' ↓'} else { x += '&nbsp;&nbsp;'; y += '&nbsp;&nbsp;'; }
+  if (!degrees){ x += '<span class="arrow">→</span>'; y += '<span class="arrow">↓</span>'; }
+  else { x += '<span class="arrow">r:</span>'; y += '<span class="arrow">&nbsp;</span>'; }
   $('#info').html( message );
   $('#coordX').html(x);
   $('#coordY').html(y);

@@ -100,7 +100,7 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
   if (tool == 'line') {
     radius = Math.sqrt( (lenX * lenX) + (lenY * lenY) );
     degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
-    writeMessage( '', degrees+'°', 'r:' + parseInt(radius), true );
+    writeMessage( '', degrees+'°', parseInt(radius), true );
   }
 }
 
