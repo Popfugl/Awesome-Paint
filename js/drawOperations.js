@@ -291,59 +291,69 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
 // Circle //
 ////////////
 function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
-  if (escPressed){escPressed = false; debugger;}
+//  if (escPressed){escPressed = false; debugger;}
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
   var radius = parseInt( Math.sqrt( (lenX * lenX) + (lenY * lenY) ) );
   var lastX, lastY;
   var items = radius * 8;
-  var rsq = radius * (1/Math.sqrt(2));
+  var rsq = Math.round( radius * (1/Math.sqrt(2)));
   
-  // Only calculate 1/8 of the circle
-  for( var i = 0; i <= items/8; i++ ) {
-    var x = Math.round( radius * Math.cos(2 * Math.PI * i / items) );
-    var y = Math.round( radius * Math.sin(2 * Math.PI * i / items) );
+  if (!radius) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
+  if (radius == 1) { 
+    setPixel( activeColour, x0,     y0 - 1, frameNum, 0, preview );
+    setPixel( activeColour, x0 + 1, y0,     frameNum, 0.33, preview );
+    setPixel( activeColour, x0 - 1, y0,     frameNum, 0.66, preview );
+    setPixel( activeColour, x0,     y0 + 1, frameNum, 1, preview );
+    if (filled) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
+  } 
+  
+  if (radius > 1) {
+    // Only calculate 1/8 of the circle
+    for( var i = 0; i <= items/8; i++ ) {
+      var x = Math.round( radius * Math.cos(2 * Math.PI * i / items) );
+      var y = Math.round( radius * Math.sin(2 * Math.PI * i / items) );
 
-    if (lastY != y) {
-      if (x < lastX-1){
-        x = lastX-1;
-      }
-      if (y > lastY+1){
-        y = lastY+1;
-      }
-      
-      if (filled && !preview) {
-        drawLine( x0 + radius*0.707, y0 - y, x0 + x, y0 - y, mode, brush, preview );
-        drawLine( x0 - radius*0.707, y0 - y, x0 - x, y0 - y, mode, brush, preview );
-        drawLine( x0 + radius*0.707, y0 + y, x0 + x, y0 + y, mode, brush, preview );
-        drawLine( x0 - radius*0.707, y0 + y, x0 - x, y0 + y, mode, brush, preview );
-        
-        drawLine( x0 + y, y0 + radius*0.707, x0 + y, y0 + x, mode, brush, preview );
-        drawLine( x0 - y, y0 - radius*0.707, x0 - y, y0 - x, mode, brush, preview );
-        drawLine( x0 - y, y0 + radius*0.707, x0 - y, y0 + x, mode, brush, preview );
-        drawLine( x0 + y, y0 - radius*0.707, x0 + y, y0 - x, mode, brush, preview );
-      }
-      
-      setPixel( activeColour, x0 + x, y0 + y, frameNum, i/items, preview );
-      setPixel( activeColour, x0 + y, y0 + x, frameNum, i/items, preview );
-      setPixel( activeColour, x0 - y, y0 + x, frameNum, i/items, preview );
-      setPixel( activeColour, x0 - x, y0 + y, frameNum, i/items, preview );
+      if (lastY != y) {
+        if (x < lastX-1){
+          x = lastX-1;
+        }
+        if (y > lastY+1){
+          y = lastY+1;
+        }
 
-      setPixel( activeColour, x0 + x, y0 - y, frameNum, i/items, preview );
-      setPixel( activeColour, x0 + y, y0 - x, frameNum, i/items, preview );
-      setPixel( activeColour, x0 - y, y0 - x, frameNum, i/items, preview );
-      setPixel( activeColour, x0 - x, y0 - y, frameNum, i/items, preview );
+        if (filled && !preview) {
+          drawLine( x0 + rsq, y0 - y, x0 + x, y0 - y, mode, brush, preview );
+          drawLine( x0 - rsq, y0 - y, x0 - x, y0 - y, mode, brush, preview );
+          drawLine( x0 + rsq, y0 + y, x0 + x, y0 + y, mode, brush, preview );
+          drawLine( x0 - rsq, y0 + y, x0 - x, y0 + y, mode, brush, preview );
 
-      lastX = x
+          drawLine( x0 + y, y0 + rsq, x0 + y, y0 + x, mode, brush, preview );
+          drawLine( x0 - y, y0 - rsq, x0 - y, y0 - x, mode, brush, preview );
+          drawLine( x0 - y, y0 + rsq, x0 - y, y0 + x, mode, brush, preview );
+          drawLine( x0 + y, y0 - rsq, x0 + y, y0 - x, mode, brush, preview );
+        }
+
+        setPixel( activeColour, x0 + x, y0 + y, frameNum, i/items, preview );
+        setPixel( activeColour, x0 + y, y0 + x, frameNum, i/items, preview );
+        setPixel( activeColour, x0 - y, y0 + x, frameNum, i/items, preview );
+        setPixel( activeColour, x0 - x, y0 + y, frameNum, i/items, preview );
+
+        setPixel( activeColour, x0 + x, y0 - y, frameNum, i/items, preview );
+        setPixel( activeColour, x0 + y, y0 - x, frameNum, i/items, preview );
+        setPixel( activeColour, x0 - y, y0 - x, frameNum, i/items, preview );
+        setPixel( activeColour, x0 - x, y0 - y, frameNum, i/items, preview );
+
+        lastX = x
+      }
+      lastY = y;
+
     }
-    lastY = y;
-    
+    if (filled && !preview) { rectangle( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, filled, 0, mode, brush, preview); }
+    degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
+    writeMessage( '', degrees+'°', parseInt(radius), true );
   }
-  if (filled && !preview) { rectangle( x0 - radius*0.707+1, y0 + radius*0.707-1, x0 + radius*0.707-1, y0 - radius*0.707+1, filled, 0, mode, brush, preview); }
-  degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
-  writeMessage( '', degrees+'°', parseInt(radius), true );
-    
   
 }
 
