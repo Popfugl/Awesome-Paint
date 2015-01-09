@@ -72,7 +72,7 @@ function updateTool( tempTool, fill ){
 }
 
 // write coordinates and message to the top bar
-function writeMessage(message, x, y) {
+function writeMessage(message, x, y, degrees) {
   if (x == null) { x = dbx2; y = dby2; }
   if (message == null) { message = ''; }
   var col = getColour( dbx2, dby2, currentFrame );
@@ -81,9 +81,10 @@ function writeMessage(message, x, y) {
     $('#hoverCol').css('background-color', 'rgba('+col24.r+','+col24.g+','+col24.b+','+col24.a+')' );
     message = '#' + col + ' ' + message;
   }
+  if (!degrees){x += ' →'; y += ' ↓'} else { x += '&nbsp;&nbsp;'; y += '&nbsp;&nbsp;'; }
   $('#info').html( message );
-  $('#coordX').html(x + ' →');
-  $('#coordY').html(y + ' ↓');
+  $('#coordX').html(x);
+  $('#coordY').html(y);
 }
 
 function saveImageAsPNG (saveImageName){
@@ -113,10 +114,17 @@ function addFrame(index) {
 }
 
 function getLength( X0, Y0, X1, Y1 ) {
-  var lenX, lenY;
+  var lX, lY, dX, dY;
+  lX = X1-X0;
+  lY = Y1-Y0;
+  if (lX < 0) { dX = -1 } else { dX = 1; }
+  if (lY < 0) { dY = -1 } else { dY = 1; }
+  
   return {
     lenX: X1-X0,
-    lenY: Y1-Y0
+    lenY: Y1-Y0,
+    dirX: dX,
+    dirY: dY
   }
 }
 

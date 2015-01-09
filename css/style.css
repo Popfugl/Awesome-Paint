@@ -25,7 +25,7 @@ body {
   height: 38px;
 }
 
-#title, #hoverCol, #version, #info, #coords {
+#title, #hoverCol, #hoverColInfo, #deg, #version, #info, #coords {
   float: left;
   margin: 10px;
 }
@@ -34,6 +34,7 @@ body {
   width: 8px;
   height: 8px;
   border: 2px solid black;
+  margin-right: 0;
 }
 
 #coords {
@@ -42,7 +43,7 @@ body {
 
 #coordX, #coordY {
   display: inline-block;
-  width: 42px;
+  width: 50px;
   text-align: right;
 }
 

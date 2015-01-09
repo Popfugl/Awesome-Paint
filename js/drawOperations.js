@@ -74,43 +74,42 @@ function draw( x1, y1, x0, y0, mode, brush ) {
 function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
 //  if (clickNum == 0) {debugger}
   //if (!preview){ console.log('l:'+colour,x0+','+y0,x1+','+y1,brush); }
-  dirX = 1;
-  dirY = 1;
-  
-  if (x0 > x1) {dirX=-1; lenX = (x0-x1)+1;} else {lenX = (x1-x0)+1;}
-  if (y0 > y1) {dirY=-1; lenY = (y0-y1)+1;} else {lenY = (y1-y0)+1;}
+  length = getLength( x0, y0, x1, y1 );
+
+  lenX = length.lenX;
+  lenY = length.lenY;
   
   if (Math.abs(lenX) < Math.abs(lenY))
   {
-    for (i = 0; i < lenY; i++)
+    for (i = 0; i < Math.abs(lenY); i++)
     {
-      stepX = (lenX/lenY)*dirX;
-      stepY = dirY;
+      stepX = (lenX/Math.abs(lenY));
+      stepY = length.dirY;
       setPixel(activeColour, x0 + parseInt(stepX * i), y0 + parseInt(stepY * i), frameNum, brush, preview, false);
     }
   }
   else
   {
-    for (i = 0; i < lenX; i++)
+    for (i = 0; i < Math.abs(lenX); i++)
     {
-      stepX = dirX;
-      stepY = (lenY/lenX)*dirY;
+      stepX = length.dirX;
+      stepY = (lenY/Math.abs(lenX));
       setPixel(activeColour, x0 + parseInt(stepX * i), y0 + parseInt(stepY * i), frameNum, brush, preview, false);
     }
   }
   if (tool == 'line') {
     radius = Math.sqrt( (lenX * lenX) + (lenY * lenY) );
     degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
-//    writeMessage( 'r: '+parseInt(radius)+' '+ degrees +'° ', x1-x0, y1-y0 );
-    writeMessage( 'r: '+parseInt(radius)+' ', x1-x0, y1-y0 );
+    writeMessage( '', degrees+'°', 'r:' + parseInt(radius), true );
   }
 }
 
 function getDegrees( lenX, lenY ){
   var slope = parseFloat(lenY / lenX);
-//  var theta = Math.atan2( -lenY, lenX );
-  return Math.atan(slope);
-//  return theta //* 180 / Math.PI;
+  var theta = Math.atan2( -lenY, lenX );
+  var get360 = theta * 180 / Math.PI;
+  if (get360 < 0) { get360 += 360; }
+  return get360;
 }
 
 
@@ -262,6 +261,7 @@ function fillRect(a, b) {
 ///////////////
 // Rectangle //
 ///////////////
+// Consider using ( x-start, y-start, x-width, x-height ) instead of ( x-start, y-start, x-end, y-end ). 
 function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   var length = getLength( x0, y0, x1, y1 );
   lenX = length.lenX;
