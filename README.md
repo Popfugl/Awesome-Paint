@@ -1,5 +1,5 @@
-# (Really) Awesome-Paint
-A pixel painting program.
+# (Really) Awesome Paint
+A 12 bit pixel painting program.
 
 Try it out at www.palbo.dk/awesome-paint
 
@@ -11,6 +11,10 @@ Keyboard shortcuts:
 s: sketch
 d: draw
 l: line
+c: circle
+shift+c: filled circle
+e: ellipse
+shift+e: filled ellipse
 q: curve
 f: fill
 r: rectangle
@@ -26,10 +30,6 @@ all buttons will eventually be drawn by me in Awesome Paint.
 Finding a better name than Awesome Paint (and no; not Epic Paint)
 
 - Tools
--- Circle tool (c + shift+c)
--- Filled Circle
--- Ellipse (e + shift+e)
--- Filled Ellipse
 -- Polygon
 -- Filled Polygon
 -- Lasso
