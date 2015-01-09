@@ -28,6 +28,8 @@ function toolTypeSelected() {
       drawLine( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, mode, brush, true );
     }
     if (tool == 'rectangle') { rectangle( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, rotation, mode, brush, true ); }
+    if (tool == 'circle') { circle( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, mode, brush, true ); }
+    
   }
                                                       
   if (clickNum == 2) {
@@ -42,6 +44,12 @@ function toolTypeSelected() {
       rectangle(clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, rotation, mode, brush, false );
       clickNum = 0;
       saveToHistoryBuffer('rect  : '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
+    }
+    
+    if (tool == 'circle') {
+      circle( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, mode, brush, false );
+      clickNum = 0;
+      saveToHistoryBuffer('circle: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
     }
     
     // not quite done yet

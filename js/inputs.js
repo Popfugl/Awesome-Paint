@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     if (hasMoved && clickNum == 1) {
       // click-dragged and then released.
-      if (tool == 'line' || tool == 'curve' || tool == 'rectangle') {clickNum++;}
+      if (tool == 'line' || tool == 'curve' || tool == 'rectangle' || tool == 'circle') {clickNum++;}
       updateClickBuffer(mousePos);
     }
     
@@ -192,6 +192,11 @@ $(document).ready(function () {
         tempTool = 'line';
         break;
       
+      case 67: // c 
+        tempTool = 'circle';
+        if(shiftDown){ filler = true; } else { filler = false; }
+        break;
+      
       case 81: // q ('c' is for circle!)
         tempTool = 'curve';
         break;
@@ -220,7 +225,7 @@ $(document).ready(function () {
     }
     
     if (tempTool) {
-      updateTool(tempTool, shiftDown);
+      updateTool(tempTool, filler);
       //dbug('//'+tempTool);
     }
   });

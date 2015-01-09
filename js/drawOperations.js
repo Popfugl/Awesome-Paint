@@ -81,20 +81,20 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
   
   if (Math.abs(lenX) < Math.abs(lenY))
   {
-    for (i = 0; i < Math.abs(lenY); i++)
+    for (i = 0; i <= Math.abs(lenY); i++)
     {
       stepX = (lenX/Math.abs(lenY));
       stepY = length.dirY;
-      setPixel(activeColour, x0 + parseInt(stepX * i), y0 + parseInt(stepY * i), frameNum, brush, preview, false);
+      setPixel(activeColour, x0 + Math.round(stepX * i), y0 + Math.round(stepY * i), frameNum, brush, preview, false);
     }
   }
   else
   {
-    for (i = 0; i < Math.abs(lenX); i++)
+    for (i = 0; i <= Math.abs(lenX); i++)
     {
       stepX = length.dirX;
       stepY = (lenY/Math.abs(lenX));
-      setPixel(activeColour, x0 + parseInt(stepX * i), y0 + parseInt(stepY * i), frameNum, brush, preview, false);
+      setPixel(activeColour, x0 + Math.round(stepX * i), y0 + Math.round(stepY * i), frameNum, brush, preview, false);
     }
   }
   if (tool == 'line') {
@@ -261,7 +261,7 @@ function fillRect(a, b) {
 ///////////////
 // Rectangle //
 ///////////////
-// Consider using ( x-start, y-start, x-width, x-height ) instead of ( x-start, y-start, x-end, y-end ). 
+// Consider using ( x-start, y-start, width, height ) instead of ( x-start, y-start, x-end, y-end ). 
 function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   var length = getLength( x0, y0, x1, y1 );
   lenX = length.lenX;
@@ -291,6 +291,59 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
 // Circle //
 ////////////
 function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
+  if (escPressed){escPressed = false; debugger;}
+  len = getLength( x0, y0, x1, y1 );
+  var lenX = len.lenX;
+  var lenY = len.lenY;
+  var radius = parseInt( Math.sqrt( (lenX * lenX) + (lenY * lenY) ) );
+  var lastX, lastY;
+  var items = radius * 8;
+  var rsq = radius * (1/Math.sqrt(2));
+  
+  // Only calculate 1/8 of the circle
+  for( var i = 0; i <= items/8; i++ ) {
+    var x = Math.round( radius * Math.cos(2 * Math.PI * i / items) );
+    var y = Math.round( radius * Math.sin(2 * Math.PI * i / items) );
+
+    if (lastY != y) {
+      if (x < lastX-1){
+        x = lastX-1;
+      }
+      if (y > lastY+1){
+        y = lastY+1;
+      }
+      
+      if (filled && !preview) {
+        drawLine( x0 + radius*0.707, y0 - y, x0 + x, y0 - y, mode, brush, preview );
+        drawLine( x0 - radius*0.707, y0 - y, x0 - x, y0 - y, mode, brush, preview );
+        drawLine( x0 + radius*0.707, y0 + y, x0 + x, y0 + y, mode, brush, preview );
+        drawLine( x0 - radius*0.707, y0 + y, x0 - x, y0 + y, mode, brush, preview );
+        
+        drawLine( x0 + y, y0 + radius*0.707, x0 + y, y0 + x, mode, brush, preview );
+        drawLine( x0 - y, y0 - radius*0.707, x0 - y, y0 - x, mode, brush, preview );
+        drawLine( x0 - y, y0 + radius*0.707, x0 - y, y0 + x, mode, brush, preview );
+        drawLine( x0 + y, y0 - radius*0.707, x0 + y, y0 - x, mode, brush, preview );
+      }
+      
+      setPixel( activeColour, x0 + x, y0 + y, frameNum, i/items, preview );
+      setPixel( activeColour, x0 + y, y0 + x, frameNum, i/items, preview );
+      setPixel( activeColour, x0 - y, y0 + x, frameNum, i/items, preview );
+      setPixel( activeColour, x0 - x, y0 + y, frameNum, i/items, preview );
+
+      setPixel( activeColour, x0 + x, y0 - y, frameNum, i/items, preview );
+      setPixel( activeColour, x0 + y, y0 - x, frameNum, i/items, preview );
+      setPixel( activeColour, x0 - y, y0 - x, frameNum, i/items, preview );
+      setPixel( activeColour, x0 - x, y0 - y, frameNum, i/items, preview );
+
+      lastX = x
+    }
+    lastY = y;
+    
+  }
+  if (filled && !preview) { rectangle( x0 - radius*0.707+1, y0 + radius*0.707-1, x0 + radius*0.707-1, y0 - radius*0.707+1, filled, 0, mode, brush, preview); }
+  degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
+  writeMessage( '', degrees+'°', parseInt(radius), true );
+    
   
 }
 
