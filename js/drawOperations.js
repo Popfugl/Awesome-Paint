@@ -291,13 +291,14 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
 // Circle //
 ////////////
 function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
-//  if (escPressed){escPressed = false; debugger;}
+  // if (escPressed){escPressed = false; debugger;}
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
-  var radius = parseInt( Math.sqrt( (lenX * lenX) + (lenY * lenY) ) );
+  var radius = Math.sqrt((lenX * lenX)+(lenY * lenY));
+  
   var lastX, lastY;
-  var items = radius * 8;
+  var iterations = radius * 8;
   var rsq = Math.round( radius * (1/Math.sqrt(2)));
   
   if (!radius) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
@@ -311,9 +312,9 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
   
   if (radius > 1) {
     // Only calculate 1/8 of the circle
-    for( var i = 0; i <= items/8; i++ ) {
-      var x = Math.round( radius * Math.cos(2 * Math.PI * i / items) );
-      var y = Math.round( radius * Math.sin(2 * Math.PI * i / items) );
+    for( var i = 0; i <= iterations/8; i++ ) {
+      var x = Math.round( radius * Math.cos(2 * Math.PI * i / iterations) );
+      var y = Math.round( radius * Math.sin(2 * Math.PI * i / iterations) );
 
       if (lastY != y) {
         if (x < lastX-1){
@@ -335,15 +336,15 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
           drawLine( x0 + y, y0 - rsq, x0 + y, y0 - x, mode, brush, preview );
         }
 
-        setPixel( activeColour, x0 + x, y0 + y, frameNum, i/items, preview );
-        setPixel( activeColour, x0 + y, y0 + x, frameNum, i/items, preview );
-        setPixel( activeColour, x0 - y, y0 + x, frameNum, i/items, preview );
-        setPixel( activeColour, x0 - x, y0 + y, frameNum, i/items, preview );
+        setPixel( activeColour, x0 + x, y0 + y, frameNum, i/iterations, preview );
+        setPixel( activeColour, x0 + y, y0 + x, frameNum, i/iterations, preview );
+        setPixel( activeColour, x0 - y, y0 + x, frameNum, i/iterations, preview );
+        setPixel( activeColour, x0 - x, y0 + y, frameNum, i/iterations, preview );
 
-        setPixel( activeColour, x0 + x, y0 - y, frameNum, i/items, preview );
-        setPixel( activeColour, x0 + y, y0 - x, frameNum, i/items, preview );
-        setPixel( activeColour, x0 - y, y0 - x, frameNum, i/items, preview );
-        setPixel( activeColour, x0 - x, y0 - y, frameNum, i/items, preview );
+        setPixel( activeColour, x0 + x, y0 - y, frameNum, i/iterations, preview );
+        setPixel( activeColour, x0 + y, y0 - x, frameNum, i/iterations, preview );
+        setPixel( activeColour, x0 - y, y0 - x, frameNum, i/iterations, preview );
+        setPixel( activeColour, x0 - x, y0 - y, frameNum, i/iterations, preview );
 
         lastX = x
       }
