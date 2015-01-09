@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     if (hasMoved && clickNum == 1) {
       // click-dragged and then released.
-      if (tool == 'line' || tool == 'curve' || tool == 'rectangle' || tool == 'circle') {clickNum++;}
+      if (tool == 'line' || tool == 'curve' || tool == 'rectangle' || tool == 'circle' || tool == 'ellipse') {clickNum++;}
       updateClickBuffer(mousePos);
     }
     
@@ -194,6 +194,11 @@ $(document).ready(function () {
       
       case 67: // c 
         tempTool = 'circle';
+        if(shiftDown){ filler = true; } else { filler = false; }
+        break;
+      
+      case 69: // e 
+        tempTool = 'ellipse';
         if(shiftDown){ filler = true; } else { filler = false; }
         break;
       

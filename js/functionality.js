@@ -29,6 +29,7 @@ function toolTypeSelected() {
     }
     if (tool == 'rectangle') { rectangle( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, rotation, mode, brush, true ); }
     if (tool == 'circle') { circle( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, mode, brush, true ); }
+    if (tool == 'ellipse') { ellipse( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, 0, mode, brush, true ); }
     
   }
                                                       
@@ -50,6 +51,12 @@ function toolTypeSelected() {
       circle( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, mode, brush, false );
       clickNum = 0;
       saveToHistoryBuffer('circle: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
+    }
+    
+    if (tool == 'ellipse') {
+      ellipse( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, mode, brush, false );
+      clickNum = 0;
+      saveToHistoryBuffer('ellipse: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
     }
     
     // not quite done yet
