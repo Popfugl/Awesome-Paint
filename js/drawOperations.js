@@ -9,6 +9,8 @@ function setPixel(colour, x, y, frameNum, progress, preview, pBuffer) {
   pX = parseInt(x);
   pY = parseInt(y);
   
+  if(tool == 'fill') { pBuffer = true; }
+  
   if (pX < 0 || pX >= imgWidth || pY < 0 || pY >= imgHeight) {return;}
   
   colour = parseInt(colour); // for some reason, the colour is turned into a string instead of a number!
@@ -154,10 +156,10 @@ function floodFill(colour, startX, startY){
     });
     
     var newPos, x, y, reachLeft, reachRight;
-    pixelStack = pixelStack;
-    newPos = pixelStack.pop();
-    x = newPos[0];
-    y = newPos[1];
+    //pixelStack = pixelStack;
+    var newPos = pixelStack.pop();
+    var x = newPos[0];
+    var y = newPos[1];
 
     while(y-- >= 0 && matchStartColor(x,y))
     {

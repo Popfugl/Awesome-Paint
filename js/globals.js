@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////
+// Remember to:                                    //
+//                                                 //
+// update() to the screen on change                //
+// saveToHistoryBuffer(cmd) after each new tool    //
+//                                                 //
+//                                                 //
+//                                                 //
+/////////////////////////////////////////////////////
+
 var update        = false;
 
 var zoomLevel     =   2;
