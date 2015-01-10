@@ -7,8 +7,75 @@ body {
   padding-left: 50%;
 }
 
+.sidebar.left {clear: left; margin-top: 20px; margin-right: 20px; }
+#rgbSliders {height: 58px;}
+.rgbLabel {float: left; clear: left; width: 15px;}
+.rgbSlider {
+  float: left;
+  width: 120px;
+  height: 8px;
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
+#redVal, #greenVal, #blueVal {
+  float: right;
+  clear: right;
+  text-align: center;
+  width: 16px;
+}
+
+.ui-slider .ui-slider-handle {
+  margin-left: -4px;
+  width: 8px;
+  height: 16px;
+}
+
+#fgbgContainer {
+  margin-top: 4px;
+  clear: both;
+  height: 22px;
+  border: 1px solid black;
+  border-top: 0;
+}
+
+#foregroundColour, #backgroundColour, #tempColour {
+  border: 2px solid black;
+  width: 83px;
+  height: 20px;
+  margin-top: 4px;
+  float: left;
+}
+
+#foregroundColour, #backgroundColour {
+  border: 1px solid black;
+  margin: 0;
+}
+
+#tempColour {
+  border-bottom: 1px solid black;
+  width: 168px;
+}
+
+.applyChange, .cancelChange {
+  font-size: 12px;
+  margin-top: 4px;
+  padding: 2px 4px;
+  border: black solid 2px;
+  background-color: light-gray;
+}
+.applyChange {
+  float: left;
+  clear: left;
+}
+
+.cancelChange {
+  float: right;
+  clear: right;
+}
+
 .sidebar, #middle {float: left;}
-.sidebar { margin-top: 4px; }
+.sidebar { width: 172px; margin-top: 4px; }
 
 #initZoom, #saveBtn, #tooltype {
   float: left;
@@ -66,18 +133,6 @@ body {
   position: absolute;
 }
 
-#foregroundColour {
-  float: left;
-  border: 2px solid;
-  border-right: 1px solid black;
-}
-
-#backgroundColour {
-  float: right;
-  border: 2px solid black;
-  border-left: 1px solid black;
-}
-
 #canvasContainer {
   position: relative;
 }
@@ -105,7 +160,7 @@ body {
   user-select: none;
 }
 
-.tool.ready, .tool.clear, .tool.undo, .tool.redo {
+.tool.ready, .tool.clear, .tool.undo, .tool.redo, .cancelChange, .applyChange {
   color: black;
   background-color: rgb(185, 185, 185);
 }
@@ -116,13 +171,8 @@ body {
 
 .tool.ready.active.filled {background-color: rgb(0, 186, 255);}
 
-.tool.ready:hover, .tool.clear:hover, .tool.undo:hover, .tool.redo:hover {
+.tool.ready:hover, .tool.clear:hover, .tool.undo:hover, .tool.redo:hover, .cancelChange:hover, .applyChange:hover {
   cursor: pointer;
-}
-
-#foregroundColour, #backgroundColour {
-  height: 20px;
-  border-top: 0;
 }
 
 #palette {

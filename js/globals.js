@@ -1,8 +1,11 @@
 var update        = false;
+var colourChanged =   1;
 
 var zoomLevel     =   2;
 var imgWidth      = 320;
 var imgHeight     = 256;
+var imgPixelWidth;
+var imgPixelHeight;
 var overscan      =  20;
 
 var debug         = true;

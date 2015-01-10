@@ -1,7 +1,13 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.min.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.min.css">
+  <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<!--
+  <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> -->
   <script type="text/javascript" src="js/canvas-toBlob.js"></script>
   <script type="text/javascript" src="js/FileSaver.js"></script>
   <script type="text/javascript" src="js/globals.js"></script>
@@ -33,13 +39,34 @@
       <div id="coords"><div id="coordX"></div><div id="coordY"></div></div>
     </div>
 
-    <div class="sidebar left"></div>
-    <div id="middle">
+    <div class="sidebar left">
+      <div id="rgbSliders">
+        <div class="rgbLabel">R</div>
+        <div class="rgbSlider" id="redSlider"></div>
+        <input type="text" id="redVal" />
+        
+        <div class="rgbLabel">G</div>
+        <div class="rgbSlider" id="greenSlider"></div>
+        <input type="text" id="greenVal" />
+        
+        <div class="rgbLabel">B</div>
+        <div class="rgbSlider" id="blueSlider"></div>
+        <input type="text" id="blueVal" />
+      </div>
+      <div id="tempColour"></div>
       
+      <div id="fgbgContainer">
+        <div id="foregroundColour"></div>
+        <div id="backgroundColour"></div>
+      </div>
+      
+      <div class="applyChange">Apply</div>
+      <div class="cancelChange">Cancel</div>
+    </div>
+    <div id="middle">
       <div id="canvasContainer" oncontextmenu="return false;"></div>
       <div id="toolContainer" oncontextmenu="return false;">
         <div id="palette"></div>
-        <div id="foregroundColour"></div><div id="backgroundColour"></div>
         <div id="tools">
           <div id="row1">
             <div id="sketch" class="tool ready">sketch</div>
@@ -59,11 +86,7 @@
           </div>
           <!--
           <select id="tooltype">
-            <option disabled>filled rectangle</option>
-            <option disabled>filled circle</option>
-            <option disabled>filled ellipse</option>
             <option disabled>polygon</option>
-            <option disabled>filled polygon</option>
             <option disabled>brush</option>
             <option disabled>text tool</option>
             <option disabled>grid</option>

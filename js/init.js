@@ -11,16 +11,18 @@ $(document).ready(function(){
   $('#tooltype').val(tool);
   
   pixelSize = $('#initZoom').val();
+  imgPixelWidth = imgWidth * pixelSize;
+  imgPixelHeight = imgHeight * pixelSize;
   
   // Set up canvas with correct sizes:
-  cv1 = '<canvas id="c" width="' + imgWidth*pixelSize + '" height="' + imgHeight*pixelSize + '"></canvas>';
+  cv1 = '<canvas id="c" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
   cv2 = '<canvas id="preview" width="' + (imgWidth+overscan) * pixelSize + '" height="'+( imgHeight + overscan ) * pixelSize + '"></canvas>';
   cv3 = '<canvas id="tempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
   $('#canvasContainer').html(cv1+cv2);
   $('#tempC').html(cv3);
     
   $('#c').css("margin",overscan*pixelSize/2+"px");
-  $('#canvasContainer').css('height',$('#preview').height()).css('width',$('#preview').width());
+  $('#canvasContainer').css('height',$('#preview').height()).css('width',$('#preview').width()-overscan);
   
   $('#output').height( imgHeight * pixelSize -12 );
   
@@ -53,12 +55,14 @@ $(document).ready(function(){
   
   
   // Position elements on the screen relative to the image width
-  $('#wrap').css('margin-left',-imgWidth*pixelSize/2)
-  $('#topBar').width((imgWidth*pixelSize)+2);
-  $('#c, #preview').css('left',-(overscan*pixelSize/2)+1);
-  $('#preview').css('cursor','none');
-  $('#toolContainer').width((imgWidth*pixelSize)+2);
-  $('#foregroundColour, #backgroundColour').width(( imgWidth * pixelSize / 2) - 2);
+  
+  //$('.sidebar').width();
+  $('#wrap').css( 'margin-left', -(imgPixelWidth/2)-172 );
+  $('#topBar').width(imgPixelWidth+2).css( 'padding-left', 192 );
+  $('#c, #preview').css( 'left', -(overscan*pixelSize/2) + 1 );
+  $('#preview').css( 'cursor', 'none' );
+  $('#toolContainer').width( imgPixelWidth + 2 );
+  //$('#foregroundColour, #backgroundColour').width(( imgWidth * pixelSize / 4) - 2);
   
   
   // Size the tool buttons
@@ -71,11 +75,14 @@ $(document).ready(function(){
   // initialize palette number 4
   initPalette(4);
   displayPalette();
+  frame[frameNum].pal = palette;
 
   // clear the screen with the selected background colour
   clearScreen(0);
   setColour(1);
+  initRGBSliders(1);
   saveToHistoryBuffer('//initialising');
+  
   // drawLine(8, 1,1, 15,10, 0,0);
   // cx = 51; cy = 102; 
   // cx = 150; cy = 100;

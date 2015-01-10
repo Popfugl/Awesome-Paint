@@ -9,6 +9,16 @@ function updatePalette(index, red, green, blue, alpha, frame) {
   });
 }
 
+function initRGBSliders ( index ) {
+  $('#redSlider').val( frame[frameNum].pal[index].r);
+  $('#greenSlider').val( frame[frameNum].pal[index].g);
+  $('#blueSlider').val( frame[frameNum].pal[index].b);
+  $('#redVal').val( frame[frameNum].pal[index].r);
+  $('#greenVal').val( frame[frameNum].pal[index].g);
+  $('#blueVal').val( frame[frameNum].pal[index].b);
+  updateTempColour();
+}
+
 function setColour( index ) {
   activeColour = index;
   $ctx.fillStyle = 'rgba('
@@ -16,7 +26,7 @@ function setColour( index ) {
   + palIndex12to24bit(index).g + ','
   + palIndex12to24bit(index).b + ','
   + palIndex12to24bit(index).a + ')';
-  $prv.fillStyle = $ctx.fillStyle;
+  temp.fillStyle = $ctx.fillStyle;
   return $ctx.fillStyle;
 }
 
@@ -41,8 +51,8 @@ function palIndex12to24bit(index) {
 }
 
 function palValue12to24bit(value) {
-  if (value > 15) {return 0;}
-  return (value*16)+value;
+  if (value > 15) {return null;}
+  return (value*16)+parseInt(value);
 }
 
 function getColour(x, y){
@@ -186,9 +196,9 @@ function displayPalette(){
     var red = palIndex12to24bit(p).r;
     var green = palIndex12to24bit(p).g;
     var blue = palIndex12to24bit(p).b;
-    $('#palette').html($('#palette').html()+'<div class="palIndex" style="background-color: rgb('+red+','+green+','+blue+')">'+p+'</div>');
+    $('#palette').html($('#palette').html()+'<span class="palIndex" id="palIndex'+p+'" style="background-color: rgb('+red+','+green+','+blue+')">'+p+'</span>');
   }
-  a = (imgWidth*parseInt(pixelSize));
+  a = imgPixelWidth;
   b = palette.length;
   c = a/b;
   
@@ -207,39 +217,78 @@ function displayPalette(){
   $('.palIndex').css('border-color','rgb('+redBG+','+greenBG+','+blueBG+')');
   $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')');
   $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')');
-  
-  ////////////////////
-  // OnClick Event! //
-  ////////////////////
-  $('.palIndex').mouseup(function (e){
-    globalMouse = e.which;
-    
-    // Left mouse button
-    if (globalMouse == 1) {
-      colFG = parseInt($(this).html()); activeColour = colFG;
+}
 
-      var red = palIndex12to24bit(colFG).r;
-      var green = palIndex12to24bit(colFG).g;
-      var blue = palIndex12to24bit(colFG).b;
+////////////////////
+// OnClick Event! //
+////////////////////
+$(document).ready(function() {
   
-      $('.palIndex').css('border-color','black')
-      $(this).css('border-color',$(this).css('background-color'));
-      $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')');
-      
-      dbug('//colFG: '+colFG);
-    }
-    
-    // Right mouse button
-    if (globalMouse == 3) {
-      colBG = parseInt($(this).html()); activeColour = colBG;
-      
-      var redBG = palIndex12to24bit(colBG).r;
-      var greenBG = palIndex12to24bit(colBG).g;
-      var blueBG = palIndex12to24bit(colBG).b;
-
-      $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')');
-      dbug('//colBG: '+colBG);
-    }
+  // RGB Sliders
+  $( ".rgbSlider" ).slider({
+      range:false,
+      min: 0,
+      max: 15
+  });
+  $( "#redSlider" ).slider({
+      slide: function( event, ui ){
+        $('#redVal').val( ui.value ); 
+        updateTempColour();
+      }
+  });
+  
+  $( "#greenSlider" ).slider({
+      slide: function(event,ui){
+        $('#greenVal').val(ui.value);
+        updateTempColour();
+      }
+  });
+  $( "#blueSlider" ).slider({
+      slide: function(event,ui){
+        $('#blueVal').val(ui.value);
+        updateTempColour();
+      }
+  });
+  
+  // RGB text-input
+  $('#redVal').change( function () {
+    $('#redSlider').slider({
+      value: $(this).val()
+    })
+    updateTempColour();
   });
 
+  $('#greenVal').change( function () {
+    $('#greenSlider').slider({
+      value: $(this).val()
+    })
+    updateTempColour();
+  });
+
+  $('#blueVal').change( function () {
+    $('#blueSlider').slider({
+      value: $(this).val()
+    })
+    updateTempColour();
+  });
+
+});
+
+function updateTempColour() {
+  var red = palValue12to24bit( $('#redVal').val() );
+  var green = palValue12to24bit( $('#greenVal').val() );
+  var blue = palValue12to24bit( $('#blueVal').val() );
+  
+  // Update the sliders
+  $('#redSlider').slider({
+    value: $('#redVal').val()
+  })
+  $('#greenSlider').slider({
+    value: $('#greenVal').val()
+  })
+  $('#blueSlider').slider({
+    value: $('#blueVal').val()
+  })
+
+  $('#tempColour').css('background-color','rgb('+red+','+green+','+blue+')');
 }

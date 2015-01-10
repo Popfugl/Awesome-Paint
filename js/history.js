@@ -48,7 +48,8 @@ function saveToHistoryBuffer(cmd){
     timing: frame[currentFrame].timing,
     image: image
   });
-  dbug(cmd);
+  
+  if (cmd) { dbug(cmd); }
   if (historyBuffer.length == historyLimit + 1) { del = historyBuffer.shift(); del = null;}
 }
 

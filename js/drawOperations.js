@@ -26,11 +26,6 @@ function setPixel(colour, x, y, frameNum, progress, preview, pBuffer) {
   } 
   else
   {
-    if (tool == 'sketch' || tool == 'draw') {
-      if (coords) { coords += ';'+pX+','+pY;} 
-      else { coords = pX+','+pY; }
-    }
-
     var pixelNum = parseInt(pY*imgWidth+pX);
     // write the data where it matters.
     frame[frameNum].pxl[pixelNum] = colour;
@@ -57,6 +52,8 @@ function setPixel(colour, x, y, frameNum, progress, preview, pBuffer) {
 ////////////
 function sketch( x, y, mode, brush ) {
   // console.log('s:'+colour+','+x+','+y+','+frameNum+','+brush);
+  if (coords) { coords += ';'+pX+','+pY;} 
+  else { coords = pX+','+pY; }
   if (brush) { /* placeBrush(activeColour, x, y, frameNum); */ } 
   else { setPixel( activeColour, x, y, frameNum); }
 }
@@ -79,6 +76,11 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
   lenX = length.lenX;
   lenY = length.lenY;
   
+  if (tool == 'sketch' || tool == 'draw') {
+    if (coords) { coords += ';'+pX+','+pY;} 
+    else { coords = pX+','+pY; }
+  }
+
   if (Math.abs(lenX) < Math.abs(lenY))
   {
     for (i = 0; i <= Math.abs(lenY); i++)
@@ -213,24 +215,20 @@ function matchStartColor(x, y)
 }
 
 function pastePixelBuffer() {
+  // fill colour is not set here, so remember to do that before using pastePixelBuffer()!
+  
   NumPixels = pixelBuffer.length;
   pixelBuffer = pixelBuffer.sort(sortByPosition);
   if (!pixelBuffer) { return; }
-  if (pixelBuffer.length == 1)
-  {
-    pos = pixelBuffer.pop();
-    fillRect(pos.x,pos.y);
-    return;
-  } 
   var a1, b0, b1;
   while (pixelBuffer.length)
   {
-    if (!a1)
-    { 
+    if (!a1) { 
       a1 = pixelBuffer.shift(); // first item - keep this
-      b0 = a1; 
-    } 
-    else { b0 = b1; }
+      b0 = a1;
+    } else { b0 = b1; }
+    
+    if (!pixelBuffer.length) { fillRect(a1,b0); return; }
     
     b1 = pixelBuffer.shift(); // second item is either first item.x+1, item.y or a different item.y
     if (a1.y == b1.y) {
@@ -245,6 +243,9 @@ function pastePixelBuffer() {
     }
 
   }
+  fillRect(a1,b1);
+  update = true;
+
 }
 
 function sortByPosition(a, b){
@@ -253,7 +254,7 @@ function sortByPosition(a, b){
 }
 
 function fillRect(a, b) {
-  $ctx.fillRect(a.x*pixelSize, a.y*pixelSize, (1+b.x-a.x)*pixelSize, pixelSize);
+  temp.fillRect(a.x, a.y, (1+b.x-a.x), 1);
 }
 
 
@@ -458,8 +459,6 @@ function polygon( clickBuffer, filled, rotation, mode, brush, preview) {
 /////////
 function clearScreen (colour) {
   if(colour == null) {colour = activeColour;}
-  // dbug('k:'+colour+','+frameNum);
-  // console.log('K:'+colour);
   pixel = [];
   
   // Fill the pixel array with the background colour.
@@ -473,7 +472,8 @@ function clearScreen (colour) {
   
   // Also clear the main canvas with the right colour.
   temp.fillStyle = setColour(colour, frameNum);
-  temp.fillRect(0, 0, imgWidth*pixelSize, imgHeight*pixelSize);
-  $ctx.drawImage(t,0,0,imgWidth*pixelSize,imgHeight*pixelSize);
+  temp.fillRect(0, 0, imgPixelWidth, imgPixelHeight);
+  $ctx.drawImage(t, 0, 0, imgPixelWidth, imgPixelHeight);
+  saveToHistoryBuffer('');
 }
 
