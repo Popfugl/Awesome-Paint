@@ -259,8 +259,8 @@ $(document).ready(function () {
 
       $('.palIndex').css('border-color','black')
       $(this).css('border-color',$(this).css('background-color'));
-      $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')').css('border-color','white');
-      $('#backgroundColour').css('border-color','black');
+      $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')').addClass('active');
+      $('#backgroundColour').removeClass('active');
 
       updateTempColour();
       dbug('//colFG: '+colFG);
@@ -274,8 +274,8 @@ $(document).ready(function () {
       var greenBG = palIndex12to24bit(colBG).g;
       var blueBG = palIndex12to24bit(colBG).b;
 
-      $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')').css('border-color','white');
-      $('#foregroundColour').css('border-color','black');
+      $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')').addClass('active');
+      $('#foregroundColour').removeClass('active');
 
       updateTempColour();
       dbug('//colBG: '+colBG);
@@ -285,25 +285,38 @@ $(document).ready(function () {
     initRGBSliders ( colourChanged );
   });
   
+  
+  
   $('.applyChange').click(function (e){
     //console.log ($('#palIndex'+colourChanged));
+    red = $('#redVal').val();
+    green = $('#greenVal').val();
+    blue = $('#blueVal').val();
     
+    var redBG = palValue12to24bit(red).r;
+    var greenBG = palValue12to24bit(green).g;
+    var blueBG = palValue12to24bit(blue).b;
+
     // Set the colour in the palette
-    frame[frameNum].pal[colourChanged].r = $('#redVal').val();
-    frame[frameNum].pal[colourChanged].g = $('#greenVal').val();
-    frame[frameNum].pal[colourChanged].b = $('#blueVal').val();
+    frame[frameNum].pal[colourChanged].r = red;
+    frame[frameNum].pal[colourChanged].g = green;
+    frame[frameNum].pal[colourChanged].b = blue;
     
     // Set the colour in the visible palette
     $('#palIndex'+colourChanged).css('background-color', $('#tempColour').css('background-color'));
     setColour( colourChanged );
     
+    $('#backgroundColour.active').css('background-color',$('#tempColour').css('background-color'));
+    $('#foregroundColour.active').css('background-color',$('#tempColour').css('background-color'));
+    
+    
     // Build a pixelbuffer of all pixels with this colour
     pixelBuffer = [];
     for (i = 0; i < frame[frameNum].pxl.length; i++) {
       if (frame[frameNum].pxl[i] == activeColour) {
+        
         yPos = Math.floor(i / imgWidth);
         xPos = (i - yPos * imgWidth);
-        //console.log(i, xPos, yPos);
 
         pixelBuffer.push ({
           x: xPos,
@@ -311,10 +324,11 @@ $(document).ready(function () {
         });
       }
     }
-    // console.log(pixelBuffer);
     
     // Redraw pixels from the buffer with the new colour
     pastePixelBuffer();
+    
+    saveToHistoryBuffer('newCol: '+colourChanged+'|'+red+','+green+','+blue);
     
   });
 });

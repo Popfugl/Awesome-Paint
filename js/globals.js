@@ -1,5 +1,4 @@
 var update        = false;
-var colourChanged =   1;
 
 var zoomLevel     =   2;
 var imgWidth      = 320;
@@ -38,6 +37,7 @@ var ctrlCmdDown   = false;
 var colFG         =  1;       // Foreground colour
 var colBG         =  0;       // Background colour
 var activeColour  =  1;
+var colourChanged =  1;
 
 // Tools
 var tool          = 'draw';
