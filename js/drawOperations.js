@@ -136,7 +136,7 @@ function curve( Ax, Ay, Bx, By, Cx, Cy, brush, mode, preview ){
   // console.log(preview);
   
   bezier( Ax, Ay, P1x, P1y, Bx, By, preview );
-  // pastePixelBuffer();
+  // if (pixelBuffer) { pastePixelBuffer(); }
 }
 
 //////////
@@ -207,7 +207,7 @@ function floodFill(colour, startX, startY){
     }
   }
 
-  pastePixelBuffer();
+  if (pixelBuffer){ pastePixelBuffer(); }
 }
   
 function matchStartColor(x, y)
