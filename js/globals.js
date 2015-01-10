@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////
 // Remember to:                                    //
 //                                                 //
-// update() to the screen on change                //
+// update() to the screen on change.               //
 // saveToHistoryBuffer(cmd) after each new tool    //
-//                                                 //
-//                                                 //
+// and do this in functions and not at the end of  //
+// the tool function.                              //
 //                                                 //
 /////////////////////////////////////////////////////
 

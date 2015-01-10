@@ -326,7 +326,7 @@ $(document).ready(function () {
     }
     
     // Redraw pixels from the buffer with the new colour
-    pastePixelBuffer();
+    if (pixelBuffer) { pastePixelBuffer(); }
     
     saveToHistoryBuffer('newCol: '+colourChanged+'|'+red+','+green+','+blue);
     
