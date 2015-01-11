@@ -16,7 +16,7 @@ function initRGBSliders ( index ) {
   $('#redVal').val( frame[frameNum].pal[index].r);
   $('#greenVal').val( frame[frameNum].pal[index].g);
   $('#blueVal').val( frame[frameNum].pal[index].b);
-  updateTempColour();
+  updateRGBtoHSV();
 }
 
 function setColour( index ) {
@@ -203,7 +203,7 @@ function displayPalette(){
   c = a/b;
   
 //  console.log(a,b,c);
-  $('.palIndex').width(c-2).height(18); // for some reason the buttons are added 12 pixels.
+  $('.palIndex').width(c-2).height(18);
   $('#palette').width(a).height(20).css('border',pixelSize);
   
   var red = palIndex12to24bit(colFG).r;
@@ -376,6 +376,10 @@ function updateRGBtoHSV() {
   $('#valSlider').slider({
     value: v
   });
+  
+  $('#hueVal').val(h);
+  $('#satVal').val(s);
+  $('#valVal').val(v);
   
   updateTempColour()
 }
