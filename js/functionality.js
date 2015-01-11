@@ -1,6 +1,6 @@
 function toolTypeSelected() {
   
-  if (historyStep != null) { deleteFutureHistory(historyStep+1); historyStep = null;}
+  if (historyStep != null) { console.log(historyStep, historyBuffer.length); deleteFutureHistory(historyStep+1); historyStep = null; console.log(historyStep, historyBuffer.length); }
   
   // Draw and Sketch ends at mouseup and the history state is saved there (in inputs.js)
   if (tool == 'sketch') { sketch( dbx2, dby2, mode, brush, false ); }
@@ -21,6 +21,10 @@ function toolTypeSelected() {
     if (tool == 'fill') {
       floodFill( activeColour, dbx2, dby2 );
       clickNum = 0;
+      
+      // Testing - should fix history buffer problem.
+      toolTypeSelected();
+
       saveToHistoryBuffer('fill  : '+activeColour+'|'+dbx2+','+dby2);
     }
     

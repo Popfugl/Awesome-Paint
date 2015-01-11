@@ -20,7 +20,7 @@ function redo() {
 function copyFromHistory() {
   // dbug('History: '+historyStep);
   temp.drawImage(historyBuffer[historyStep].image, 0, 0);
-  frame[historyBuffer[historyStep].index].pxl = historyBuffer[historyStep].pxl;
+  frame[historyBuffer[historyStep].index].pxl = historyBuffer[historyStep].pxl.slice(0);
   update = true;
 }
 

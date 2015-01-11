@@ -150,10 +150,18 @@ $(document).ready(function () {
     globalMouse = e.which;
     if (globalMouse == 1) {
       clearScreen(colFG);
+      
+      // testing to see if this fixes the history problem.
+      toolTypeSelected();
+
       saveToHistoryBuffer('cls : '+colFG);
     } 
     if (globalMouse == 3) { 
       clearScreen(colBG);
+      
+      // testing to see if this fixes the history problem.
+      toolTypeSelected();
+
       saveToHistoryBuffer('cls : '+colBG);
     };
   });
