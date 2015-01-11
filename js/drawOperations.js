@@ -477,6 +477,5 @@ function clearScreen (colour) {
   temp.fillStyle = setColour(colour, frameNum);
   temp.fillRect(0, 0, imgPixelWidth, imgPixelHeight);
   $ctx.drawImage(t, 0, 0, imgPixelWidth, imgPixelHeight);
-  saveToHistoryBuffer('');
 }
 

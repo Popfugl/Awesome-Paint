@@ -1,7 +1,8 @@
 function toolTypeSelected() {
-//  if ($('#'+tool+'.filled')) { filled = true; } else { filled = false; }
+  
   if (historyStep != null) { deleteFutureHistory(historyStep+1); historyStep = null;}
-  //console.log(colFG, colBG, activeColour, tool, clickNum, dbx2, dby2, dbb2, preview);
+  
+  // Draw and Sketch ends at mouseup and the history state is saved there (in inputs.js)
   if (tool == 'sketch') { sketch( dbx2, dby2, mode, brush, false ); }
   if (tool == 'draw')   {
     if ( clickNum == 1 && !hasMoved) {
