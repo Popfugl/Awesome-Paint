@@ -6,7 +6,8 @@ function undo() {
   historyStep--;
   if (historyStep < 0) {historyStep = 0; return;}
   copyFromHistory();
-  dbug('undo');
+  var toolHist = historyBuffer[historyStep+1].action.split(':',1);
+  dbug('undo ' + toolHist);
 }
 
 function redo() {
@@ -14,7 +15,8 @@ function redo() {
   historyStep++;
   if (historyStep > historyBuffer.length-1) {historyStep = historyBuffer.length-1; return;}
   copyFromHistory();
-  dbug('redo');
+  var toolHist = historyBuffer[historyStep].action.split(':',1);
+  dbug('redo ' + toolHist);
 }
 
 function copyFromHistory() {
