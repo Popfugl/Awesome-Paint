@@ -230,65 +230,173 @@ $(document).ready(function() {
       min: 0,
       max: 15
   });
+
+  $( "#hueSlider" ).slider({
+      range:false,
+      min: 0.0,
+      max: 360,
+      step: 1
+  });
+  
+  $( "#satSlider" ).slider({
+      range:false,
+      min: 0.0,
+      max: 1.0,
+      step: parseFloat(1/15)
+  });
+  
+  $( "#valSlider" ).slider({
+      range:false,
+      min: 0.0,
+      max: 1.0,
+      step: parseFloat(1/15)
+  });
+
+  $( "#hueSlider" ).slider({
+      slide: function( event, ui ){
+        $('#hueVal').val( ui.value ); 
+        updateHSVtoRGB();
+      }
+  });
+  
+  $( "#satSlider" ).slider({
+      slide: function(event,ui){
+        $('#satVal').val( ui.value );
+        updateHSVtoRGB();
+      }
+  });
+  $( "#valSlider" ).slider({
+      slide: function(event,ui){
+        $('#valVal').val( ui.value );
+        updateHSVtoRGB();
+      }
+  });
+  
   $( "#redSlider" ).slider({
       slide: function( event, ui ){
         $('#redVal').val( ui.value ); 
-        updateTempColour();
+        updateRGBtoHSV();
       }
   });
   
   $( "#greenSlider" ).slider({
       slide: function(event,ui){
-        $('#greenVal').val(ui.value);
-        updateTempColour();
+        $('#greenVal').val( ui.value );
+        updateRGBtoHSV();
       }
   });
   $( "#blueSlider" ).slider({
       slide: function(event,ui){
-        $('#blueVal').val(ui.value);
-        updateTempColour();
+        $('#blueVal').val( ui.value );
+        updateRGBtoHSV();
       }
   });
   
   // RGB text-input
+  $('#hueVal').change( function () {
+    $('#hueSlider').slider({
+      value: $(this).val()
+    })
+    updateHSVtoRGB();
+  });
+
+  $('#satVal').change( function () {
+    $('#satSlider').slider({
+      value: $(this).val()
+    })
+    updateHSVtoRGB();
+  });
+
+  $('#valVal').change( function () {
+    $('#valSlider').slider({
+      value: $(this).val()
+    })
+    updateHSVtoRGB();
+  });
+  
+    // RGB text-input
   $('#redVal').change( function () {
     $('#redSlider').slider({
       value: $(this).val()
     })
-    updateTempColour();
+    updateRGBtoHSV();
   });
 
   $('#greenVal').change( function () {
     $('#greenSlider').slider({
       value: $(this).val()
     })
-    updateTempColour();
+    updateRGBtoHSV();
   });
 
   $('#blueVal').change( function () {
     $('#blueSlider').slider({
       value: $(this).val()
     })
-    updateTempColour();
+    updateRGBtoHSV();
   });
 
 });
 
-function updateTempColour() {
-  var red = palValue12to24bit( $('#redVal').val() );
-  var green = palValue12to24bit( $('#greenVal').val() );
-  var blue = palValue12to24bit( $('#blueVal').val() );
+function updateHSVtoRGB() {
+  var h = $('#hueVal').val();
+  var s = $('#satVal').val();
+  var v = $('#valVal').val();
+  
+  var rgb = HSVtoRGB( h, s, v );
+  
+  $('#redVal').val( Math.ceil(rgb.r*15) );
+  $('#greenVal').val( Math.ceil(rgb.g*15) );
+  $('#blueVal').val( Math.ceil(rgb.b*15) );
+  
+  updateTempColour();
+}
+
+function updateRGBtoHSV() {
+  var r = $('#redVal').val();
+  var g = $('#greenVal').val();
+  var b = $('#blueVal').val();
+  var red = palValue12to24bit( r );
+  var green = palValue12to24bit( g );
+  var blue = palValue12to24bit( b );
+  var hsv = RGBtoHSV( parseFloat(r/15), parseFloat(g/15), parseFloat(b/15) );
+  h = hsv.h;
+  s = hsv.s;
+  v = hsv.v;
+  
+  if (!h) { h = 0; }
   
   // Update the sliders
+  $('#hueSlider').slider({
+    value: h
+  });
+  $('#satSlider').slider({
+    value: s
+  });
+  $('#valSlider').slider({
+    value: v
+  });
+  
+  updateTempColour()
+}
+
+function updateTempColour() {
+  var r = $('#redVal').val();
+  var g = $('#greenVal').val();
+  var b = $('#blueVal').val();
+  var red = palValue12to24bit( r );
+  var green = palValue12to24bit( g );
+  var blue = palValue12to24bit( b );
   $('#redSlider').slider({
-    value: $('#redVal').val()
+    value: r
   })
   $('#greenSlider').slider({
-    value: $('#greenVal').val()
+    value: g
   })
   $('#blueSlider').slider({
-    value: $('#blueVal').val()
+    value: b
   })
 
   $('#tempColour').css('background-color','rgb('+red+','+green+','+blue+')');
 }
+

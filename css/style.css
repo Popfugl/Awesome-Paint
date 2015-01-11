@@ -18,13 +18,15 @@ body {
   margin-left: 4px;
 }
 
-#redVal, #greenVal, #blueVal {
+#hueVal, #satVal, #valVal, #redVal, #greenVal, #blueVal {
   float: right;
   clear: right;
   text-align: center;
   width: 16px;
 }
-
+#hueVal, #satVal, #valVal {
+  display: none;
+}
 .ui-slider .ui-slider-handle {
   margin-left: -4px;
   width: 8px;
