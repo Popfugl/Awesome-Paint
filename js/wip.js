@@ -56,41 +56,46 @@ function scaleImage(scaleFactor) {
 //		if s == 0, then h = -1 (undefined)
 function RGBtoHSV( r, g, b )
 {
-	var min, max, delta, h, s, v;
-	min = Math.min( r, g, b );
-	max = Math.max( r, g, b );
-	v = max;				     // v
-	var delta = max - min;
-	if( max != 0 ) {
-		s = delta / max;		// s
-    } else {
-		// r = g = b = 0		// s = 0, v is undefined
-		s = 0;
-		h = 0 //-1;
-		return {
-          h: h,
-          s: s,
-          v: v
+    var rr, gg, bb,
+        r = arguments[0] / 15,
+        g = arguments[1] / 15,
+        b = arguments[2] / 15,
+        h, s,
+        v = Math.max(r, g, b),
+        diff = v - Math.min(r, g, b),
+        diffc = function(c){
+            return (v - c) / 6 / diff + 1 / 2;
         };
-	}
-	if( r == max ) {
-		h = ( g - b ) / delta;		// between yellow & magenta
-    } else if ( g == max ) {
-		h = 2 + ( b - r ) / delta;	// between cyan & yellow
+
+    if (diff == 0) {
+        h = s = 0;
     } else {
-		h = 4 + ( r - g ) / delta;	// between magenta & cyan
-	 h = h * 60;				// degrees
+        s = diff / v;
+        rr = diffc(r);
+        gg = diffc(g);
+        bb = diffc(b);
+
+        if (r === v) {
+            h = bb - gg;
+        }else if (g === v) {
+            h = (1 / 3) + rr - bb;
+        }else if (b === v) {
+            h = (2 / 3) + gg - rr;
+        }
+        if (h < 0) {
+            h += 1;
+        }else if (h > 1) {
+            h -= 1;
+        }
     }
-      if( h < 0 )
-		h += 360;
-  return {
-    h: h,
-    s: s,
-    v: v
-  }
+    return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        v: Math.round(v * 100)
+    };
 }
 
-function HSVtoRGB( h, s, v )
+function HSVtoRGBx( h, s, v )
 {
 	var i;
 	var f, p, q, t, r, g, b;
@@ -146,4 +151,48 @@ function HSVtoRGB( h, s, v )
     g: g,
     b: b
   }
+}
+
+function HSVtoRGBnice( h, s, v) {
+  return {
+    r: Math.ceil(HSVtoRGB( h, s, v ).r*15),
+    g: Math.ceil(HSVtoRGB( h, s, v ).g*15),
+    b: Math.ceil(HSVtoRGB( h, s, v ).b*15)
+  }
+}
+
+
+
+function HSVtoRGB(h,s,v){
+ //***Returns an rgb object from HSV values
+ //***h (hue) should be a value from 0 to 360
+ //***s (saturation) and v (value) should be a value between 0 and 1
+ //***The .r, .g, and .b properties of the returned object are all in the range 0 to 1
+ var r,g,b,i,f,p,q,t;
+ while (h<0) h+=360;
+ h%=360;
+ s=s>1?1:s<0?0:s;
+ v=v>1?1:v<0?0:v;
+
+ if (s==0) r=g=b=v;
+ else {
+  h/=60;
+  f=h-(i=Math.floor(h));
+  p=v*(1-s);
+  q=v*(1-s*f);
+  t=v*(1-s*(1-f));
+  switch (i) {
+   case 0:r=v; g=t; b=p; break;
+   case 1:r=q; g=v; b=p; break;
+   case 2:r=p; g=v; b=t; break;
+   case 3:r=p; g=q; b=v; break;
+   case 4:r=t; g=p; b=v; break;
+   case 5:r=v; g=p; b=q; break;
+  }
+ }
+ return {
+    r:parseFloat(r),
+    g:parseFloat(g),
+    b:parseFloat(b)
+  };
 }

@@ -240,15 +240,15 @@ $(document).ready(function() {
   
   $( "#satSlider" ).slider({
       range:false,
-      min: 0.0,
-      max: 1.0,
+      min: 0.00,
+      max: 1.00,
       step: parseFloat(1/15)
   });
   
   $( "#valSlider" ).slider({
       range:false,
-      min: 0.0,
-      max: 1.0,
+      min: 0.00,
+      max: 1.00,
       step: parseFloat(1/15)
   });
 
@@ -343,11 +343,11 @@ function updateHSVtoRGB() {
   var s = $('#satVal').val();
   var v = $('#valVal').val();
   
-  var rgb = HSVtoRGB( h, s, v );
+  var rgb = HSVtoRGBnice( h, s, v );
   
-  $('#redVal').val( Math.ceil(rgb.r*15) );
-  $('#greenVal').val( Math.ceil(rgb.g*15) );
-  $('#blueVal').val( Math.ceil(rgb.b*15) );
+  $('#redVal').val( Math.ceil(rgb.r) );
+  $('#greenVal').val( Math.ceil(rgb.g) );
+  $('#blueVal').val( Math.ceil(rgb.b) );
   
   updateTempColour();
 }
@@ -359,12 +359,10 @@ function updateRGBtoHSV() {
   var red = palValue12to24bit( r );
   var green = palValue12to24bit( g );
   var blue = palValue12to24bit( b );
-  var hsv = RGBtoHSV( parseFloat(r/15), parseFloat(g/15), parseFloat(b/15) );
+  var hsv = RGBtoHSV( r, g, b );
   h = hsv.h;
-  s = hsv.s;
-  v = hsv.v;
-  
-  if (!h) { h = 0; }
+  s = parseFloat(hsv.s/100);
+  v = parseFloat(hsv.v/100);
   
   // Update the sliders
   $('#hueSlider').slider({
@@ -376,7 +374,6 @@ function updateRGBtoHSV() {
   $('#valSlider').slider({
     value: v
   });
-  
   $('#hueVal').val(h);
   $('#satVal').val(s);
   $('#valVal').val(v);
@@ -403,4 +400,3 @@ function updateTempColour() {
 
   $('#tempColour').css('background-color','rgb('+red+','+green+','+blue+')');
 }
-
