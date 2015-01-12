@@ -3,26 +3,36 @@ function undo() {
     // Undo has been pressed for the first time.
     historyStep = historyBuffer.length-1;
   }
-  historyStep--;
-  if (historyStep < 0) {historyStep = 0; return;}
+  if (historyStep) { historyStep--; }
+  if (historyStep < 0) {historyStep = null; return;}
+  
   copyFromHistory();
   var toolHist = historyBuffer[historyStep+1].action.split(':',1);
+  
   dbug('undo ' + toolHist);
 }
 
 function redo() {
-  if (historyStep == null) {return;}
+  if (historyStep == null || historyStep == historyBuffer.length) {return;}
+  
   historyStep++;
   if (historyStep > historyBuffer.length-1) {historyStep = historyBuffer.length-1; return;}
+  
   copyFromHistory();
   var toolHist = historyBuffer[historyStep].action.split(':',1);
+  
   dbug('redo ' + toolHist);
 }
 
 function copyFromHistory() {
   // dbug('History: '+historyStep);
   temp.drawImage(historyBuffer[historyStep].image, 0, 0);
+  console.log( historyStep + ', ' + historyBuffer[historyStep].index );
   frame[historyBuffer[historyStep].index].pxl = historyBuffer[historyStep].pxl.slice(0);
+  frame[historyBuffer[historyStep].index].pal = historyBuffer[historyStep].pal.slice(0);
+  
+  displayPalette();
+  
   update = true;
 }
 
@@ -31,21 +41,33 @@ function deleteFutureHistory(a) {
   historyBuffer = historyBuffer.slice(0, a);
 }
 
+function getPalette() {
+  var pal = [];
+  for ( p = 0; p < frame[currentFrame].pal.length; p++ ) {
+    pal.push ({
+    r : parseInt( frame[currentFrame].pal[p].r ),
+    g : parseInt( frame[currentFrame].pal[p].g ),
+    b : parseInt( frame[currentFrame].pal[p].b ),
+    a : parseInt( frame[currentFrame].pal[p].a )
+    });
+  }
+  return pal;
+}
+
 function saveToHistoryBuffer(cmd){
   // save all data for the current frame
   // later it might be wise to only store the relevant change.
   var image = new Image();
   image.src = t.toDataURL("image/png");
   var pxl = [];
-  var pal = [];
+  var pal = getPalette();
   pxl = frame[currentFrame].pxl;
   pxl = pxl.slice(0);
-  pal = frame[currentFrame].pal.slice(0);
   
   historyBuffer.push ({
     action: cmd,
     index: frame[currentFrame].index,
-    palette: pal,
+    pal: pal,
     pxl: pxl,
     timing: frame[currentFrame].timing,
     image: image

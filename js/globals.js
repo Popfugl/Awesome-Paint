@@ -19,7 +19,7 @@ var overscan      =  20;
 
 var debug         = true;
 var historyBuffer = [];
-var historyStep   =  0;
+var historyStep   = null;
 var historyLimit  = 25;
 var pixelBuffer   = [];
 var coordBuffer   = [];
