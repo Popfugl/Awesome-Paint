@@ -3,8 +3,8 @@ function undo() {
     // Undo has been pressed for the first time.
     historyStep = historyBuffer.length-1;
   }
-  if (historyStep) { historyStep--; }
-  if (historyStep < 0) {historyStep = null; return;}
+  historyStep--;
+  if (historyStep < 0) {historyStep = 0; return;}
   
   copyFromHistory();
   var toolHist = historyBuffer[historyStep+1].action.split(':',1);
