@@ -71,11 +71,9 @@ $(document).ready(function(){
   $('#row1 div:first, #row2 div:first').css('margin-left','0');
   $('#row1 div:last, #row2 div:last').css('margin-right','0');
   
-  
   // initialize palette number 4
   initPalette(4);
   displayPalette();
-  frame[frameNum].pal = palette;
 
   // clear the screen with the selected background colour
   clearScreen(0);

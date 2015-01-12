@@ -59,6 +59,5 @@ var preview       = true;
 var currentFrame  =  0;
 var frameNum      = currentFrame;
 var frame         = [];
-var palette       = [];
 
 var dbx1, dby1, dbx2, dby2, dbb2;

@@ -40,7 +40,7 @@ function saveToHistoryBuffer(cmd){
   var pal = [];
   pxl = frame[currentFrame].pxl;
   pxl = pxl.slice(0);
-  pal = palette.slice(0);
+  pal = frame[currentFrame].pal.slice(0);
   
   historyBuffer.push ({
     action: cmd,

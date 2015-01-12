@@ -297,25 +297,21 @@ $(document).ready(function () {
   
   $('.applyChange').click(function (e){
     //console.log ($('#palIndex'+colourChanged));
-    red = $('#redVal').val();
-    green = $('#greenVal').val();
-    blue = $('#blueVal').val();
+    red = parseInt( $('#redVal').val() );
+    green = parseInt( $('#greenVal').val() );
+    blue = parseInt( $('#blueVal').val() );
     
-    var redBG = palValue12to24bit(red).r;
-    var greenBG = palValue12to24bit(green).g;
-    var blueBG = palValue12to24bit(blue).b;
-
     // Set the colour in the palette
     frame[frameNum].pal[colourChanged].r = red;
     frame[frameNum].pal[colourChanged].g = green;
     frame[frameNum].pal[colourChanged].b = blue;
-    
+
     // Set the colour in the visible palette
-    $('#palIndex'+colourChanged).css('background-color', $('#tempColour').css('background-color'));
+    $('#palIndex'+colourChanged).css('background-color', $('#tempColour').css('background-color') );
     setColour( colourChanged );
     
-    $('#backgroundColour.active').css('background-color',$('#tempColour').css('background-color'));
-    $('#foregroundColour.active').css('background-color',$('#tempColour').css('background-color'));
+    $('#backgroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
+    $('#foregroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
     
     
     // Build a pixelbuffer of all pixels with this colour
@@ -336,7 +332,7 @@ $(document).ready(function () {
     // Redraw pixels from the buffer with the new colour
     if (pixelBuffer) { pastePixelBuffer(); }
     
-    saveToHistoryBuffer('newCol: '+colourChanged+'|'+red+','+green+','+blue);
+    saveToHistoryBuffer( 'newCol: ' + colourChanged + '|' + red + ',' + green + ',' + blue );
     
   });
 });

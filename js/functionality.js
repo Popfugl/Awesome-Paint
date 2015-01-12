@@ -131,9 +131,10 @@ function dbug( log ) {
 
 function addFrame(index) {
   dbug('addFrame: '+index);
+  var pal = [];
   frame.push ({
     index: index,
-    pal: palette.slice(0),
+    pal: pal,
     pxl: pixel.slice(0),
     timing: 1000/24
   });

@@ -251,7 +251,7 @@ function sortByPosition( a, b ){
 }
 
 function fillRect( a, b ) {
-  temp.fillRect( a.x, a.y, ( 1 + b.x - a.x ), 1 );
+  if ( a && b ){ temp.fillRect( a.x, a.y, ( 1 + b.x - a.x ), 1 ) };
 }
 
 
@@ -389,8 +389,8 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   // Most of the ellipse can be filled with a rectangle.
   // rsq is the length from the center that doesn't need to be drawn just yet. 
   // It will be filled by a rectangle later.
-  var rsqX = Math.round( radiusX * ( 1 / Math.sqrt(2) ) );
-  var rsqY = Math.round( radiusY * ( 1 / Math.sqrt(2) ) );
+  var rsqX = Math.floor( radiusX * ( 1 / Math.sqrt(2) ) );
+  var rsqY = Math.floor( radiusY * ( 1 / Math.sqrt(2) ) );
   
   if ( !radius ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
   if ( radius == 1 ) { 
@@ -443,11 +443,9 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
     }
     setPixel( activeColour, x0, y0 + lenY, frameNum, i/iterations, preview );
     setPixel( activeColour, x0, y0 - lenY, frameNum, i/iterations, preview );
-    rsqX--;
-    rsqY--;
+    
     if ( filled && !preview ) { rectangle( x0 - rsqX, y0 + rsqY, x0 + rsqX, y0 - rsqY, filled, 0, mode, brush, preview); }
-    degrees = Math.floor(getDegrees( len.lenX, len.lenY ) * 1) / 1;
-    writeMessage( '', degrees+'°', parseInt(radius), true );
+    writeMessage( '', parseInt( radiusX*2+1 ), parseInt( radiusY*2+1 ), false );
   }
 }
 
