@@ -181,7 +181,7 @@ $(document).ready(function () {
     var tempTool;
     var filler = filled;
     // Check Esc, Ctrl / Cmd, Shift and Alt keys
-    if(e.which == 27){ escPressed = true; }
+    if(e.which == 27){ if ( !escPressed ) { escPressed = true; } else { escPressed = false; } }
     if(e.which == 91 || e.which == 17){ ctrlCmdDown = true; }
     if(e.which == 16){ shiftDown = true; }
     if(e.which == 18){ altDown = true; }

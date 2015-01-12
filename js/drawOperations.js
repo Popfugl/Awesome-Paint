@@ -299,15 +299,15 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
-  var radius = Math.sqrt((lenX * lenX)+(lenY * lenY));
-  
+  var radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
+  radius = Math.round ( radius );
   var lastX, lastY;
   var iterations = radius * 8;
   
   // Most of the circle can be filled with a rectangle.
   // rsq is the length from the center that doesn't need to be drawn just yet. 
   // It will be filled by a rectangle later.
-  var rsq = Math.round( radius * (1/Math.sqrt(2)));
+  var rsq = Math.round( radius * ( 1 / Math.sqrt( 2 ) ) );
   
   if (!radius) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
   if (radius == 1) { 
@@ -359,8 +359,17 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
       lastY = y;
 
     }
-    if (filled && !preview) { rectangle( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, filled, 0, mode, brush, preview); }
-    degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
+    /*
+    if ( radius != 2 && escPressed ) {
+      setPixel( activeColour, x0 - rsq, y0 + rsq, frameNum, i/iterations, preview );
+      setPixel( activeColour, x0 - rsq, y0 - rsq, frameNum, i/iterations, preview );
+      setPixel( activeColour, x0 + rsq, y0 + rsq, frameNum, i/iterations, preview );
+      setPixel( activeColour, x0 + rsq, y0 - rsq, frameNum, i/iterations, preview );
+    }
+    */
+    
+    if (filled && !preview) { rectangle( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, filled, 0, mode, brush, preview ); }
+    degrees = Math.floor( getDegrees( lenX, lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt(radius), true );
   }
   
@@ -370,13 +379,13 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
 // Ellipse //
 /////////////
 function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
-  if (escPressed){escPressed = false; debugger;}
+//  if (escPressed){ escPressed = false; debugger; }
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
-  var radiusX = Math.abs(lenX);
-  var radiusY = Math.abs(lenY);
-  var radius = Math.sqrt((lenX * lenX)+(lenY * lenY));
+  var radiusX = Math.round ( Math.abs( lenX ) );
+  var radiusY = Math.round ( Math.abs( lenY ) );
+  var radius = Math.round ( Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) ) );
   var flip = false;
   var ok = false;
   
@@ -388,8 +397,8 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   // Most of the ellipse can be filled with a rectangle.
   // rsq is the length from the center that doesn't need to be drawn just yet. 
   // It will be filled by a rectangle later.
-  var rsqX = Math.round( radiusX * (1/Math.sqrt(2)));
-  var rsqY = Math.round( radiusY * (1/Math.sqrt(2)));
+  var rsqX = Math.round( radiusX * ( 1 / Math.sqrt(2) ) );
+  var rsqY = Math.round( radiusY * ( 1 / Math.sqrt(2) ) );
   
   if (!radius) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
   if (radius == 1) { 
@@ -402,9 +411,9 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   
   if (radius > 1) {
     // Only calculate 1/4 of the ellipse - then copy that bit 4 times flipped to draw the full ellipse.
-    for( var i = 0; i <= parseInt(iterations/4); i++ ) {
-      var x = Math.round( radiusX * Math.cos(2 * Math.PI * i / iterations) );
-      var y = Math.round( radiusY * Math.sin(2 * Math.PI * i / iterations) );
+    for( var i = 0; i <= parseInt( iterations/4 ); i++ ) {
+      var x = Math.round( radiusX * Math.cos( 2 * Math.PI * i / iterations ) );
+      var y = Math.round( radiusY * Math.sin( 2 * Math.PI * i / iterations ) );
       
       if (y > lastY+1){
         y = lastY+1;
@@ -412,23 +421,23 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
       }
       
       if (lastX != x) { 
-        if (x < lastX-1){ x = lastX-1; }
+        if ( x < lastX-1 ){ x = lastX-1; }
         ok = true;
       }
 
       if (ok) {
           if (filled && !preview) {
-            if (i <= halfIterations/4 ) { drawLine( x0 + rsqX, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
-            if (i >= halfIterations/4 ) { drawLine( x0, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
+            if (i <= halfIterations / 4 ) { drawLine( x0 + rsqX, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
+            if (i >= halfIterations / 4 ) { drawLine( x0, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
 
-            if (i <= halfIterations/4 ) { drawLine( x0 + rsqX, y0 + y, x0 + x, y0 + y, mode, brush, preview ); }
-            if (i >= halfIterations/4 ) { drawLine( x0, y0 + y, x0 + x, y0 + y, mode, brush, preview ); }
+            if (i <= halfIterations / 4 ) { drawLine( x0 + rsqX, y0 + y, x0 + x, y0 + y, mode, brush, preview ); }
+            if (i >= halfIterations / 4 ) { drawLine( x0, y0 + y, x0 + x, y0 + y, mode, brush, preview ); }
             
-            if (i <= halfIterations/4 ) { drawLine( x0 - rsqX, y0 - y, x0 - x, y0 - y, mode, brush, preview ); }
-            if (i >= halfIterations/4 ) { drawLine( x0, y0 - y, x0 - x, y0 - y, mode, brush, preview ); }
+            if (i <= halfIterations / 4 ) { drawLine( x0 - rsqX, y0 - y, x0 - x, y0 - y, mode, brush, preview ); }
+            if (i >= halfIterations / 4 ) { drawLine( x0, y0 - y, x0 - x, y0 - y, mode, brush, preview ); }
 
-            if (i <= halfIterations/4 ) { drawLine( x0 - rsqX, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
-            if (i >= halfIterations/4 ) { drawLine( x0, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+            if (i <= halfIterations / 4 ) { drawLine( x0 - rsqX, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+            if (i >= halfIterations / 4 ) { drawLine( x0, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
           }
           setPixel( activeColour, x0 + x, y0 + y, frameNum, i/iterations, preview );
           setPixel( activeColour, x0 - x, y0 + y, frameNum, i/iterations, preview );
