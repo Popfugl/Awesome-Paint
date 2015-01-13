@@ -86,13 +86,8 @@ function getArray(a) {
 }
 
 function parseCommandHistory() {
-  CMDhistory = "draw  : 1|31,149;31,151;31,150;31,151;32,153;32,157;33,161;34,166;36,175;39,184;46,197;51,204;55,210;58,215;63,219;72,225;74,226;75,226;75,227\nline  : 1|153,30,134,88\ncurve : 1|112,130,90,211,151,175\n//colFG: 12\nfill  : 12|193,126\n//colFG: 19\nrect  : 19|206,84,257,235,false\ncircle: 19|110,111,146,160,false\nellipse: 19|177,126,232,140,false\nundo ellipse\nredo ellipse\ncls : 0";
-
-  CMDhistory = "//initialising\n//colFG: 12\nfill  : 12|109,173\n//colFG: 6\nline  : 6|56,65,70,177\nline  : 6|70,177,195,208\nline  : 6|195,208,178,97\nline  : 6|178,97,56,65\ncurve : 6|56,65,178,97,109,48\nline  : 6|92,46,239,18\nline  : 6|178,97,286,46\nline  : 6|286,46,287,110\nline  : 6|287,110,195,208\ncurve : 6|239,18,286,46,271,26\n//colFG: 7\nfill  : 7|111,166\nfill  : 7|110,70\n//colFG: 8\nfill  : 8|205,142\n//colFG: 9\nfill  : 9|204,57";
-  
   var CMDhistory = $('#input').val();
   CMDhistory = CMDhistory.split('\n');
-  console.log(CMDhistory);
   
   while (CMDhistory.length) {
     update = true;
@@ -135,7 +130,6 @@ function parseCommandHistory() {
         $('#blueVal').val( b );
         
         updateRGBtoHSV();
-//        updateHSVtoRGB();
         $('.applyChange').click();
         
         saveToHistoryBuffer( save );
@@ -194,6 +188,7 @@ function parseCommandHistory() {
       }
       
       if ( CMD[0] == 'draw' || CMD[0] == 'line' ) {
+        coords = '';
         CMD = CMD[1].split('|');
         
         var colour = parseInt( CMD[0] );
@@ -219,6 +214,8 @@ function parseCommandHistory() {
           lastY = parseInt( crds[1] );
         }
         saveToHistoryBuffer( save );
+        lastX = null;
+        lastY = null;
       }
     } else { // The command is split by a comma, so it must be a cls, an undo or a redo.
     
@@ -243,6 +240,7 @@ function parseCommandHistory() {
       }
     }
   }
+  clickNum = 0;
   $('#input').val('');
 }
 

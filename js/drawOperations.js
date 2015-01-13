@@ -6,12 +6,12 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   update = true;
   // progress is used to change colour if for example a cycle range is selected.
   // a function to be implemented later.
-  pX = parseInt(x);
-  pY = parseInt(y);
+  x = parseInt(x);
+  y = parseInt(y);
   
   if(tool == 'fill') { pBuffer = true; }
   
-  if ( pX < 0 || pX >= imgWidth || pY < 0 || pY >= imgHeight ) {return;}
+  if ( x < 0 || x >= imgWidth || y < 0 || y >= imgHeight ) {return;}
   
   colour = parseInt(colour); // for some reason, the colour is turned into a string instead of a number!
   
@@ -24,18 +24,18 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   if (preview)
   {
     // only plot the pixel on the preview screen.
-    $prv.fillRect( ( pX + overscan / 2 ) * pixelSize, ( pY + overscan / 2 ) * pixelSize, pixelSize, pixelSize );
+    $prv.fillRect( ( x + overscan / 2 ) * pixelSize, ( y + overscan / 2 ) * pixelSize, pixelSize, pixelSize );
   } 
   else
   {
-    var pixelNum = parseInt( pY * imgWidth + pX );
+    var pixelNum = parseInt( y * imgWidth + x );
     // write the data where it matters.
     frame[frameNum].pxl[pixelNum] = colour;
     
     // then plot the pixel on the main screen.
     if (!pBuffer) {
       temp.fillStyle = $prv.fillStyle;
-      temp.fillRect( pX, pY, 1, 1 ); }
+      temp.fillRect( x, y, 1, 1 ); }
     else {
       pixelBuffer.push ({
         x: x,
@@ -55,8 +55,8 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
 function sketch( x, y, mode, brush ) {
   // console.log('s:'+colour+','+x+','+y+','+frameNum+','+brush);
   
-  if (coords) { coords += ';'+pX+','+pY;} 
-  else { coords = pX+','+pY; }
+  if (coords) { coords += ';'+x+','+y;} 
+  else { coords = x+','+y; }
   
   if (brush) { /* placeBrush(activeColour, x, y, frameNum); */ } 
   else { setPixel( activeColour, x, y, frameNum); }
@@ -73,16 +73,14 @@ function draw( x1, y1, x0, y0, mode, brush ) {
 // Line //
 //////////
 function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
-//  if (clickNum == 0) {debugger}
-  //if (!preview){ console.log('l:'+colour,x0+','+y0,x1+','+y1,brush); }
   length = getLength( x0, y0, x1, y1 );
 
   lenX = length.lenX;
   lenY = length.lenY;
   
   if ( tool == 'sketch' || tool == 'draw' ) {
-    if ( coords ) { coords += ';' + pX + ',' + pY; } 
-    else { coords = pX + ',' + pY; }
+    if ( coords ) { coords += ';' + x0 + ',' + y0; } 
+    else { coords = x0 + ',' + y0; }
   }
 
   if ( Math.abs( lenX ) < Math.abs( lenY ) )
