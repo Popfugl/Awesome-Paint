@@ -21,10 +21,11 @@ $(document).ready(function(){
   $('#canvasContainer').html(cv1+cv2);
   $('#tempC').html(cv3);
     
-  $('#c').css("margin",overscan*pixelSize/2+"px");
+  $('#c').css("margin", overscan * pixelSize / 2 + "px");
   $('#canvasContainer').css('height',$('#preview').height()).css('width',$('#preview').width()-overscan);
   
-  $('#output').height( imgHeight * pixelSize -12 );
+  $('#output').height( imgPixelHeight - 12 );
+  $('#input').width( $('#outputContainer').width() - 2);
   
 
   // tempCanvas is the 1:1 truecolor image.

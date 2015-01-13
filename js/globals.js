@@ -60,4 +60,4 @@ var currentFrame  =  0;
 var frameNum      = currentFrame;
 var frame         = [];
 
-var dbx1, dby1, dbx2, dby2, dbb2;
+var dbx1 = 0, dby1 = 0, dbx2 = 0, dby2 = 0, dbb2;

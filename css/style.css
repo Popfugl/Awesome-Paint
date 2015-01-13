@@ -24,9 +24,11 @@ body {
   text-align: center;
   width: 16px;
 }
+
 #hueVal, #satVal, #valVal {
-  displayx: none;
+  display: none;
 }
+
 .ui-slider .ui-slider-handle {
   margin-left: -4px;
   width: 8px;
@@ -210,14 +212,14 @@ body {
 }
 
 #output {
-font-family: monospace;
-text-overflow: ellipsis;
-margin: 4px;
-width: 160px;
-white-space: pre;
-overflow: hidden;
-overflow-y: auto;
-height: 460px;
+  font-family: monospace;
+  text-overflow: ellipsis;
+  margin: 4px;
+  width: 160px;
+  white-space: pre;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 460px;
 }
 
 

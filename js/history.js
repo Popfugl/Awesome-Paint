@@ -85,7 +85,166 @@ function getArray(a) {
   return b;
 }
 
+function parseCommandHistory() {
+  CMDhistory = "draw  : 1|31,149;31,151;31,150;31,151;32,153;32,157;33,161;34,166;36,175;39,184;46,197;51,204;55,210;58,215;63,219;72,225;74,226;75,226;75,227\nline  : 1|153,30,134,88\ncurve : 1|112,130,90,211,151,175\n//colFG: 12\nfill  : 12|193,126\n//colFG: 19\nrect  : 19|206,84,257,235,false\ncircle: 19|110,111,146,160,false\nellipse: 19|177,126,232,140,false\nundo ellipse\nredo ellipse\ncls : 0";
 
+  CMDhistory = "//initialising\n//colFG: 12\nfill  : 12|109,173\n//colFG: 6\nline  : 6|56,65,70,177\nline  : 6|70,177,195,208\nline  : 6|195,208,178,97\nline  : 6|178,97,56,65\ncurve : 6|56,65,178,97,109,48\nline  : 6|92,46,239,18\nline  : 6|178,97,286,46\nline  : 6|286,46,287,110\nline  : 6|287,110,195,208\ncurve : 6|239,18,286,46,271,26\n//colFG: 7\nfill  : 7|111,166\nfill  : 7|110,70\n//colFG: 8\nfill  : 8|205,142\n//colFG: 9\nfill  : 9|204,57";
+  
+  var CMDhistory = $('#input').val();
+  CMDhistory = CMDhistory.split('\n');
+  console.log(CMDhistory);
+  
+  while (CMDhistory.length) {
+    update = true;
+    
+    var CMD = CMDhistory.shift();
+    var save = CMD;
+    CMD = CMD.replace(/ /g, '');
+    CMD = CMD.split(':');
+    
+    // It's not a comment or an undo / redo
+    if ( CMD.length == 2 ) {
+
+      if ( CMD[0] == 'sketch' ) {
+        CMD = CMD[1].split('|');
+        var colour = CMD[0];
+        activeColor = colour;
+        
+        CMD = CMD[1].split(';');
+        
+        while (CMD.length) {
+          var crds = CMD.pop();
+          crds = crds.split(',');
+          setPixel(colour, parseInt( crds[0] ), parseInt( crds[1] ), frameNum);
+        }
+        saveToHistoryBuffer( save );
+      }
+      
+      if ( CMD[0] == 'newCol' ) {
+        CMD = CMD[1].split('|');
+        var colIndex = parseInt( CMD[0] );
+        colourChanged = colIndex;
+        
+        var colVals = CMD[1].split(',');
+        var r = parseInt( colVals[0] );
+        var g = parseInt( colVals[1] );
+        var b = parseInt( colVals[2] );
+        
+        $('#redVal').val( r );
+        $('#greenVal').val( g );
+        $('#blueVal').val( b );
+        
+        updateRGBtoHSV();
+//        updateHSVtoRGB();
+        $('.applyChange').click();
+        
+        saveToHistoryBuffer( save );
+      }
+      
+      if ( CMD[0] == 'curve' ) {
+        CMD = CMD[1].split('|');
+        var colour = CMD[0];
+        activeColor = colour;
+        
+        var crds = CMD[1].split(',');
+        curve( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), parseInt( crds[4] ), parseInt( crds[5] ) );
+      }
+      
+      if ( CMD[0] == 'fill' ) {
+        CMD = CMD[1].split('|');
+        var colour = CMD[0];
+        activeColor = colour;
+        
+        var crds = CMD[1].split(',');
+        floodFill( colour, parseInt( crds[0] ), parseInt( crds[1] ) );
+        saveToHistoryBuffer( save );
+      }
+      
+      if ( CMD[0] == 'rect' ) {
+        CMD = CMD[1].split('|');
+        var colour = CMD[0];
+        activeColor = colour;
+        
+        var crds = CMD[1].split(',');
+        if ( crds[4] = "false" ) {var flag = false; } else { var flag = true; }
+        rectangle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
+        saveToHistoryBuffer( save );
+      }
+      
+      if ( CMD[0] == 'circle' ) {
+        CMD = CMD[1].split('|');
+        var colour = CMD[0];
+        activeColor = colour;
+        
+        var crds = CMD[1].split(',');
+        if ( crds[4] = "false" ) {var flag = false; } else { var flag = true; }
+        circle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
+        saveToHistoryBuffer( save );
+      }
+      
+      if ( CMD[0] == 'ellipse' ) {
+        CMD = CMD[1].split('|');
+        var colour = CMD[0];
+        activeColor = colour;
+        
+        var crds = CMD[1].split(',');
+        if ( crds[4] = "false" ) {var flag = false; } else { var flag = true; }
+        ellipse( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
+        saveToHistoryBuffer( save );
+      }
+      
+      if ( CMD[0] == 'draw' || CMD[0] == 'line' ) {
+        CMD = CMD[1].split('|');
+        
+        var colour = parseInt( CMD[0] );
+        
+        CMD = CMD[1].split(';');
+        var crds, lastX, lastY;
+        while (CMD.length) {
+          activeColour = colour;
+          crds = CMD.shift();
+          crds = crds.split(',');
+          
+          // 2 sets of coords means it's a line.
+          if ( crds.length == 4 ) {
+            lastX = parseInt( crds[0] );
+            lastY = parseInt( crds[1] );
+            crds[0] = parseInt( crds[2] );
+            crds[1] = parseInt( crds[3] );
+          }
+          if (lastX != null && lastY != null) {
+            drawLine( lastX, lastY, parseInt( crds[0] ), parseInt( crds[1] ) );
+          }
+          lastX = parseInt( crds[0] );
+          lastY = parseInt( crds[1] );
+        }
+        saveToHistoryBuffer( save );
+      }
+    } else { // The command is split by a comma, so it must be a cls, an undo or a redo.
+    
+      CMD = CMD[0].split(':');
+      if ( CMD[0] == 'cls' ) {
+        clearScreen( parseInt( CMD[1] ) );
+        saveToHistoryBuffer( save );
+      }
+
+      // undo is part of the string, it will be changed and so we fire and undo()
+      var checkUndo = CMD[0].replace(/undo/g,'');
+      if ( checkUndo != CMD[0] ) {
+        undo();
+        saveToHistoryBuffer( save );
+      }
+
+      // same as with undo above
+      var checkRedo = CMD[0].replace(/redo/g,'');
+      if ( checkRedo != CMD[0] ) {
+        redo();
+        saveToHistoryBuffer( save );
+      }
+    }
+  }
+  $('#input').val('');
+}
 
 /*
 backspace   8

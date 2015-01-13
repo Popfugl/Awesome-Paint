@@ -111,7 +111,13 @@
     </div>
     <div class="sidebar right">
       <div id="cmdList">Command History</div>
-      <div id="outputContainer"><div id="output"></div></div>
+      <div id="outputContainer">
+        <div id="output"></div>
+      </div>
+      <div id="inputContainer">
+        <textarea id="input" rows="5"></textarea>
+        <button onClick="parseCommandHistory()">Run</button>
+      </div>
     </div>
     <div class="hidden">
       <div id="tempC"></div>
