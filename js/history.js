@@ -166,7 +166,7 @@ function parseCommandHistory() {
         activeColor = colour;
         
         var crds = CMD[1].split(',');
-        if ( crds[4] = "false" ) {var flag = false; } else { var flag = true; }
+        if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
         rectangle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
         saveToHistoryBuffer( save );
       }
@@ -177,7 +177,7 @@ function parseCommandHistory() {
         activeColor = colour;
         
         var crds = CMD[1].split(',');
-        if ( crds[4] = "false" ) {var flag = false; } else { var flag = true; }
+        if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
         circle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
         saveToHistoryBuffer( save );
       }
@@ -188,7 +188,7 @@ function parseCommandHistory() {
         activeColor = colour;
         
         var crds = CMD[1].split(',');
-        if ( crds[4] = "false" ) {var flag = false; } else { var flag = true; }
+        if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
         ellipse( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
         saveToHistoryBuffer( save );
       }
