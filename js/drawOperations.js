@@ -54,10 +54,10 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
 ////////////
 function sketch( x, y, mode, brush ) {
   // console.log('s:'+colour+','+x+','+y+','+frameNum+','+brush);
-  /*
+  
   if (coords) { coords += ';'+pX+','+pY;} 
   else { coords = pX+','+pY; }
-  */
+  
   if (brush) { /* placeBrush(activeColour, x, y, frameNum); */ } 
   else { setPixel( activeColour, x, y, frameNum); }
 }
@@ -79,12 +79,12 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
 
   lenX = length.lenX;
   lenY = length.lenY;
-  /*
+  
   if ( tool == 'sketch' || tool == 'draw' ) {
     if ( coords ) { coords += ';' + pX + ',' + pY; } 
     else { coords = pX + ',' + pY; }
   }
-*/
+
   if ( Math.abs( lenX ) < Math.abs( lenY ) )
   {
     for ( i = 0; i <= Math.abs( lenY ); i++ )
