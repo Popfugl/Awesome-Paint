@@ -41,6 +41,7 @@ var click         = [];       // some operations calls for multiple clicks, like
 // Keyboard
 var escPressed    = false;
 var shiftDown     = false;
+var commaDown     = false;
 var ctrlCmdDown   = false;
 
 // Colour select

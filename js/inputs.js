@@ -173,12 +173,12 @@ $(document).ready(function () {
   $('body').keydown(function(e){
     var tempTool;
     var filler = filled;
-    // Check Esc, Ctrl / Cmd, Shift and Alt keys
+    // Check Esc, Ctrl / Cmd, Shift, Comma and Alt keys
     if(e.which == 27){ if ( !escPressed ) { escPressed = true; } else { escPressed = false; } }
     if(e.which == 91 || e.which == 17){ ctrlCmdDown = true; }
     if(e.which == 16){ shiftDown = true; }
     if(e.which == 18){ altDown = true; }
-    if(e.which != 27){ escPressed = false; }
+    if(e.which == 187){ commaDown = true; }
     
     switch (e.which) {
       case 83: // s
@@ -222,10 +222,26 @@ $(document).ready(function () {
 
       case 90: // z
         //tempTool = 'zoom';
-        if(shiftDown && ctrlCmdDown) { tempTool = 'redo'; }
-        if(ctrlCmdDown && !shiftDown){ tempTool = 'undo'; }
+        if(shiftDown && ctrlCmdDown) { undo(); /*tempTool = 'redo';*/ }
+        if(ctrlCmdDown && !shiftDown){ redo(); /*tempTool = 'undo';*/ }
         break;
       
+      case 219: // å
+        var newCol = activeColour - 1;
+        if ( newCol < 0 ) { newCol = frame[frameNum].pal.length - 1; }
+        setColour( newCol );
+        colFG = activeColour;
+        console.log ('å - ' + newCol );
+        break;
+
+      case 221: // ¨
+        var newCol = activeColour + 1;
+        if ( newCol == frame[frameNum].pal.length ) { newCol = 0; }
+        setColour( newCol );
+        colFG = activeColour;
+        console.log ('¨ - ' + newCol );
+        break;
+
       default:
         console.log('//keydown: '+e.which);
     }
@@ -241,6 +257,7 @@ $(document).ready(function () {
     if(e.which == 91 || e.which == 17){ ctrlCmdDown = false; }
     if(e.which == 16){ shiftDown = false; }
     if(e.which == 18){ altDown = false; }
+    if(e.which == 188){ commaDown = false; }
   });
   
 ///////////////
