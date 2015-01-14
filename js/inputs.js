@@ -288,7 +288,9 @@ $(document).ready(function () {
   
   
   
-  $('.applyChange').click(function (e){
+  $('.applyChange').click( applyChange );
+  
+  function applyChange (e){
     //console.log ($('#palIndex'+colourChanged));
     red = parseInt( $('#redVal').val() );
     green = parseInt( $('#greenVal').val() );
@@ -327,5 +329,5 @@ $(document).ready(function () {
     
     saveToHistoryBuffer( 'newCol: ' + colourChanged + '|' + red + ',' + green + ',' + blue );
     
-  });
+  };
 });

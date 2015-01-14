@@ -101,7 +101,7 @@ function parseCommandHistory() {
       if ( CMD[0] == 'sketch' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
-        activeColor = colour;
+        setColour( colour );
         
         CMD = CMD[1].split(';');
         
@@ -111,6 +111,7 @@ function parseCommandHistory() {
           setPixel(colour, parseInt( crds[0] ), parseInt( crds[1] ), frameNum);
         }
         saveToHistoryBuffer( save );
+        historyStep = null;
       }
       
       if ( CMD[0] == 'newCol' ) {
@@ -129,61 +130,68 @@ function parseCommandHistory() {
         
         updateRGBtoHSV();
         
-        $('.applyChange').click();
+        applyChange();
         // The applyChange-click saves the history state by itself, so it is not needed here!
         /* saveToHistoryBuffer( save ); */
+        historyStep = null;
       }
       
       if ( CMD[0] == 'curve' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
-        activeColor = colour;
+        setColour( colour );
         
         var crds = CMD[1].split(',');
         curve( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), parseInt( crds[4] ), parseInt( crds[5] ) );
+        saveToHistoryBuffer( save );
+        historyStep = null;
       }
       
       if ( CMD[0] == 'fill' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
-        activeColor = colour;
+        setColour( colour );
         
         var crds = CMD[1].split(',');
         floodFill( colour, parseInt( crds[0] ), parseInt( crds[1] ) );
         saveToHistoryBuffer( save );
+        historyStep = null;
       }
       
       if ( CMD[0] == 'rect' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
-        activeColor = colour;
+        setColour( colour );
         
         var crds = CMD[1].split(',');
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
         rectangle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
         saveToHistoryBuffer( save );
+        historyStep = null;
       }
       
       if ( CMD[0] == 'circle' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
-        activeColor = colour;
+        setColour( colour );
         
         var crds = CMD[1].split(',');
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
         circle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
         saveToHistoryBuffer( save );
+        historyStep = null;
       }
       
       if ( CMD[0] == 'ellipse' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
-        activeColor = colour;
+        setColour( colour );
         
         var crds = CMD[1].split(',');
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
         ellipse( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
         saveToHistoryBuffer( save );
+        historyStep = null;
       }
       
       if ( CMD[0] == 'draw' || CMD[0] == 'line' ) {
@@ -195,7 +203,7 @@ function parseCommandHistory() {
         CMD = CMD[1].split(';');
         var crds, lastX, lastY;
         while (CMD.length) {
-          activeColour = colour;
+          setColour( colour );
           crds = CMD.shift();
           crds = crds.split(',');
           
@@ -215,6 +223,7 @@ function parseCommandHistory() {
         saveToHistoryBuffer( save );
         lastX = null;
         lastY = null;
+        historyStep = null;
       }
     } else { // The command is split by a comma, so it must be a cls, an undo or a redo.
     
@@ -228,17 +237,18 @@ function parseCommandHistory() {
       var checkUndo = CMD[0].replace(/undo/g,'');
       if ( checkUndo != CMD[0] ) {
         undo();
-        saveToHistoryBuffer( save );
+        //dbug( save );
       }
 
       // same as with undo above
       var checkRedo = CMD[0].replace(/redo/g,'');
       if ( checkRedo != CMD[0] ) {
         redo();
-        saveToHistoryBuffer( save );
+        //dbug( save );
       }
     }
   }
+  
   updateScreen();
   clickNum = 0;
   $('#input').val('');
