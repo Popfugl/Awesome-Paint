@@ -96,8 +96,10 @@ function updateTool( tempTool, fill ){
 
 // write coordinates and message to the top bar
 function writeMessage(message, x, y, degrees) {
-  if (x == null) { x = dbx2; y = dby2; }
-  if (message == null) { message = ''; }
+  if ( x == null ) { x = dbx2; y = dby2; }
+  if ( message == null ) { message = ''; }
+  if ( commaDown ) { message = 'Pick Colour'; }
+                    
   var col = getColour( dbx2, dby2, currentFrame );
   if (col != null) {
     col24 = palIndex12to24bit( col );
@@ -154,7 +156,7 @@ function getLength( X0, Y0, X1, Y1 ) {
 }
 
 function pointer(cx, cy, preview, brush) {
-  if (!brush && !clickNum) { setPixel( colFG, cx, cy, 0, 0, preview); }
+  if (!brush && !clickNum && !commaDown) { setPixel( colFG, cx, cy, 0, 0, preview); }
   setPixel(17, cx+7, cy, 0, 0, preview);
   setPixel(18, cx+6, cy, 0, 0, preview);
   setPixel(17, cx+5, cy, 0, 0, preview);

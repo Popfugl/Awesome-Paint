@@ -41,25 +41,37 @@ $(document).ready(function () {
   // Mouse button is down.
   cv.mousedown(function(e){
     hasMoved = false;
-    clickNum++;
     mouseButton = e.which;
     dbb2 = mouseButton;
-    
+    var cmd;
     var mousePos = getMousePos(e);
-    updateClickBuffer(mousePos);
+    
+    /* Colourpicker not active - continue with clicks */
+    if (! commaDown ) {
+      clickNum++;
+      updateClickBuffer(mousePos);
 
-    if (dbb2 == 3) { activeColour = colBG; }
-    else { activeColour = colFG; }
+      if (dbb2 == 3) { activeColour = colBG; }
+      else { activeColour = colFG; }
+
+      if (dbb2 != 2) { toolTypeSelected(); } else { clickNum--; }
+    } else { cmd = 'Pick Colour '; }
     
-    if (dbb2 != 2) { toolTypeSelected(); } else { clickNum--; }
-    
-    writeMessage();
+    writeMessage( cmd );
   });
   
   
   // Mouse button is released
   cv.mouseup(function(e){
     var mousePos = getMousePos(e);
+    
+    if ( commaDown ) {
+      colour = getColour( mousePos.x, mousePos.y );
+      setColour( colour );
+      if (dbb2 == 1) { activeColour = colFG = colour; dbug( '//colFG: ' + colour ); }
+      if (dbb2 == 3) { activeColour = colBG = colour; dbug( '//colBG: ' + colour ); }
+    }
+    
     if (tool == 'sketch' || tool == 'draw') {
       var t;
       if (tool == 'sketch') {t = 'sketch: '} else {t = 'draw  : '}
@@ -178,8 +190,8 @@ $(document).ready(function () {
     if(e.which == 91 || e.which == 17){ ctrlCmdDown = true; }
     if(e.which == 16){ shiftDown = true; }
     if(e.which == 18){ altDown = true; }
-    if(e.which == 187){ commaDown = true; }
-    
+    if(e.which == 188){ commaDown = true; }
+
     switch (e.which) {
       case 83: // s
         tempTool = 'sketch';
@@ -231,7 +243,8 @@ $(document).ready(function () {
         if ( newCol < 0 ) { newCol = frame[frameNum].pal.length - 1; }
         setColour( newCol );
         colFG = activeColour;
-        console.log ('å - ' + newCol );
+        dbug( '//colFG: ' + newCol );
+        console.log ( 'å - ' + newCol );
         break;
 
       case 221: // ¨
@@ -239,6 +252,7 @@ $(document).ready(function () {
         if ( newCol == frame[frameNum].pal.length ) { newCol = 0; }
         setColour( newCol );
         colFG = activeColour;
+        dbug( '//colFG: ' + newCol );
         console.log ('¨ - ' + newCol );
         break;
 
