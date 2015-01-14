@@ -158,7 +158,7 @@ function floodFill( colour, startX, startY ){
   pixelStack = [[startX, startY]];
   startColour = getColour( startX, startY );
   if (startColour == colour) { return; }
-  // console.log( startColour, startX, startY) ;
+  
   brk = false;
   
   while( pixelStack.length && brk != true && startColour != colour )

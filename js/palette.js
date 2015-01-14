@@ -339,6 +339,16 @@ $(document).ready(function() {
     updateRGBtoHSV();
   });
 
+  $('#foregroundColour').click( function () {
+    colourChanged = activeColour = colFG;
+    updatePaletteSelection();
+  } );
+  
+  $('#backgroundColour').click( function () {
+    colourChanged = activeColour = colBG;
+    updatePaletteSelection();
+  } );
+  
 });
 
 function updateHSVtoRGB() {

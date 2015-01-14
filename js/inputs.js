@@ -266,9 +266,7 @@ $(document).ready(function () {
         }
         
         updatePaletteSelection()
-        // displayPalette();
         
-        console.log ( 'å - ' + newCol );
         break;
 
       case 221: // ¨
@@ -290,9 +288,7 @@ $(document).ready(function () {
           //dbug( '//colBG: ' + newCol );
         }
         updatePaletteSelection()
-        // displayPalette();
         
-        console.log ('¨ - ' + newCol );
         break;
 
       default:
@@ -355,7 +351,6 @@ $(document).ready(function () {
   $('.applyChange').click( applyChange );
   
   function applyChange (e){
-    //console.log ($('#palIndex'+colourChanged));
     red = parseInt( $('#redVal').val() );
     green = parseInt( $('#greenVal').val() );
     blue = parseInt( $('#blueVal').val() );
