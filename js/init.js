@@ -1,7 +1,16 @@
 addFrame(currentFrame);
-var cv = $('#preview');
+  
 
 $(document).ready(function(){
+
+  // Sets the screen to update every 1/60 of a second.
+  setInterval(function(){
+    if (update){
+      updateScreen();
+      update = false;
+    }
+  }, 1000/60 ); // Set framerate 60 frames per second.
+
   $('#initZoom').val(zoomLevel);
   
   colour = colFG; // Set the starting colour here.
@@ -65,7 +74,6 @@ $(document).ready(function(){
   $('#toolContainer').width( imgPixelWidth + 2 );
   //$('#foregroundColour, #backgroundColour').width(( imgWidth * pixelSize / 4) - 2);
   
-  
   // Size the tool buttons
   btnwidth = ($('#toolContainer').width()+8)/($('.tool').length/2);
   $('.tool').width(btnwidth-12);
@@ -82,22 +90,8 @@ $(document).ready(function(){
   initRGBSliders(1);
   saveToHistoryBuffer('//initialising');
   
-  // drawLine(8, 1,1, 15,10, 0,0);
-  // cx = 51; cy = 102; 
-  // cx = 150; cy = 100;
-  // curve( 27, 100,255, 250,150, cx,cy ); // test the curve.
-  /*
-  setColour(2);
-  curve(111,59,148,183,200,106);
-  curve(163,55,174,192,123,110);
-  drawLine(139,129,187,119,0);
-  setColour(1);
-  floodFill(1,161,97);
-  */
-  // drawLine(2,0,1,1,0,0);
-  // setPixel(31,1,1,0);
-
-  //  setPixel(10, cx, cy, 0, 0);
+  update = true;
+  
 });
 
 

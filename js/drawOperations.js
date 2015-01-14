@@ -1,15 +1,20 @@
+function updateScreen() {
+  // Copy the 1:1 image while scaling it to the screen.
+  $ctx.drawImage(t,0,0,imgPixelWidth,imgPixelHeight);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 // The very heart of the drawing functions. The routine that plots each individual pixel //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
-  update = true;
+  
   // progress is used to change colour if for example a cycle range is selected.
   // a function to be implemented later.
   x = parseInt(x);
   y = parseInt(y);
   
-  if(tool == 'fill') { pBuffer = true; }
+  if ( tool == 'fill' ) { pBuffer = true; }
   
   if ( x < 0 || x >= imgWidth || y < 0 || y >= imgHeight ) {return;}
   
@@ -25,7 +30,7 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   {
     // only plot the pixel on the preview screen.
     $prv.fillRect( ( x + overscan / 2 ) * pixelSize, ( y + overscan / 2 ) * pixelSize, pixelSize, pixelSize );
-  } 
+  }
   else
   {
     var pixelNum = parseInt( y * imgWidth + x );
@@ -35,7 +40,11 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
     // then plot the pixel on the main screen.
     if (!pBuffer) {
       temp.fillStyle = $prv.fillStyle;
-      temp.fillRect( x, y, 1, 1 ); }
+      temp.fillRect( x, y, 1, 1 ); 
+      
+      // Something is being drawn to the screen, so next interval would be a good time to update the screen.
+      update = true;
+    } 
     else {
       pixelBuffer.push ({
         x: x,
@@ -49,25 +58,26 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
 // The actual drawing tool functions //
 ///////////////////////////////////////
 
+
 ////////////
 // Sketch //
 ////////////
 function sketch( x, y, mode, brush ) {
-  // console.log('s:'+colour+','+x+','+y+','+frameNum+','+brush);
-  
-  if (coords) { coords += ';'+x+','+y;} 
+  if ( coords ) { coords += ';'+x+','+y;} 
   else { coords = x+','+y; }
   
-  if (brush) { /* placeBrush(activeColour, x, y, frameNum); */ } 
-  else { setPixel( activeColour, x, y, frameNum); }
+  if (brush) { /* placeBrush( activeColour, x, y, frameNum ); */ } 
+  else { setPixel( activeColour, x, y, frameNum ); }
 }
+
 
 //////////
 // Draw //
 //////////
 function draw( x1, y1, x0, y0, mode, brush ) {
-  drawLine( x0, y0, x1, y1, mode, brush);
+  drawLine( x0, y0, x1, y1, mode, brush );
 }
+
 
 //////////
 // Line //
@@ -102,8 +112,8 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     }
   }
   if (tool == 'line') {
-    radius = Math.sqrt( (lenX * lenX) + (lenY * lenY) );
-    degrees = Math.floor(getDegrees( lenX, lenY ) * 1) / 1;
+    radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
+    degrees = Math.floor( getDegrees( lenX, lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt( radius ), true );
   }
 }
@@ -138,6 +148,7 @@ function curve( Ax, Ay, Bx, By, Cx, Cy, brush, mode, preview ){
   bezier( Ax, Ay, P1x, P1y, Bx, By, preview );
   // if (pixelBuffer) { pastePixelBuffer(); }
 }
+
 
 //////////
 // Fill //
@@ -201,7 +212,6 @@ function floodFill( colour, startX, startY ){
 
     }
   }
-
   if ( pixelBuffer ){ pastePixelBuffer(); }
 }
   
@@ -242,7 +252,6 @@ function pastePixelBuffer() {
   }
   fillRect( a1, b1 );
   update = true;
-
 }
 
 function sortByPosition( a, b ){
@@ -255,11 +264,12 @@ function fillRect( a, b ) {
 }
 
 
-
 ///////////////
 // Rectangle //
 ///////////////
-// Consider using ( x-start, y-start, width, height ) instead of ( x-start, y-start, x-end, y-end ). 
+
+// Consider using ( x-start, y-start, width, height ) instead of ( x-start, y-start, x-end, y-end ).
+
 function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   var length = getLength( x0, y0, x1, y1 );
   lenX = length.lenX;
@@ -283,6 +293,7 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   writeMessage( '', lenX, lenY );
 }
 
+
 ////////////
 // Circle //
 ////////////
@@ -298,7 +309,7 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
   
   // Most of the circle can be filled with a rectangle.
   // rsq is the length from the center that doesn't need to be drawn just yet. 
-  // It will be filled by a rectangle later.
+  // - It will be filled by a rectangle later.
   var rsq = Math.round( radius * ( 1 / Math.sqrt( 2 ) ) );
   
   if ( !radius ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
@@ -351,14 +362,6 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
       lastY = y;
 
     }
-    /*
-    if ( radius != 2 && escPressed ) {
-      setPixel( activeColour, x0 - rsq, y0 + rsq, frameNum, i/iterations, preview );
-      setPixel( activeColour, x0 - rsq, y0 - rsq, frameNum, i/iterations, preview );
-      setPixel( activeColour, x0 + rsq, y0 + rsq, frameNum, i/iterations, preview );
-      setPixel( activeColour, x0 + rsq, y0 - rsq, frameNum, i/iterations, preview );
-    }
-    */
     
     if ( filled && !preview ) { rectangle( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, filled, 0, mode, brush, preview ); }
     degrees = Math.floor( getDegrees( lenX, lenY ) * 1 ) / 1;
@@ -388,7 +391,7 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   
   // Most of the ellipse can be filled with a rectangle.
   // rsq is the length from the center that doesn't need to be drawn just yet. 
-  // It will be filled by a rectangle later.
+  // - It will be filled by a rectangle later.
   var rsqX = Math.floor( radiusX * ( 1 / Math.sqrt(2) ) );
   var rsqY = Math.floor( radiusY * ( 1 / Math.sqrt(2) ) );
   
@@ -449,12 +452,14 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   }
 }
 
+
 /////////////
 // Polygon //
 /////////////
 function polygon( clickBuffer, filled, rotation, mode, brush, preview) {
   
 }
+
 
 /////////
 // CLS //
@@ -475,6 +480,6 @@ function clearScreen (colour) {
   // Also clear the main canvas with the right colour.
   temp.fillStyle = setColour( colour, frameNum );
   temp.fillRect( 0, 0, imgPixelWidth, imgPixelHeight );
-  $ctx.drawImage( t, 0, 0, imgPixelWidth, imgPixelHeight );
+//  $ctx.drawImage( t, 0, 0, imgPixelWidth, imgPixelHeight );
 }
 

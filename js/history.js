@@ -25,9 +25,7 @@ function redo() {
 }
 
 function copyFromHistory() {
-  // dbug('History: '+historyStep);
   temp.drawImage(historyBuffer[historyStep].image, 0, 0);
-  console.log( historyStep + ', ' + historyBuffer[historyStep].index );
   frame[historyBuffer[historyStep].index].pxl = historyBuffer[historyStep].pxl.slice(0);
   frame[historyBuffer[historyStep].index].pal = historyBuffer[historyStep].pal.slice(0);
   
@@ -130,9 +128,10 @@ function parseCommandHistory() {
         $('#blueVal').val( b );
         
         updateRGBtoHSV();
-        $('.applyChange').click();
         
-        saveToHistoryBuffer( save );
+        $('.applyChange').click();
+        // The applyChange-click saves the history state by itself, so it is not needed here!
+        /* saveToHistoryBuffer( save ); */
       }
       
       if ( CMD[0] == 'curve' ) {
@@ -240,6 +239,7 @@ function parseCommandHistory() {
       }
     }
   }
+  updateScreen();
   clickNum = 0;
   $('#input').val('');
 }

@@ -1,18 +1,9 @@
 $(document).ready(function () {
-//  var infoCanvas = document.getElementById('topText');
-//  var context = infoCanvas.getContext('2d');
-  var cv = $('#preview');
-  var cvOverlay = $('#overlay');
+  
+  // Preview screen stops working if this is moved to globals.js!
+  var cv            = $('#preview');
+  var cvOverlay     = $('#overlay');
 
-  
-  setInterval(function(){
-    if (update){
-      $ctx.drawImage(t,0,0,imgPixelWidth,imgPixelHeight);
-      update = false;
-    }
-  }, 1000/60 ); // Set framerate 60 frames per second.
-  
-  
 /////////////////////
 // Event listeners //
 /////////////////////
@@ -155,6 +146,7 @@ $(document).ready(function () {
       toolTypeSelected();
 
       saveToHistoryBuffer('cls : '+colFG);
+      update = true;
     } 
     if (globalMouse == 3) { 
       clearScreen(colBG);
@@ -163,6 +155,7 @@ $(document).ready(function () {
       toolTypeSelected();
 
       saveToHistoryBuffer('cls : '+colBG);
+      update = true;
     };
   });
   
