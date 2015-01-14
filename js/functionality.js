@@ -184,4 +184,6 @@ function pointer(cx, cy, preview, brush) {
   setPixel(18, cx, cy-4, 0, 0, preview);
   setPixel(17, cx, cy-3, 0, 0, preview);
   setPixel(18, cx, cy-2, 0, 0, preview);
+  
+  writeMessage();
 }

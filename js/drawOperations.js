@@ -20,11 +20,11 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   
   colour = parseInt(colour); // for some reason, the colour is turned into a string instead of a number!
   
-  tempColor = activeColour; // Store the activeColour. If for instance a brush is drawn, we need to restore the color.
+  tmpColor = activeColour; // Store the activeColour. If for instance a brush is drawn, we need to restore the color.
   
   $prv.fillStyle = setColour( colour );
   
-  activeColour = tempColor; // Restore the activeColour
+  activeColour = tmpColor; // Restore the activeColour
   
   if (preview)
   {

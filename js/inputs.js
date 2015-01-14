@@ -16,7 +16,6 @@ $(document).ready(function () {
   
   // Mouse is on the move
   cv.mousemove(function(e){
-    // console.log('mouse is on the move');
     hasMoved = true;
     
     var mousePos = getMousePos(e);
@@ -55,9 +54,9 @@ $(document).ready(function () {
       else { activeColour = colFG; }
 
       if (dbb2 != 2) { toolTypeSelected(); } else { clickNum--; }
-    } else { cmd = 'Pick Colour '; }
+    }
     
-    writeMessage( cmd );
+    writeMessage();
   });
   
   
@@ -65,11 +64,14 @@ $(document).ready(function () {
   cv.mouseup(function(e){
     var mousePos = getMousePos(e);
     
-    if ( commaDown ) {
+    if ( commaDown && dbb2 != 2 ) {
       colour = getColour( mousePos.x, mousePos.y );
       setColour( colour );
-      if (dbb2 == 1) { activeColour = colFG = colour; dbug( '//colFG: ' + colour ); }
-      if (dbb2 == 3) { activeColour = colBG = colour; dbug( '//colBG: ' + colour ); }
+      if (dbb2 == 1) { colourChanged = activeColour = colFG = colour; /* dbug( '//colFG: ' + colour ); */ }
+      if (dbb2 == 3) { colourChanged = activeColour = colBG = colour; /* dbug( '//colBG: ' + colour ); */ }
+      
+      updatePaletteSelection();
+      
     }
     
     if (tool == 'sketch' || tool == 'draw') {
@@ -99,10 +101,11 @@ $(document).ready(function () {
     
     if (clickNum){ toolTypeSelected(); }
     
+    pointer(dbx2, dby2, true, false);
+
     hasMoved = false;
     mouseButton = false;
     
-    writeMessage();
   });
   
 
@@ -239,31 +242,62 @@ $(document).ready(function () {
         break;
       
       case 219: // å
-        var newCol = activeColour - 1;
-        if ( newCol < 0 ) { newCol = frame[frameNum].pal.length - 1; }
-        setColour( newCol );
-        colFG = activeColour;
-        dbug( '//colFG: ' + newCol );
+        if ( !shiftDown ) {
+          var newCol = colFG - 1;
+          if ( newCol < 0 ) { newCol = frame[frameNum].pal.length - 1; }
+          
+          setColour( newCol );
+          colourChanged = colFG = activeColour;
+          
+          //dbug( '//colFG: ' + newCol );
+        } else {
+          var newCol = colBG - 1;
+          if ( newCol < 0 ) { newCol = frame[frameNum].pal.length - 1; }
+          
+          setColour( newCol );
+          colourChanged = colBG = activeColour;
+          
+          //dbug( '//colBG: ' + newCol );
+        }
+        
+        updatePaletteSelection()
+        // displayPalette();
+        
         console.log ( 'å - ' + newCol );
         break;
 
       case 221: // ¨
-        var newCol = activeColour + 1;
-        if ( newCol == frame[frameNum].pal.length ) { newCol = 0; }
-        setColour( newCol );
-        colFG = activeColour;
-        dbug( '//colFG: ' + newCol );
+        if ( !shiftDown ) {
+          var newCol = colFG + 1;
+          if ( newCol == frame[frameNum].pal.length - 1 ) { newCol = 0; }
+          
+          setColour( newCol );
+          colourChanged = colFG = activeColour;
+
+          //dbug( '//colFG: ' + newCol );
+        } else {
+          var newCol = colBG + 1;
+          if ( newCol == frame[frameNum].pal.length - 1 ) { newCol = 0; }
+          
+          setColour( newCol );
+          colourChanged = colBG = activeColour;
+          
+          //dbug( '//colBG: ' + newCol );
+        }
+        updatePaletteSelection()
+        // displayPalette();
+        
         console.log ('¨ - ' + newCol );
         break;
 
       default:
-        console.log('//keydown: '+e.which);
+        console.log('//keydown: ' + e.which);
     }
     
-    if (tempTool) {
-      updateTool(tempTool, filler);
-      //dbug('//'+tempTool);
-    }
+    if (tempTool) { updateTool( tempTool, filler ); }
+    
+    pointer( dbx2, dby2, true, false );
+    
   });
   
   $('body').keyup(function(e){
@@ -272,6 +306,8 @@ $(document).ready(function () {
     if(e.which == 16){ shiftDown = false; }
     if(e.which == 18){ altDown = false; }
     if(e.which == 188){ commaDown = false; }
+    
+    pointer( dbx2, dby2, true, false );
   });
   
 ///////////////
@@ -284,37 +320,29 @@ $(document).ready(function () {
     if (globalMouse == 1) {
       colFG = parseInt($(this).text());
       activeColour = colFG;
+      colourChanged = activeColour;
       
-      var red = palIndex12to24bit(colFG).r;
-      var green = palIndex12to24bit(colFG).g;
-      var blue = palIndex12to24bit(colFG).b;
-
-      $('.palIndex').css('border-color','black')
-      $(this).css('border-color',$(this).css('background-color'));
-      $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')').addClass('active');
+      updatePaletteSelection( colFG );
+      
       $('#backgroundColour').removeClass('active');
-
-      updateTempColour();
-      dbug('//colFG: '+colFG);
+      
+      //dbug('//colFG: '+colFG);
+      
     }
 
     // Right mouse button
     if (globalMouse == 3) {
-      colBG = parseInt($(this).html()); activeColour = colBG;
-
-      var redBG = palIndex12to24bit(colBG).r;
-      var greenBG = palIndex12to24bit(colBG).g;
-      var blueBG = palIndex12to24bit(colBG).b;
-
-      $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')').addClass('active');
+      colBG = parseInt($(this).html());
+      activeColour = colBG;
+      colourChanged = activeColour;
+      
+      updatePaletteSelection( colFG );
+      
       $('#foregroundColour').removeClass('active');
-
-      updateTempColour();
-      dbug('//colBG: '+colBG);
+      
+      //dbug('//colBG: '+colBG);
     }
-    colourChanged = activeColour;
     
-    initRGBSliders ( colourChanged );
   });
   
   

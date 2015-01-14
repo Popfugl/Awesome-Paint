@@ -403,3 +403,26 @@ function updateTempColour() {
 
   $('#tempColour').css('background-color','rgb('+red+','+green+','+blue+')');
 }
+
+function updatePaletteSelection() {
+  var red     = palIndex12to24bit( colFG ).r;
+  var green   = palIndex12to24bit( colFG ).g;
+  var blue    = palIndex12to24bit( colFG ).b;
+
+  var redBG   = palIndex12to24bit( colBG ).r;
+  var greenBG = palIndex12to24bit( colBG ).g;
+  var blueBG  = palIndex12to24bit( colBG ).b;
+
+  if ( colFG == colourChanged ) { $('#foregroundColour').addClass('active'); } else { $('#foregroundColour').removeClass('active'); }
+  if ( colBG == colourChanged ) { $('#backgroundColour').addClass('active'); } else { $('#backgroundColour').removeClass('active'); }
+
+  $('.palIndex').css('border-color','black')
+  $('#palIndex'+activeColour).css('border-color',$('#palIndex'+activeColour).css('background-color'));
+  $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')');
+  $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')');
+
+  updateTempColour();
+  initRGBSliders ( activeColour );
+
+}
+
