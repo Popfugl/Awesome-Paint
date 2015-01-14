@@ -29,8 +29,7 @@ function copyFromHistory() {
   frame[historyBuffer[historyStep].index].pxl = historyBuffer[historyStep].pxl.slice(0);
   frame[historyBuffer[historyStep].index].pal = historyBuffer[historyStep].pal.slice(0);
   
-  displayPalette();
-  
+  updatePaletteSelection();
   update = true;
 }
 
