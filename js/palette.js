@@ -413,13 +413,24 @@ function updatePaletteSelection() {
   var greenBG = palIndex12to24bit( colBG ).g;
   var blueBG  = palIndex12to24bit( colBG ).b;
 
-  if ( colFG == colourChanged ) { $('#foregroundColour').addClass('active'); } else { $('#foregroundColour').removeClass('active'); }
-  if ( colBG == colourChanged ) { $('#backgroundColour').addClass('active'); } else { $('#backgroundColour').removeClass('active'); }
+  if ( colFG == colourChanged ) {
+    console.log ('fg');
+    $('#foregroundColour').addClass('active');
+    $('#backgroundColour').removeClass('active');
+    $('#palIndex'+activeColour).css('border-color','rgb(' + red + ',' + green + ',' + blue + ')');
+    $('#palIndex'+activeColour).css('background-color','rgb(' + red + ',' + green + ',' + blue + ')');
+  } else {
+    console.log ('bg');
+    $('#foregroundColour').removeClass('active');
+    $('#backgroundColour').addClass('active');
+    $('#palIndex'+activeColour).css('border-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
+    $('#palIndex'+activeColour).css('background-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
+  }
 
-  $('.palIndex').css('border-color','black')
-  $('#palIndex'+activeColour).css('border-color',$('#palIndex'+activeColour).css('background-color'));
-  $('#foregroundColour').css('background-color','rgb('+red+','+green+','+blue+')');
-  $('#backgroundColour').css('background-color','rgb('+redBG+','+greenBG+','+blueBG+')');
+  $('.palIndex').css( 'border-color', 'black' );
+  
+  $('#foregroundColour').css( 'background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
+  $('#backgroundColour').css( 'background-color', 'rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
 
   updateTempColour();
   initRGBSliders ( activeColour );

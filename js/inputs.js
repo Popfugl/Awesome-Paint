@@ -196,6 +196,11 @@ $(document).ready(function () {
     if(e.which == 188){ commaDown = true; }
 
     switch (e.which) {
+      case 190: // .
+        tempTool = 'sketch';
+        //brush = false;
+        break;
+        
       case 83: // s
         tempTool = 'sketch';
         break;

@@ -121,7 +121,7 @@ function saveImageAsPNG (saveImageName){
 
 
 function dbug( log ) {
-  console.log(log);
+  // console.log(log);
   var op = $('#output');
   var h = 1000000000000; // Since .scrollHeight doesn't seem to work with jQuery, and as I only want to scroll to the bottom, this should be sufficient.
   op.text( op.text() + log + '\n' );
