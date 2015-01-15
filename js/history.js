@@ -25,7 +25,7 @@ function redo() {
 }
 
 function copyFromHistory() {
-  temp.drawImage(historyBuffer[historyStep].image, 0, 0);
+  $imgTempCtx.drawImage(historyBuffer[historyStep].image, 0, 0);
   frame[historyBuffer[historyStep].index].pxl = historyBuffer[historyStep].pxl.slice(0);
   frame[historyBuffer[historyStep].index].pal = historyBuffer[historyStep].pal.slice(0);
   
@@ -55,7 +55,7 @@ function saveToHistoryBuffer(cmd){
   // save all data for the current frame
   // later it might be wise to only store the relevant change.
   var image = new Image();
-  image.src = t.toDataURL("image/png");
+  image.src = $imgTemp.toDataURL("image/png");
   var pxl = [];
   var pal = getPalette();
   pxl = frame[currentFrame].pxl;

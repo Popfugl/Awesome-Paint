@@ -25,13 +25,15 @@ function initRGBSliders ( index ) {
 
 function setColour( index ) {
   activeColour = index;
-  $ctx.fillStyle = 'rgba('
+  $imgTempCtx.fillStyle = 'rgba('
   + palIndex12to24bit(index).r + ','
   + palIndex12to24bit(index).g + ','
   + palIndex12to24bit(index).b + ','
   + palIndex12to24bit(index).a + ')';
-  temp.fillStyle = $ctx.fillStyle;
-  return $ctx.fillStyle;
+  
+  $ovrTempCtx.fillStyle = $imgTempCtx.fillStyle;
+  
+  return $imgTempCtx.fillStyle;
 }
 
 function palIndex12to24bit( index ) {

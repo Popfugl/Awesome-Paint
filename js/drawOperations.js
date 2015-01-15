@@ -1,6 +1,12 @@
 function updateScreen() {
   // Copy the 1:1 image while scaling it to the screen.
-  $ctx.drawImage(t,0,0,imgPixelWidth,imgPixelHeight);
+  $imgCtx.drawImage($imgTemp,0,0,imgPixelWidth,imgPixelHeight);
+}
+
+function updatePreviewScreen() {
+  $ovrCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight);
+  $ovrCtx.drawImage($ovrTemp,0,0,imgPixelWidth,imgPixelHeight);
+  $ovrTempCtx.clearRect(0, 0, imgWidth, imgHeight);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -16,20 +22,22 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   
   if ( tool == 'fill' ) { pBuffer = true; }
   
-  if ( x < 0 || x >= imgWidth || y < 0 || y >= imgHeight ) {return;}
+  // Do not draw outside of screen
+  if ( x < 0 || x >= imgWidth || y < 0 || y >= imgHeight ) { return; }
   
-  colour = parseInt(colour); // for some reason, the colour is turned into a string instead of a number!
+  colour = parseInt(colour);
   
   tmpColor = activeColour; // Store the activeColour. If for instance a brush is drawn, we need to restore the color.
   
-  $prv.fillStyle = setColour( colour );
+  $ovrTempCtx.fillStyle = setColour( colour );
   
   activeColour = tmpColor; // Restore the activeColour
   
   if (preview)
   {
     // only plot the pixel on the preview screen.
-    $prv.fillRect( ( x + overscan / 2 ) * pixelSize, ( y + overscan / 2 ) * pixelSize, pixelSize, pixelSize );
+    $ovrTempCtx.fillRect( x, y, 1, 1 );
+//    $ovrCtx.drawImage($ovrTemp,0,0,imgWidth,imgHeight);
   }
   else
   {
@@ -39,12 +47,12 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
     
     // then plot the pixel on the main screen.
     if (!pBuffer) {
-      temp.fillStyle = $prv.fillStyle;
-      temp.fillRect( x, y, 1, 1 ); 
+      $imgTempCtx.fillStyle = $ovrTempCtx.fillStyle;
+      $imgTempCtx.fillRect( x, y, 1, 1 ); 
       
       // Something is being drawn to the screen, so next interval would be a good time to update the screen.
       update = true;
-    } 
+    }
     else {
       pixelBuffer.push ({
         x: x,
@@ -260,7 +268,7 @@ function sortByPosition( a, b ){
 }
 
 function fillRect( a, b ) {
-  if ( a && b ){ temp.fillRect( a.x, a.y, ( 1 + b.x - a.x ), 1 ) };
+  if ( a && b ){ $imgTempCtx.fillRect( a.x, a.y, ( 1 + b.x - a.x ), 1 ) };
 }
 
 
@@ -280,7 +288,7 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   drawLine( x1, y0, x1, y1, mode, brush, preview );
   drawLine( x1, y1, x0, y1, mode, brush, preview );
   drawLine( x0, y1, x0, y0, mode, brush, preview );
-  if ( filled ) { $prv.fillRect( ( x0 + overscan / 2 ) * pixelSize, ( y0 + overscan / 2 ) * pixelSize, lenX * pixelSize, lenY * pixelSize ); }
+  if ( filled ) { $ovr.fillRect( ( x0 + overscan / 2 ) * pixelSize, ( y0 + overscan / 2 ) * pixelSize, lenX * pixelSize, lenY * pixelSize ); }
   if ( filled ){
     if ( len < 0 ) {step = -1; } else { step = 1; }
     if ( !preview ) {
@@ -478,8 +486,8 @@ function clearScreen (colour) {
   frame[frameNum].pxl = pixel;
   
   // Also clear the main canvas with the right colour.
-  temp.fillStyle = setColour( colour, frameNum );
-  temp.fillRect( 0, 0, imgPixelWidth, imgPixelHeight );
-//  $ctx.drawImage( t, 0, 0, imgPixelWidth, imgPixelHeight );
+  $imgTempCtx.fillStyle = setColour( colour, frameNum );
+  $imgTempCtx.fillRect( 0, 0, imgPixelWidth, imgPixelHeight );
+//  $imgCtx.drawImage( t, 0, 0, imgPixelWidth, imgPixelHeight );
 }
 

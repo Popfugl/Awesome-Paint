@@ -24,44 +24,65 @@ $(document).ready(function(){
   imgPixelHeight = imgHeight * pixelSize;
   
   // Set up canvas with correct sizes:
-  cv1 = '<canvas id="c" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
-  cv2 = '<canvas id="preview" width="' + (imgWidth+overscan) * pixelSize + '" height="'+( imgHeight + overscan ) * pixelSize + '"></canvas>';
-  cv3 = '<canvas id="tempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
-  $('#canvasContainer').html(cv1+cv2);
-  $('#tempC').html(cv3);
-    
-  $('#c').css("margin", overscan * pixelSize / 2 + "px");
-  $('#canvasContainer').css('height',$('#preview').height()).css('width',$('#preview').width()-overscan);
+  var cv1 = '<canvas id="imageCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
+  var cv2 = '<canvas id="overlayCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
+  var cv3 = '<canvas id="magnifyCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
+  var cvOverlayTemp = '<canvas id="overlayTempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
+  var cvImageTemp = '<canvas id="imageTempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
+  
+  $('#canvasContainer').html( cv1 + '\n' + cv2 + '\n' + cv3 );
+  $('#overlayTemp').html(cvOverlayTemp);
+  $('#imageTemp').html(cvImageTemp);
+  
+  
+  $('#imageCanvas, #overlayCanvas, #magnifyCanvas').css( "margin", overscan * pixelSize / 2 );
+  $('#canvasContainer').css( 'width', ( imgPixelWidth + overscan * pixelSize ) ).css( 'height', ( imgPixelHeight + overscan * pixelSize ) );
   
   $('#output').height( imgPixelHeight - 12 );
   $('#input').width( $('#outputContainer').width() - 2);
   
 
-  // tempCanvas is the 1:1 truecolor image.
+  // overlayTempCanvas is the 1:1 truecolor image.
   // get the temp canvas ready
-  t = document.getElementById('tempCanvas');
-  $('#tempCanvas').width(imgWidth).height(imgHeight);
-  temp = t.getContext('2d');
-  temp.imageSmoothingEnabled = false;
-  temp.webkitImageSmoothingEnabled = false;
-  temp.mozImageSmoothingEnabled = false;
+  $ovrTemp = document.getElementById('overlayTempCanvas');
+  $ovrTempCtx = $ovrTemp.getContext('2d');
+  $ovrTempCtx.imageSmoothingEnabled = false;
+  $ovrTempCtx.webkitImageSmoothingEnabled = false;
+  $ovrTempCtx.mozImageSmoothingEnabled = false;
+  
+
+  // the overlay canvas is the overlay for noncomitted drawing functions, such as a line being positioned.
+  // get the preview canvas ready
+  $ovr = document.getElementById('overlayCanvas');
+  $ovrCtx = $ovr.getContext('2d');
+  $ovrCtx.imageSmoothingEnabled = false;
+  $ovrCtx.webkitImageSmoothingEnabled = false;
+  $ovrCtx.mozImageSmoothingEnabled = false;
+  
+  
+  // imageTempCanvas is the 1:1 truecolor image.
+  // get the image temp canvas ready
+  $imgTemp = document.getElementById('imageTempCanvas');
+  $imgTempCtx = $imgTemp.getContext('2d');
+  $imgTempCtx.imageSmoothingEnabled = false;
+  $imgTempCtx.webkitImageSmoothingEnabled = false;
+  $imgTempCtx.mozImageSmoothingEnabled = false;
   
 
   // get the main canvas ready
-  $c = document.getElementById('c');
-  $ctx = $c.getContext('2d');
-  $ctx.imageSmoothingEnabled = false;
-  $ctx.webkitImageSmoothingEnabled = false;
-  $ctx.mozImageSmoothingEnabled = false;
+  $img = document.getElementById('imageCanvas');
+  $imgCtx = $img.getContext('2d');
+  $imgCtx.imageSmoothingEnabled = false;
+  $imgCtx.webkitImageSmoothingEnabled = false;
+  $imgCtx.mozImageSmoothingEnabled = false;
 
   
-  // the preview canvas is the overlay for the pointer and noncomitted drawing functions, such as a line being positioned.
-  // get the preview canvas ready
-  $p = document.getElementById('preview');
-  $prv = $p.getContext('2d');
-  $prv.imageSmoothingEnabled = false;
-  $prv.webkitImageSmoothingEnabled = false;
-  $prv.mozImageSmoothingEnabled = false;
+  // get the magnify canvas ready
+  $mag = document.getElementById('magnifyCanvas');
+  $magCtx = $mag.getContext('2d');
+  $magCtx.imageSmoothingEnabled = false;
+  $magCtx.webkitImageSmoothingEnabled = false;
+  $magCtx.mozImageSmoothingEnabled = false;
   
   
   // Position elements on the screen relative to the image width
@@ -69,9 +90,9 @@ $(document).ready(function(){
   //$('.sidebar').width();
   $('#wrap').css( 'margin-left', -(imgPixelWidth/2)-172 );
   $('#topBar').width(imgPixelWidth+2).css( 'padding-left', 192 );
-  $('#c, #preview').css( 'left', -(overscan*pixelSize/2) + 1 );
-  $('#preview').css( 'cursor', 'none' );
-  $('#toolContainer').width( imgPixelWidth + 2 );
+  
+  // Canvas positioning
+  $('#toolContainer').width( imgPixelWidth + 2 ).css( 'margin-left', overscan / 2 * pixelSize );
   //$('#foregroundColour, #backgroundColour').width(( imgWidth * pixelSize / 4) - 2);
   
   // Size the tool buttons

@@ -7,6 +7,7 @@ function toolTypeSelected() {
   
   // Draw and Sketch ends at mouseup and the history state is saved there (in inputs.js)
   if (tool == 'sketch') { sketch( dbx2, dby2, mode, brush, false ); }
+  
   if (tool == 'draw')   {
     if ( clickNum == 1 && !hasMoved) {
       sketch( dbx2, dby2, mode, brush, false );
@@ -14,6 +15,7 @@ function toolTypeSelected() {
       draw( dbx1, dby1, dbx2, dby2, mode, brush, false );
     }
   }
+  
   if (tool == 'sketch' || tool == 'draw') {
     clickNum = 1;
     return;
@@ -76,7 +78,7 @@ function toolTypeSelected() {
     if (tool == 'curve') {
       curve( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, clickBuffer[3].x, clickBuffer[3].y, mode, 0, false );
       clickNum = 0;
-      saveToHistoryBuffer('curve : '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+clickBuffer[3].x+','+clickBuffer[3].y);
+      saveToHistoryBuffer( 'curve : ' + activeColour + '|' + clickBuffer[1].x + ',' + clickBuffer[1].y + ',' + clickBuffer[2].x + ',' + clickBuffer[2].y + ',' + clickBuffer[3].x + ',' + clickBuffer[3].y );
     }
   }
 }
@@ -103,7 +105,7 @@ function writeMessage(message, x, y, degrees) {
   var col = getColour( dbx2, dby2, currentFrame );
   if (col != null) {
     col24 = palIndex12to24bit( col );
-    $('#hoverCol').css('background-color', 'rgba('+col24.r+','+col24.g+','+col24.b+','+col24.a+')' );
+    $('#hoverCol').css( 'background-color', 'rgba( ' + col24.r + ',' + col24.g + ',' + col24.b + ',' + col24.a + ')' );
     message = '#' + col + ' ' + message;
   }
   if (!degrees){ x += '<span class="arrow">→</span>'; y += '<span class="arrow">↓</span>'; }
@@ -115,7 +117,7 @@ function writeMessage(message, x, y, degrees) {
 
 function saveImageAsPNG (saveImageName){
   // draw to canvas...
-  saveCanvas = document.getElementById('tempCanvas');
+  saveCanvas = document.getElementById('imageTempCanvas');
   saveCanvas.toBlob(function(blob) { saveAs(blob, name); });
 }
 
@@ -184,6 +186,4 @@ function pointer(cx, cy, preview, brush) {
   setPixel(18, cx, cy-4, 0, 0, preview);
   setPixel(17, cx, cy-3, 0, 0, preview);
   setPixel(18, cx, cy-2, 0, 0, preview);
-  
-  writeMessage();
 }

@@ -7,9 +7,9 @@ body {
   padding-left: 50%;
 }
 
-.sidebar.left {clear: left; margin-top: 20px; margin-right: 20px; }
-#rgbSliders {height: 58px;}
-.rgbLabel {float: left; clear: left; width: 15px;}
+.sidebar.left { clear: left; margin-top: 20px; }
+#rgbSliders { height: 58px; }
+.rgbLabel { float: left; clear: left; width: 15px; }
 .rgbSlider {
   float: left;
   width: 120px;
@@ -100,7 +100,7 @@ body {
   height: 38px;
 }
 
-#title, #hoverCol, #hoverColInfo, #deg, #version, #info, #coords {
+#title, #hoverCol, #hoverColInfo, #deg, #version, #info, #imageCanvasoords {
   float: left;
   margin: 10px;
 }
@@ -113,6 +113,7 @@ body {
 }
 
 #coords {
+  margin: 10px 0;
   line-height: 15px;
   float: right;
 }
@@ -134,8 +135,12 @@ body {
   float: right;
 }
 
-#c, #preview {
-  cursor: none;
+#canvasContainer {
+//  cursor: url("../ui/pointer-normal.gif") 38 -24, auto;
+}
+
+#imageCanvas, #overlayCanvas, #magnifyCanvas {
+  // pointer-events: none;
   display: block;
   line-height: 0;
   position: absolute;

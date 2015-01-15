@@ -1,8 +1,8 @@
 $(document).ready(function () {
   
   // Preview screen stops working if this is moved to globals.js!
-  var cv            = $('#preview');
-  var cvOverlay     = $('#overlay');
+  var cv            = $('#canvasContainer');
+  var cvOverlay     = $('#canvasContainer');
 
 /////////////////////
 // Event listeners //
@@ -21,11 +21,7 @@ $(document).ready(function () {
     var mousePos = getMousePos(e);
     updateMouseMoves(mousePos);
 
-    // Clear the preview screen
-    $prv.clearRect(0, 0, (imgWidth+overscan)*pixelSize, (imgHeight+overscan)*pixelSize);
-
     // Write coordinates to the info canvas.
-    
     writeMessage();
     
     if (clickNum != 0) { toolTypeSelected(); }
@@ -33,6 +29,9 @@ $(document).ready(function () {
 
     // Draw the pointer on the preview screen
     pointer(dbx2, dby2, true, false);
+    
+    // Clear and update the preview screen
+    updatePreviewScreen();
     
   });
   
@@ -44,6 +43,9 @@ $(document).ready(function () {
     dbb2 = mouseButton;
     var cmd;
     var mousePos = getMousePos(e);
+    
+    // Clear and update the preview screen
+    updatePreviewScreen();
     
     /* Colourpicker not active - continue with clicks */
     if (! commaDown ) {
@@ -64,6 +66,9 @@ $(document).ready(function () {
   cv.mouseup(function(e){
     var mousePos = getMousePos(e);
     
+    // Clear and update the preview screen
+    updatePreviewScreen();
+
     if ( commaDown && dbb2 != 2 ) {
       colour = getColour( mousePos.x, mousePos.y );
       setColour( colour );
@@ -132,12 +137,13 @@ $(document).ready(function () {
   
   // Get the mouse position
   function getMousePos(e) {
-    var rect = $c.getBoundingClientRect();
-    tempX = parseInt((e.clientX - rect.left) / pixelSize);
-    tempY = parseInt((e.clientY - rect.top) / pixelSize);
+    $cc = document.getElementById('canvasContainer');
+    var rect = $cc.getBoundingClientRect();
+    tempX = (e.clientX - rect.left - overscan) / pixelSize;
+    tempY = (e.clientY - rect.top - overscan) / pixelSize;
     return {
-      x: tempX,
-      y: tempY
+      x: Math.round ( tempX ),
+      y: Math.round ( tempY ),
     };
   }
   
@@ -154,6 +160,10 @@ $(document).ready(function () {
   
   $('.tool.clear').mousedown(function(e) {
     globalMouse = e.which;
+    
+    // Foreground disabled! There's a reason it's called a background colour.
+    
+    /*
     if (globalMouse == 1) {
       clearScreen(colFG);
       
@@ -162,8 +172,11 @@ $(document).ready(function () {
 
       saveToHistoryBuffer('cls : '+colFG);
       update = true;
-    } 
-    if (globalMouse == 3) { 
+    }
+    */
+    
+    
+    if (globalMouse == 1) { 
       clearScreen(colBG);
       
       // testing to see if this fixes the history problem.
@@ -172,6 +185,7 @@ $(document).ready(function () {
       saveToHistoryBuffer('cls : '+colBG);
       update = true;
     };
+    
   });
   
   $('.tool.undo').mouseup(function(e) {
@@ -246,6 +260,10 @@ $(document).ready(function () {
         if(ctrlCmdDown && !shiftDown){ redo(); /*tempTool = 'undo';*/ }
         break;
       
+      case 75: // k
+        clearScreen( colBG );
+        break;
+        
       case 219: // å
         if ( !shiftDown ) {
           var newCol = colFG - 1;
