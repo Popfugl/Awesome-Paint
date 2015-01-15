@@ -262,6 +262,8 @@ $(document).ready(function () {
       
       case 75: // k
         clearScreen( colBG );
+        saveToHistoryBuffer ( 'cls: ' + colBG );
+        update = true;
         break;
         
       case 219: // å
