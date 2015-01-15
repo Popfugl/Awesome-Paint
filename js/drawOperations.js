@@ -297,7 +297,7 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   drawLine( x1, y0, x1, y1, mode, brush, preview );
   drawLine( x1, y1, x0, y1, mode, brush, preview );
   drawLine( x0, y1, x0, y0, mode, brush, preview );
-  if ( filled ) { $ovr.fillRect( ( x0 + overscan / 2 ) * pixelSize, ( y0 + overscan / 2 ) * pixelSize, lenX * pixelSize, lenY * pixelSize ); }
+  if ( filled ) { $ovrTempCtx.fillRect( ( x0 + overscan / 2 ) * pixelSize, ( y0 + overscan / 2 ) * pixelSize, lenX * pixelSize, lenY * pixelSize ); }
   if ( filled ){
     if ( len < 0 ) {step = -1; } else { step = 1; }
     if ( !preview ) {
@@ -497,6 +497,5 @@ function clearScreen (colour) {
   // Also clear the main canvas with the right colour.
   $imgTempCtx.fillStyle = setColour( colour, frameNum );
   $imgTempCtx.fillRect( 0, 0, imgPixelWidth, imgPixelHeight );
-//  $imgCtx.drawImage( t, 0, 0, imgPixelWidth, imgPixelHeight );
 }
 
