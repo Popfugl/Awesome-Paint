@@ -426,13 +426,11 @@ function updatePaletteSelection() {
   var blueBG  = palIndex12to24bit( colBG ).b;
 
   if ( colFG == colourChanged ) {
-    console.log ('fg');
     $('#foregroundColour').addClass('active');
     $('#backgroundColour').removeClass('active');
     $('#palIndex'+activeColour).css('border-color','rgb(' + red + ',' + green + ',' + blue + ')');
     $('#palIndex'+activeColour).css('background-color','rgb(' + red + ',' + green + ',' + blue + ')');
   } else {
-    console.log ('bg');
     $('#foregroundColour').removeClass('active');
     $('#backgroundColour').addClass('active');
     $('#palIndex'+activeColour).css('border-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
@@ -446,6 +444,5 @@ function updatePaletteSelection() {
 
   updateTempColour();
   initRGBSliders ( activeColour );
-
 }
 

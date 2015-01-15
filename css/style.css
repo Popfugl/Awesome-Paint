@@ -135,18 +135,15 @@ body {
   float: right;
 }
 
-#canvasContainer {
-//  cursor: url("../ui/pointer-normal.gif") 38 -24, auto;
-}
-
-#imageCanvas, #overlayCanvas, #magnifyCanvas {
-  // pointer-events: none;
+#imageCanvas, #overlayCanvas, #magnifyCanvas, #pointerCanvas {
+  cursor: none;
   display: block;
   line-height: 0;
   position: absolute;
 }
 
 #canvasContainer {
+  cursor: none;
   position: relative;
 }
 

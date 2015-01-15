@@ -20,6 +20,10 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   x = parseInt(x);
   y = parseInt(y);
   
+  
+  
+  
+  
   if ( tool == 'fill' ) { pBuffer = true; }
   
   // Do not draw outside of screen
@@ -30,35 +34,40 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   tmpColor = activeColour; // Store the activeColour. If for instance a brush is drawn, we need to restore the color.
   
   $ovrTempCtx.fillStyle = setColour( colour );
+  $pointCtx.fillStyle = setColour( colour );
   
   activeColour = tmpColor; // Restore the activeColour
   
-  if (preview)
-  {
-    // only plot the pixel on the preview screen.
-    $ovrTempCtx.fillRect( x, y, 1, 1 );
-//    $ovrCtx.drawImage($ovrTemp,0,0,imgWidth,imgHeight);
-  }
-  else
-  {
-    var pixelNum = parseInt( y * imgWidth + x );
-    // write the data where it matters.
-    frame[frameNum].pxl[pixelNum] = colour;
-    
-    // then plot the pixel on the main screen.
-    if (!pBuffer) {
-      $imgTempCtx.fillStyle = $ovrTempCtx.fillStyle;
-      $imgTempCtx.fillRect( x, y, 1, 1 ); 
-      
-      // Something is being drawn to the screen, so next interval would be a good time to update the screen.
-      update = true;
+  if ( !pointerFlag ) {
+    if (preview)
+    {
+      // only plot the pixel on the preview screen.
+      $ovrTempCtx.fillRect( x, y, 1, 1 );
     }
-    else {
-      pixelBuffer.push ({
-        x: x,
-        y: y
-      });
+    else
+    {
+      var pixelNum = parseInt( y * imgWidth + x );
+      // write the data where it matters.
+      frame[frameNum].pxl[pixelNum] = colour;
+
+      // then plot the pixel on the main screen.
+      if (!pBuffer) {
+        $imgTempCtx.fillStyle = $ovrTempCtx.fillStyle;
+        $imgTempCtx.fillRect( x, y, 1, 1 ); 
+
+        // Something is being drawn to the screen, so next interval would be a good time to update the screen.
+        update = true;
+      }
+      else {
+        pixelBuffer.push ({
+          x: x,
+          y: y
+        });
+      }
     }
+  } else {
+    // only plot the pointer on the pointer canvas
+    $pointCtx.fillRect( parseInt(x * pixelSize), parseInt(y * pixelSize), pixelSize, pixelSize );
   }
 }
 

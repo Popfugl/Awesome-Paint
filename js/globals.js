@@ -37,6 +37,7 @@ var clickNum      =  0;
 var hasMoved      = false;
 var mouseButton;              // holds the info about the mouse buttons
 var click         = [];       // some operations calls for multiple clicks, like the curve.
+var pointerFlag;
 
 // Keyboard
 var escPressed    = false;

@@ -27,38 +27,49 @@ $(document).ready(function(){
   var cv1 = '<canvas id="imageCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
   var cv2 = '<canvas id="overlayCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
   var cv3 = '<canvas id="magnifyCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
-  var cvOverlayTemp = '<canvas id="overlayTempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
+  var cv4 = '<canvas id="pointerCanvas" width="' + imgPixelWidth + '" height="' + imgPixelHeight + '"></canvas>';
   var cvImageTemp = '<canvas id="imageTempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
+  var cvOverlayTemp = '<canvas id="overlayTempCanvas" width="'+imgWidth+'" height="'+imgHeight+'"></canvas>';
   
-  $('#canvasContainer').html( cv1 + '\n' + cv2 + '\n' + cv3 );
+  $('#canvasContainer').html( cv1 + '\n' + cv2 + '\n' + cv3 + '\n' + cv4 + '\n' );
   $('#overlayTemp').html(cvOverlayTemp);
   $('#imageTemp').html(cvImageTemp);
   
   
-  $('#imageCanvas, #overlayCanvas, #magnifyCanvas').css( "margin", overscan * pixelSize / 2 );
+  $('#imageCanvas, #overlayCanvas, #magnifyCanvas, #pointerCanvas').css( "margin", overscan * pixelSize / 2 );
   $('#canvasContainer').css( 'width', ( imgPixelWidth + overscan * pixelSize ) ).css( 'height', ( imgPixelHeight + overscan * pixelSize ) );
   
   $('#output').height( imgPixelHeight - 12 );
   $('#input').width( $('#outputContainer').width() - 2);
   
-
-  // overlayTempCanvas is the 1:1 truecolor image.
-  // get the temp canvas ready
-  $ovrTemp = document.getElementById('overlayTempCanvas');
-  $ovrTempCtx = $ovrTemp.getContext('2d');
-  $ovrTempCtx.imageSmoothingEnabled = false;
-  $ovrTempCtx.webkitImageSmoothingEnabled = false;
-  $ovrTempCtx.mozImageSmoothingEnabled = false;
+  // Image
+  // get the main canvas ready
+  $img = document.getElementById('imageCanvas');
+  $imgCtx = $img.getContext('2d');
+  $imgCtx.imageSmoothingEnabled = false;
+  $imgCtx.webkitImageSmoothingEnabled = false;
+  $imgCtx.mozImageSmoothingEnabled = false;
   
-
-  // the overlay canvas is the overlay for noncomitted drawing functions, such as a line being positioned.
-  // get the preview canvas ready
+  // Overlay
   $ovr = document.getElementById('overlayCanvas');
   $ovrCtx = $ovr.getContext('2d');
   $ovrCtx.imageSmoothingEnabled = false;
   $ovrCtx.webkitImageSmoothingEnabled = false;
   $ovrCtx.mozImageSmoothingEnabled = false;
   
+  // Magnify
+  $mag = document.getElementById('magnifyCanvas');
+  $magCtx = $mag.getContext('2d');
+  $magCtx.imageSmoothingEnabled = false;
+  $magCtx.webkitImageSmoothingEnabled = false;
+  $magCtx.mozImageSmoothingEnabled = false;
+  
+  // Pointer
+  $point = document.getElementById('pointerCanvas');
+  $pointCtx = $point.getContext('2d');
+  $pointCtx.imageSmoothingEnabled = false;
+  $pointCtx.webkitImageSmoothingEnabled = false;
+  $pointCtx.mozImageSmoothingEnabled = false;
   
   // imageTempCanvas is the 1:1 truecolor image.
   // get the image temp canvas ready
@@ -67,23 +78,15 @@ $(document).ready(function(){
   $imgTempCtx.imageSmoothingEnabled = false;
   $imgTempCtx.webkitImageSmoothingEnabled = false;
   $imgTempCtx.mozImageSmoothingEnabled = false;
-  
 
-  // get the main canvas ready
-  $img = document.getElementById('imageCanvas');
-  $imgCtx = $img.getContext('2d');
-  $imgCtx.imageSmoothingEnabled = false;
-  $imgCtx.webkitImageSmoothingEnabled = false;
-  $imgCtx.mozImageSmoothingEnabled = false;
+  // overlayTempCanvas is the 1:1 truecolor image.
+  // get the temp canvas ready
+  $ovrTemp = document.getElementById('overlayTempCanvas');
+  $ovrTempCtx = $ovrTemp.getContext('2d');
+  $ovrTempCtx.imageSmoothingEnabled = false;
+  $ovrTempCtx.webkitImageSmoothingEnabled = false;
+  $ovrTempCtx.mozImageSmoothingEnabled = false;
 
-  
-  // get the magnify canvas ready
-  $mag = document.getElementById('magnifyCanvas');
-  $magCtx = $mag.getContext('2d');
-  $magCtx.imageSmoothingEnabled = false;
-  $magCtx.webkitImageSmoothingEnabled = false;
-  $magCtx.mozImageSmoothingEnabled = false;
-  
   
   // Position elements on the screen relative to the image width
   
@@ -110,7 +113,6 @@ $(document).ready(function(){
   setColour(1);
   initRGBSliders(1);
   saveToHistoryBuffer('//initialising');
-  
   update = true;
   
 });

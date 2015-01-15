@@ -1,8 +1,7 @@
 $(document).ready(function () {
   
   // Preview screen stops working if this is moved to globals.js!
-  var cv            = $('#canvasContainer');
-  var cvOverlay     = $('#canvasContainer');
+  var cc            = $('#canvasContainer');
 
 /////////////////////
 // Event listeners //
@@ -15,7 +14,7 @@ $(document).ready(function () {
 
   
   // Mouse is on the move
-  cv.mousemove(function(e){
+  cc.mousemove(function(e){
     hasMoved = true;
     
     var mousePos = getMousePos(e);
@@ -37,7 +36,7 @@ $(document).ready(function () {
   
   
   // Mouse button is down.
-  cv.mousedown(function(e){
+  cc.mousedown(function(e){
     hasMoved = false;
     mouseButton = e.which;
     dbb2 = mouseButton;
@@ -63,11 +62,9 @@ $(document).ready(function () {
   
   
   // Mouse button is released
-  cv.mouseup(function(e){
+  cc.mouseup(function(e){
     var mousePos = getMousePos(e);
     
-    // Clear and update the preview screen
-    updatePreviewScreen();
 
     if ( commaDown && dbb2 != 2 ) {
       colour = getColour( mousePos.x, mousePos.y );
@@ -107,6 +104,9 @@ $(document).ready(function () {
     if (clickNum){ toolTypeSelected(); }
     
     pointer(dbx2, dby2, true, false);
+    
+    // Clear and update the preview screen
+    updatePreviewScreen();
 
     hasMoved = false;
     mouseButton = false;
@@ -307,6 +307,7 @@ $(document).ready(function () {
           
           //dbug( '//colBG: ' + newCol );
         }
+        
         updatePaletteSelection()
         
         break;

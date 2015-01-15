@@ -159,6 +159,11 @@ function getLength( X0, Y0, X1, Y1 ) {
 
 function pointer(cx, cy, preview, brush) {
   if (!brush && !clickNum && !commaDown) { setPixel( colFG, cx, cy, 0, 0, preview); }
+  
+  // clear pointer canvas
+  $pointCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight );
+  pointerFlag = true;
+  
   setPixel(17, cx+7, cy, 0, 0, preview);
   setPixel(18, cx+6, cy, 0, 0, preview);
   setPixel(17, cx+5, cy, 0, 0, preview);
@@ -186,4 +191,7 @@ function pointer(cx, cy, preview, brush) {
   setPixel(18, cx, cy-4, 0, 0, preview);
   setPixel(17, cx, cy-3, 0, 0, preview);
   setPixel(18, cx, cy-2, 0, 0, preview);
+  
+  pointerFlag = false;
+
 }
