@@ -43,7 +43,7 @@ function magnify() {
   
   // Clear and draw the updated main canvas at the new position
   clearMainCanvas();
-  $imgCtx.drawImage( $imgTemp, clipMainX, clipMainY, imgWidth, imgHeight, 0, 0, imgPixelWidth, imgPixelHeight );
+  $imgCtx.drawImage( $imgTemp, clipMainX, clipMainY, magPosX, imgHeight, 0, 0, magPosX * pixelSize, imgPixelHeight );
   
   // clear and draw the magnify canvas
   clearMagnify();
