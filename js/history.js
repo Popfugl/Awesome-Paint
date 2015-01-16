@@ -96,6 +96,11 @@ function parseCommandHistory() {
     
     // It's not a comment or an undo / redo
     if ( CMD.length == 2 ) {
+      
+      if ( CMD[0] == 'cls' ) {
+        clearScreen( parseInt( CMD[1] ) );
+        saveToHistoryBuffer( save );
+      }
 
       if ( CMD[0] == 'sketch' ) {
         CMD = CMD[1].split('|');
@@ -227,11 +232,6 @@ function parseCommandHistory() {
     } else { // The command is split by a comma, so it must be a cls, an undo or a redo.
     
       CMD = CMD[0].split(':');
-      if ( CMD[0] == 'cls' ) {
-        clearScreen( parseInt( CMD[1] ) );
-        saveToHistoryBuffer( save );
-      }
-
       // undo is part of the string, it will be changed and so we fire and undo()
       var checkUndo = CMD[0].replace(/undo/g,'');
       if ( checkUndo != CMD[0] ) {
