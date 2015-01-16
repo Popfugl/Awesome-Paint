@@ -225,11 +225,12 @@ $(document).ready(function () {
     if(e.which == 188){ commaDown = true; }
 
     switch (e.which) {
+/*
       case 190: // .
         tempTool = 'sketch';
         //brush = false;
         break;
-        
+*/      
       case 83: // s
         tempTool = 'sketch';
         break;
@@ -341,7 +342,20 @@ $(document).ready(function () {
         updatePaletteSelection()
         
         break;
-
+        
+        case 188: // < ( > with shift )
+          if ( magnifyOn ) {
+            multiplier--;
+            if ( multiplier <= zoomLevel ) { multiplier = zoomLevel + 1; }
+          }
+          break;
+        case 190:
+          if (magnifyOn) {
+            multiplier++;
+            if ( multiplier > 16 ) { multiplier = 16; }
+          }
+          break;
+        
       default:
         console.log('//keydown: ' + e.which);
     }
