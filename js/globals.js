@@ -10,12 +10,22 @@
 
 var update        = false;
 
-var zoomLevel     =   2;
-var imgWidth      = 320;
-var imgHeight     = 256;
+// screen
+var zoomLevel       =   2;
+var imgWidth        = 320;
+var imgHeight       = 256;
 var imgPixelWidth;
 var imgPixelHeight;
-var overscan      =  20;
+var overscan        =  20;
+
+// magnify
+var magnifyOn       = false;
+var fullscreen      = false;
+var multiplier      = zoomLevel + 8;
+var magAdjustX, magAdjustY;
+var magCenterX, magCenterY;
+var magPosX;
+var magStart;
 
 var debug         = true;
 var historyBuffer = [];

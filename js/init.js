@@ -6,7 +6,7 @@ $(document).ready(function(){
   // Sets the screen to update every 1/60 of a second.
   setInterval(function(){
     if (update){
-      updateScreen();
+      if ( !magnifyOn ) { updateScreen(); } else { magnify(); }
       update = false;
     }
   }, 1000/60 ); // Set framerate 60 frames per second.
@@ -19,7 +19,7 @@ $(document).ready(function(){
   $('#backgroundColour').val(colBG);
   $('#tooltype').val(tool);
   
-  pixelSize = $('#initZoom').val();
+  pixelSize = parseInt ( $('#initZoom').val() );
   imgPixelWidth = imgWidth * pixelSize;
   imgPixelHeight = imgHeight * pixelSize;
   

@@ -101,18 +101,20 @@ function writeMessage(message, x, y, degrees) {
   if ( x == null ) { x = dbx2; y = dby2; }
   if ( message == null ) { message = ''; }
   if ( commaDown ) { message = 'Pick Colour'; }
-                    
+  
   var col = getColour( dbx2, dby2, currentFrame );
   if (col != null) {
     col24 = palIndex12to24bit( col );
     $('#hoverCol').css( 'background-color', 'rgba( ' + col24.r + ',' + col24.g + ',' + col24.b + ',' + col24.a + ')' );
     message = '#' + col + ' ' + message;
   }
+  
   if (!degrees){ x += '<span class="arrow">→</span>'; y += '<span class="arrow">↓</span>'; }
   else { x += '<span class="arrow">r:</span>'; y += '<span class="arrow">&nbsp;</span>'; }
   $('#info').html( message );
   $('#coordX').html(x);
   $('#coordY').html(y);
+  
 }
 
 function saveImageAsPNG (saveImageName){
@@ -157,40 +159,41 @@ function getLength( X0, Y0, X1, Y1 ) {
   }
 }
 
-function pointer(cx, cy, preview, brush) {
-  if (!brush && !clickNum && !commaDown) { setPixel( colFG, cx, cy, 0, 0, preview); }
+function pointer(x, y, mx, my, preview, brush) {
+  
+  if (!brush && !clickNum && !commaDown) { setPixel( colFG, mx, my, 0, 0, preview); }
   
   // clear pointer canvas
   $pointCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight );
   pointerFlag = true;
   
-  setPixel(17, cx+7, cy, 0, 0, preview);
-  setPixel(18, cx+6, cy, 0, 0, preview);
-  setPixel(17, cx+5, cy, 0, 0, preview);
-  setPixel(18, cx+4, cy, 0, 0, preview);
-  setPixel(17, cx+3, cy, 0, 0, preview);
-  setPixel(18, cx+2, cy, 0, 0, preview);
+  setPixel(17, x+7, y, 0, 0, preview);
+  setPixel(18, x+6, y, 0, 0, preview);
+  setPixel(17, x+5, y, 0, 0, preview);
+  setPixel(18, x+4, y, 0, 0, preview);
+  setPixel(17, x+3, y, 0, 0, preview);
+  setPixel(18, x+2, y, 0, 0, preview);
 
-  setPixel(17, cx-7, cy, 0, 0, preview);
-  setPixel(18, cx-6, cy, 0, 0, preview);
-  setPixel(17, cx-5, cy, 0, 0, preview);
-  setPixel(18, cx-4, cy, 0, 0, preview);
-  setPixel(17, cx-3, cy, 0, 0, preview);
-  setPixel(18, cx-2, cy, 0, 0, preview);
+  setPixel(17, x-7, y, 0, 0, preview);
+  setPixel(18, x-6, y, 0, 0, preview);
+  setPixel(17, x-5, y, 0, 0, preview);
+  setPixel(18, x-4, y, 0, 0, preview);
+  setPixel(17, x-3, y, 0, 0, preview);
+  setPixel(18, x-2, y, 0, 0, preview);
 
-  setPixel(17, cx, cy+7, 0, 0, preview);
-  setPixel(18, cx, cy+6, 0, 0, preview);
-  setPixel(17, cx, cy+5, 0, 0, preview);
-  setPixel(18, cx, cy+4, 0, 0, preview);
-  setPixel(17, cx, cy+3, 0, 0, preview);
-  setPixel(18, cx, cy+2, 0, 0, preview);
+  setPixel(17, x, y+7, 0, 0, preview);
+  setPixel(18, x, y+6, 0, 0, preview);
+  setPixel(17, x, y+5, 0, 0, preview);
+  setPixel(18, x, y+4, 0, 0, preview);
+  setPixel(17, x, y+3, 0, 0, preview);
+  setPixel(18, x, y+2, 0, 0, preview);
 
-  setPixel(17, cx, cy-7, 0, 0, preview);
-  setPixel(18, cx, cy-6, 0, 0, preview);
-  setPixel(17, cx, cy-5, 0, 0, preview);
-  setPixel(18, cx, cy-4, 0, 0, preview);
-  setPixel(17, cx, cy-3, 0, 0, preview);
-  setPixel(18, cx, cy-2, 0, 0, preview);
+  setPixel(17, x, y-7, 0, 0, preview);
+  setPixel(18, x, y-6, 0, 0, preview);
+  setPixel(17, x, y-5, 0, 0, preview);
+  setPixel(18, x, y-4, 0, 0, preview);
+  setPixel(17, x, y-3, 0, 0, preview);
+  setPixel(18, x, y-2, 0, 0, preview);
   
   pointerFlag = false;
 

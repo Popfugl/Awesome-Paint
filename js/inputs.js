@@ -27,7 +27,7 @@ $(document).ready(function () {
     if (clickNum == 2 && tool == 'line') { clickNum = 0; }
 
     // Draw the pointer on the preview screen
-    pointer(dbx2, dby2, true, false);
+    pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
     
     // Clear and update the preview screen
     updatePreviewScreen();
@@ -59,7 +59,6 @@ $(document).ready(function () {
     
     writeMessage();
   });
-  
   
   // Mouse button is released
   cc.mouseup(function(e){
@@ -103,7 +102,7 @@ $(document).ready(function () {
     
     if (clickNum){ toolTypeSelected(); }
     
-    pointer(dbx2, dby2, true, false);
+    pointer(mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false);
     
     // Clear and update the preview screen
     updatePreviewScreen();
@@ -139,11 +138,27 @@ $(document).ready(function () {
   function getMousePos(e) {
     $cc = document.getElementById('canvasContainer');
     var rect = $cc.getBoundingClientRect();
-    tempX = (e.clientX - rect.left - overscan) / pixelSize;
-    tempY = (e.clientY - rect.top - overscan) / pixelSize;
+    x = Math.floor ( (e.clientX - rect.left - overscan) / pixelSize );
+    y = Math.floor ( (e.clientY - rect.top - overscan) / pixelSize );
+    magX = x;
+    magY = y;
+    
+    if ( magnifyOn ) {
+      if ( x > magStart ) {
+        magX = ( ( magX - magStart ) / multiplier );
+        magY = ( magY / multiplier);
+        magX += magAdjustX;
+        magY += magAdjustY;
+      }
+      // Pointer not over magnify canvas
+      console.log(magAdjustX, magAdjustY);
+    }
+    
     return {
-      x: Math.round ( tempX ),
-      y: Math.round ( tempY ),
+      pointerX: Math.floor ( x ),
+      pointerY: Math.floor ( y ),
+      x: Math.floor ( magX ),
+      y: Math.floor ( magY )
     };
   }
   
@@ -227,6 +242,25 @@ $(document).ready(function () {
         tempTool = 'line';
         break;
       
+      case 77: // m
+        if (magnifyOn) {
+          clearMagnify();
+          magnifyOn = false;
+          update = true;
+        } else {
+          magnifyOn = true;
+          magCenterX = dbx2;
+          magCenterY = dby2;
+          magnify();
+        }
+        break;
+        
+      case 78: // n
+        magCenterX = dbx2;
+        magCenterY = dby2;
+        if (magnifyOn) { magnify(); }
+        break;
+        
       case 67: // c 
         tempTool = 'circle';
         if(shiftDown){ filler = true; } else { filler = false; }
@@ -273,16 +307,12 @@ $(document).ready(function () {
           
           setColour( newCol );
           colourChanged = colFG = activeColour;
-          
-          //dbug( '//colFG: ' + newCol );
         } else {
           var newCol = colBG - 1;
           if ( newCol < 0 ) { newCol = frame[frameNum].pal.length - 1; }
           
           setColour( newCol );
           colourChanged = colBG = activeColour;
-          
-          //dbug( '//colBG: ' + newCol );
         }
         
         updatePaletteSelection()
@@ -318,7 +348,8 @@ $(document).ready(function () {
     
     if (tempTool) { updateTool( tempTool, filler ); }
     
-    pointer( dbx2, dby2, true, false );
+    // pointer( dbx2, dby2, true, false );
+    update = true;
     
   });
   
@@ -329,7 +360,8 @@ $(document).ready(function () {
     if(e.which == 18){ altDown = false; }
     if(e.which == 188){ commaDown = false; }
     
-    pointer( dbx2, dby2, true, false );
+    update = true;
+    //pointer( dbx2, dby2, true, false );
   });
   
 ///////////////

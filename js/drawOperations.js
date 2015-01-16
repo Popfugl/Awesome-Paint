@@ -6,6 +6,7 @@ function updateScreen() {
 function updatePreviewScreen() {
   $ovrCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight);
   $ovrCtx.drawImage($ovrTemp,0,0,imgPixelWidth,imgPixelHeight);
+  if ( magnifyOn ) { magnify(); }
   $ovrTempCtx.clearRect(0, 0, imgWidth, imgHeight);
 }
 
@@ -19,10 +20,6 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   // a function to be implemented later.
   x = parseInt(x);
   y = parseInt(y);
-  
-  
-  
-  
   
   if ( tool == 'fill' ) { pBuffer = true; }
   
@@ -309,7 +306,6 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   
   writeMessage( '', lenX, lenY );
 }
-
 
 ////////////
 // Circle //
