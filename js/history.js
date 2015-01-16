@@ -231,24 +231,22 @@ function parseCommandHistory() {
       }
     } else { // The command is split by a comma, so it must be a cls, an undo or a redo.
     
-      CMD = CMD[0].split(':');
-      // undo is part of the string, it will be changed and so we fire and undo()
+      // if undo is part of the string, it will be changed and so we fire and undo()
       var checkUndo = CMD[0].replace(/undo/g,'');
       if ( checkUndo != CMD[0] ) {
         undo();
-        //dbug( save );
       }
 
       // same as with undo above
       var checkRedo = CMD[0].replace(/redo/g,'');
       if ( checkRedo != CMD[0] ) {
         redo();
-        //dbug( save );
       }
     }
   }
-  
+  updatePreviewScreen();
   updateScreen();
+  update = true;
   clickNum = 0;
   $('#input').val('');
 }
