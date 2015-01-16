@@ -1,5 +1,6 @@
 # (Really) Awesome Paint
 A 12 bit pixel painting program.
+(12 bit palette - 1-5 bit colour indexes)
 
 Try it out at www.palbo.dk/awesome-paint
 
@@ -21,6 +22,12 @@ r: rectangle
 shift+r: filled rectangle
 u: undo (also Ctrl+z, Command+z and middle mouse button)
 shift+u: redo (also Ctrl+Shift+z, Command+Shift+z and middle mouse button while holding down Shift)
+m: magnify window 
+n: center magnify window
+
+[: Colour - one step back
+]: Colour - one step forward
+,: Colour picker (hold down and left- or right-click to select colour on screen - also works while drawing a line, a curve or other similar multistep functions.)
 
 Planned features: (in no particular order)
 
@@ -35,8 +42,7 @@ Finding a better name than Awesome Paint (and no; not Epic Paint)
 -- Lasso
 
 - Magnify
--- Split screen magnify
--- Full screen magnify
+-- Full screen magnify (all done, but not selectable at the moment)
 
 - Brush (cutout)
 -- Cut out brush
