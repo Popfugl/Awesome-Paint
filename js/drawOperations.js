@@ -113,7 +113,16 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     {
       stepX = ( lenX / Math.abs( lenY ) );
       stepY = length.dirY;
-      setPixel( activeColour, x0 + Math.round( stepX * i ), y0 + Math.round( stepY * i ), frameNum, brush, preview, false );
+      
+      
+      
+      setPixel( activeColour,
+               x0 + Math.round( stepX * i ),
+               y0 + Math.round( stepY * i ),
+               frameNum,
+               brush,
+               preview,
+               true );
     }
   }
   else
@@ -122,9 +131,16 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     {
       stepX = length.dirX;
       stepY = ( lenY / Math.abs( lenX ) );
-      setPixel( activeColour, x0 + Math.round( stepX * i ), y0 + Math.round( stepY * i ), frameNum, brush, preview, false );
+      setPixel( activeColour, 
+               x0 + Math.round( stepX * i ), 
+               y0 + Math.round( stepY * i ), 
+               frameNum, 
+               brush, 
+               preview, 
+               true );
     }
   }
+  pastePixelBuffer();
   if (tool == 'line') {
     radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
     degrees = Math.floor( getDegrees( lenX, lenY ) * 1 ) / 1;
@@ -288,7 +304,7 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   var length = getLength( x0, y0, x1, y1 );
   lenX = length.lenX;
   lenY = length.lenY;
-  len = lenY;
+  len = parseInt( lenY );
 
   drawLine( x0, y0, x1, y0, mode, brush, preview );
   drawLine( x1, y0, x1, y1, mode, brush, preview );
@@ -303,8 +319,9 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
       }
     }
   }
-  
-  writeMessage( '', lenX, lenY );
+  if (escPressed) {debugger;}
+  if (filled){ var cmd = 'Filled '; } else { cmd = '';}
+  writeMessage( cmd + 'Rectangle', length.lenX, length.lenY );
 }
 
 ////////////
@@ -347,12 +364,10 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
         if ( y > lastY + 1 ){
           y = lastY+1;
         }
-
+        
         if ( filled && !preview ) {
-          drawLine( x0 + rsq, y0 - y, x0 + x, y0 - y, mode, brush, preview );
-          drawLine( x0 - rsq, y0 - y, x0 - x, y0 - y, mode, brush, preview );
-          drawLine( x0 + rsq, y0 + y, x0 + x, y0 + y, mode, brush, preview );
-          drawLine( x0 - rsq, y0 + y, x0 - x, y0 + y, mode, brush, preview );
+          drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview );
+          drawLine( x0 - x, y0 + y, x0 + x, y0 + y, mode, brush, preview );
 
           drawLine( x0 + y, y0 + rsq, x0 + y, y0 + x, mode, brush, preview );
           drawLine( x0 - y, y0 - rsq, x0 - y, y0 - x, mode, brush, preview );
@@ -376,7 +391,6 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
 
     }
     
-    if ( filled && !preview ) { rectangle( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, filled, 0, mode, brush, preview ); }
     degrees = Math.floor( getDegrees( lenX, lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt(radius), true );
   }
@@ -435,17 +449,10 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
 
       if (ok) {
           if (filled && !preview) {
-            if (i <= halfIterations / 4 ) { drawLine( x0 + rsqX, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
-            if (i >= halfIterations / 4 ) { drawLine( x0, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
-
-            if (i <= halfIterations / 4 ) { drawLine( x0 + rsqX, y0 + y, x0 + x, y0 + y, mode, brush, preview ); }
-            if (i >= halfIterations / 4 ) { drawLine( x0, y0 + y, x0 + x, y0 + y, mode, brush, preview ); }
-            
-            if (i <= halfIterations / 4 ) { drawLine( x0 - rsqX, y0 - y, x0 - x, y0 - y, mode, brush, preview ); }
-            if (i >= halfIterations / 4 ) { drawLine( x0, y0 - y, x0 - x, y0 - y, mode, brush, preview ); }
-
-            if (i <= halfIterations / 4 ) { drawLine( x0 - rsqX, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
-            if (i >= halfIterations / 4 ) { drawLine( x0, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+            if (i >= halfIterations / 4 ) { drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
+            if (i <= halfIterations / 4 ) { drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
+            if (i <= halfIterations / 4 ) { drawLine( x0 +x, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+            if (i >= halfIterations / 4 ) { drawLine( x0 + x, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
           }
           setPixel( activeColour, x0 + x, y0 + y, frameNum, i/iterations, preview );
           setPixel( activeColour, x0 - x, y0 + y, frameNum, i/iterations, preview );
@@ -460,7 +467,6 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
     setPixel( activeColour, x0, y0 + lenY, frameNum, i/iterations, preview );
     setPixel( activeColour, x0, y0 - lenY, frameNum, i/iterations, preview );
     
-    if ( filled && !preview ) { rectangle( x0 - rsqX, y0 + rsqY, x0 + rsqX, y0 - rsqY, filled, 0, mode, brush, preview); }
     writeMessage( '', parseInt( radiusX*2+1 ), parseInt( radiusY*2+1 ), false );
   }
 }
