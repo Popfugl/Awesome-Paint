@@ -313,6 +313,7 @@ body {
 .hidden {display: none;}
 
 #footer {
+  clear: both;
   margin: 0 auto;
   text-align: center;
 }
