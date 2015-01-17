@@ -22,7 +22,7 @@ var overscan        =  20;
 var magnifyOn       = false;
 var fullscreen      = false;
 var multiplier      = zoomLevel + 3;
-var magAdjustX, magAdjustY;
+var magAdjustX, magAdjustY, imgAdjustX, imgAdjustY;
 var magCenterX, magCenterY;
 var magPosX;
 var magStart;

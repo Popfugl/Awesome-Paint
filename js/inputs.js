@@ -149,6 +149,10 @@ $(document).ready(function () {
         magY = ( magY / multiplier);
         magX += magAdjustX;
         magY += magAdjustY;
+      } else {
+        magX += imgAdjustX;
+        magY += imgAdjustY;
+  
       }
       // Pointer not over magnify canvas
       console.log(magAdjustX, magAdjustY);
@@ -162,9 +166,9 @@ $(document).ready(function () {
     };
   }
   
-  /////////////////////////////////////
-  // Event handlers for tool buttons //
-  /////////////////////////////////////
+/////////////////////////////////////
+// Event handlers for tool buttons //
+/////////////////////////////////////
   $('#saveBtn').click(function(){ saveImageAsPNG('MyImage.png') });
   
   $('.tool.ready').click(function() {
@@ -173,36 +177,14 @@ $(document).ready(function () {
     tool = $(this).html();
   });
   
+  // Clear
   $('.tool.clear').mousedown(function(e) {
-    globalMouse = e.which;
-    
-    // Foreground disabled! There's a reason it's called a background colour.
-    
-    /*
-    if (globalMouse == 1) {
-      clearScreen(colFG);
-      
-      // testing to see if this fixes the history problem.
-      toolTypeSelected();
-
-      saveToHistoryBuffer('cls : '+colFG);
-      update = true;
-    }
-    */
-    
-    
-    if (globalMouse == 1) { 
-      clearScreen(colBG);
-      
-      // testing to see if this fixes the history problem.
-      toolTypeSelected();
-
-      saveToHistoryBuffer('cls : '+colBG);
-      update = true;
-    };
-    
+    clearScreen(colBG);
+    saveToHistoryBuffer('cls : '+colBG);
+    update = true;
   });
   
+  // Undo
   $('.tool.undo').mouseup(function(e) {
     globalMouse = e.which;
     if (globalMouse == 1) {
@@ -213,7 +195,9 @@ $(document).ready(function () {
     }
   });
   
-  // Keyboard handlers
+/////////////////////////////////
+// Keyboard handlers for tools //
+/////////////////////////////////
   $('body').keydown(function(e){
     var tempTool;
     var filler = filled;

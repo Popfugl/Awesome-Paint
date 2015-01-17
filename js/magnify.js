@@ -40,10 +40,13 @@ function magnify() {
   // set global mouse adjustments
   magAdjustX = clipX;
   magAdjustY = clipY;
+  imgAdjustX = clipMainX;
+  imgAdjustY = clipMainY;
   
   // Clear and draw the updated main canvas at the new position
   clearMainCanvas();
   $imgCtx.drawImage( $imgTemp, clipMainX, clipMainY, magPosX, imgHeight, 0, 0, magPosX * pixelSize, imgPixelHeight );
+  $imgCtx.drawImage( $ovrTemp, clipMainX, clipMainY, magPosX, imgHeight, 0, 0, magPosX * pixelSize, imgPixelHeight );
   
   // clear and draw the magnify canvas
   clearMagnify();
