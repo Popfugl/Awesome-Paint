@@ -205,14 +205,16 @@ function parseCommandHistory() {
         var colour = parseInt( CMD[0] );
         
         CMD = CMD[1].split(';');
-        var crds, lastX, lastY;
+        var crds, lastX, lastY, sketchFlag;
+        if (CMD.length == 1) { sketchFlag = true; } else { sketchFlag = false; }
+        
         while (CMD.length) {
           setColour( colour );
           crds = CMD.shift();
           crds = crds.split(',');
           
-          if (crds.length == 2) {
-            setPixel(activeColour,crds[0],crds[1],frameNum);
+          if ( sketchFlag ) {
+            setPixel( activeColour, parseInt( crds[0] ), parseInt( crds[1] ), frameNum );
           } else {
             // 2 sets of coords means it's a line.
             if ( crds.length == 4 ) {
