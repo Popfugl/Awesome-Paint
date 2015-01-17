@@ -111,10 +111,11 @@ $(document).ready(function(){
   // initialize palette number 4
   initPalette(4);
   displayPalette();
-
+  
   // clear the screen with the selected background colour
   clearScreen(0);
   setColour(1);
+  updatePaletteSelection(1);
   initRGBSliders(1);
   saveToHistoryBuffer('//initialising');
   update = true;
