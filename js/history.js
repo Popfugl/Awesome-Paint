@@ -199,7 +199,7 @@ function parseCommandHistory() {
       }
       
       if ( CMD[0] == 'draw' || CMD[0] == 'line' ) {
-        coords = '';
+        crds = '';
         CMD = CMD[1].split('|');
         
         var colour = parseInt( CMD[0] );
@@ -211,18 +211,22 @@ function parseCommandHistory() {
           crds = CMD.shift();
           crds = crds.split(',');
           
-          // 2 sets of coords means it's a line.
-          if ( crds.length == 4 ) {
+          if (crds.length == 2) {
+            setPixel(activeColour,crds[0],crds[1],frameNum);
+          } else {
+            // 2 sets of coords means it's a line.
+            if ( crds.length == 4 ) {
+              lastX = parseInt( crds[0] );
+              lastY = parseInt( crds[1] );
+              crds[0] = parseInt( crds[2] );
+              crds[1] = parseInt( crds[3] );
+            }
+            if (lastX != null && lastY != null) {
+              drawLine( lastX, lastY, parseInt( crds[0] ), parseInt( crds[1] ) );
+            }
             lastX = parseInt( crds[0] );
             lastY = parseInt( crds[1] );
-            crds[0] = parseInt( crds[2] );
-            crds[1] = parseInt( crds[3] );
           }
-          if (lastX != null && lastY != null) {
-            drawLine( lastX, lastY, parseInt( crds[0] ), parseInt( crds[1] ) );
-          }
-          lastX = parseInt( crds[0] );
-          lastY = parseInt( crds[1] );
         }
         saveToHistoryBuffer( save );
         lastX = null;
