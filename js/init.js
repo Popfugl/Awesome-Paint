@@ -1,6 +1,5 @@
 addFrame(currentFrame);
   
-
 $(document).ready(function(){
 
   // Sets the screen to update every 1/60 of a second.
@@ -40,7 +39,12 @@ $(document).ready(function(){
   $('#canvasContainer').css( 'width', ( imgPixelWidth + overscan * pixelSize ) ).css( 'height', ( imgPixelHeight + overscan * pixelSize ) );
   
   $('#output').height( imgPixelHeight - 12 );
-  $('#input').width( $('#outputContainer').width() - 2);
+  $('#runBtn').css( 'top', - overscan - 8 );
+  
+  /* // This bit often don't work for some reason - constants used in the css instead.
+  $('#inputContainer, #input').width( $('#outputContainer').width() - 2);
+  */
+  $('#inputContainer').css( 'margin-top', overscan );
   
   // Image
   // get the main canvas ready

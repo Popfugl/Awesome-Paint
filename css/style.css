@@ -1,4 +1,5 @@
 body {
+  font-family: monospace;
   margin: 0px;
   padding: 0px;
 }
@@ -8,7 +9,7 @@ body {
 }
 
 .sidebar.left { clear: left; margin-top: 20px; }
-#rgbSliders { height: 58px; }
+.verticalSlider { height: 20px }
 .rgbLabel { float: left; clear: left; width: 15px; }
 .rgbSlider {
   float: left;
@@ -51,6 +52,12 @@ body {
   float: left;
 }
 
+#tempColour {
+  clear: both;
+  border-bottom: 1px solid black;
+  width: 168px;
+}
+
 #foregroundColour, #backgroundColour {
   border: 1px solid black;
   margin: 0;
@@ -58,11 +65,6 @@ body {
 
 #foregroundColour.active, #backgroundColour.active {
   border-color: white;
-}
-
-#tempColour {
-  border-bottom: 1px solid black;
-  width: 168px;
 }
 
 .applyChange, .cancelChange {
@@ -95,7 +97,6 @@ body {
 }
 
 #topBar {
-  font-family: monospace;
   font-size: 11px;
   height: 38px;
 }
@@ -147,7 +148,11 @@ body {
   position: relative;
 }
 
-#tools {height: 22px;}
+#tools {
+  position: relative;
+  left: -1px;
+  height: 22px;
+}
 
 #row1, #row2 {clear: both;}
 .tool {
@@ -224,5 +229,26 @@ body {
   height: 460px;
 }
 
+#inputContainer {
+  margin-top: 20px;
+}
+
+#inputContainer .info {
+  position: relative;
+  top: -12px;
+  height: 0;
+  font-size: 9.5px;
+  text-align: center;
+}
+
+#input, #inputContainer {
+  width: 166px;
+}
+
+#runBtn {
+  position: relative;
+  clear: both;
+  float: right;
+}
 
 .hidden {display: none;}

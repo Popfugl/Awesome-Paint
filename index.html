@@ -42,29 +42,41 @@
 
     <div class="sidebar left">
       <div id="rgbSliders">
-        <div class="rgbLabel">H</div>
-        <div class="rgbSlider" id="hueSlider"></div>
-        <input type="text" id="hueVal" />
+        <div class="verticalSlider">
+          <div class="rgbLabel">H</div>
+          <div class="rgbSlider" id="hueSlider"></div>
+          <input type="text" id="hueVal" />
+        </div>
         
-        <div class="rgbLabel">S</div>
-        <div class="rgbSlider" id="satSlider"></div>
-        <input type="text" id="satVal" />
-        
-        <div class="rgbLabel">V</div>
-        <div class="rgbSlider" id="valSlider"></div>
-        <input type="text" id="valVal" />
-
-        <div class="rgbLabel">R</div>
-        <div class="rgbSlider" id="redSlider"></div>
-        <input type="text" id="redVal" />
-        
-        <div class="rgbLabel">G</div>
-        <div class="rgbSlider" id="greenSlider"></div>
-        <input type="text" id="greenVal" />
-        
-        <div class="rgbLabel">B</div>
-        <div class="rgbSlider" id="blueSlider"></div>
-        <input type="text" id="blueVal" />
+        <div class="verticalSlider">
+          <div class="rgbLabel">S</div>
+          <div class="rgbSlider" id="satSlider"></div>
+          <input type="text" id="satVal" />
+        </div>
+      
+        <div class="verticalSlider">
+          <div class="rgbLabel">V</div>
+          <div class="rgbSlider" id="valSlider"></div>
+          <input type="text" id="valVal" />
+        </div>
+    
+        <div class="verticalSlider">
+          <div class="rgbLabel">R</div>
+          <div class="rgbSlider" id="redSlider"></div>
+          <input type="text" id="redVal" />
+        </div>
+  
+        <div class="verticalSlider">
+          <div class="rgbLabel">G</div>
+          <div class="rgbSlider" id="greenSlider"></div>
+          <input type="text" id="greenVal" />
+        </div>
+  
+        <div class="verticalSlider">
+          <div class="rgbLabel">B</div>
+          <div class="rgbSlider" id="blueSlider"></div>
+          <input type="text" id="blueVal" />
+        </div>
       </div>
       <div id="tempColour"></div>
       
@@ -118,8 +130,10 @@
         <div id="output"></div>
       </div>
       <div id="inputContainer">
-        <textarea id="input" rows="5"></textarea>
-        <button onClick="parseCommandHistory()">Run</button>
+        <div class="info">Paste or write commands here</div>
+        <textarea id="input" rows="5">
+</textarea>
+        <button id="runBtn" onClick="parseCommandHistory()">Run</button>
       </div>
     </div>
     <div class="hidden">
