@@ -56,6 +56,8 @@ function magnify() {
   $magCtx.fillRect( magPosX, 0, 1, imgPixelHeight );
   $magCtx.fillStyle = "#000000";
   $magCtx.fillRect( magPosX-1, 0, 1, imgPixelHeight );
+
+  $ovrCtx.clearRect( 0, 0, imgPixelWidth, imgPixelHeight );
 }
 
 function clearMainCanvas() {
