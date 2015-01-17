@@ -200,6 +200,16 @@ $(document).ready(function () {
 // Keyboard handlers for tools //
 /////////////////////////////////
   $('body').keydown(function(e){
+
+    // Do not use shortcuts if user is working with text input
+    var el = document.activeElement;
+
+    if (el && (el.tagName.toLowerCase() == 'input' && el.type == 'text' ||
+        el.tagName.toLowerCase() == 'textarea')) {
+      // focused element is a text input or textarea
+      return;
+    }
+    
     var tempTool;
     var filler = filled;
     // Check Esc, Ctrl / Cmd, Shift, Comma and Alt keys
