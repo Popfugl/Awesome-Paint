@@ -208,6 +208,26 @@ body {
   cursor: pointer;
 }
 
+.activePal {
+  height: 0;
+}
+
+#fgActive, #bgActive {
+  position: relative;
+  top: -20px;
+}
+
+#fgActive {
+  border-top: solid 1px white;
+  border-bottom: Black;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(15%,rgba(255,255,255,0)), color-stop(85%,rgba(255,255,255,0)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+}
+
+#bgActive {
+  border: black solid 2px;
+}
+
+
 #cmdList {
   font-family: monospace;
   text-align: center;

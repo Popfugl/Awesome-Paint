@@ -209,6 +209,8 @@ function displayPalette(){
   c = a/b;
   
   $('.palIndex').width( c - 2 ).height( 18 );
+  $('#fgActive').width( c - 4 ).height( 15 ).css( 'margin', 2 );
+  $('#bgActive').width( c - 4 ).height( 16 );
   $('#palette').width( a ).height( 20 ).css( 'border', pixelSize );
   
   var red = palIndex12to24bit(colFG).r;
@@ -430,11 +432,13 @@ function updatePaletteSelection() {
     $('#backgroundColour').removeClass('active');
     $('#palIndex'+activeColour).css('border-color','rgb(' + red + ',' + green + ',' + blue + ')');
     $('#palIndex'+activeColour).css('background-color','rgb(' + red + ',' + green + ',' + blue + ')');
+    $('#fgActive').css('left', activeColour * ( $('#palIndex0').width() + 2 ) );
   } else {
     $('#foregroundColour').removeClass('active');
     $('#backgroundColour').addClass('active');
     $('#palIndex'+activeColour).css('border-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
     $('#palIndex'+activeColour).css('background-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
+    $('#bgActive').css('left', activeColour * ( $('#palIndex0').width() + 2 ) );
   }
 
   $('.palIndex').css( 'border-color', 'black' );

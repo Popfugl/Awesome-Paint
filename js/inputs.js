@@ -376,9 +376,6 @@ $(document).ready(function () {
       updatePaletteSelection( colFG );
       
       $('#backgroundColour').removeClass('active');
-      
-      //dbug('//colFG: '+colFG);
-      
     }
 
     // Right mouse button
@@ -390,8 +387,6 @@ $(document).ready(function () {
       updatePaletteSelection( colFG );
       
       $('#foregroundColour').removeClass('active');
-      
-      //dbug('//colBG: '+colBG);
     }
     
   });
