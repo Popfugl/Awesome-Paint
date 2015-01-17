@@ -15,6 +15,7 @@ $(document).ready(function () {
   
   // Mouse is on the move
   cc.mousemove(function(e){
+    if (escPressed) {debugger;}
     hasMoved = true;
     
     var mousePos = getMousePos(e);
@@ -23,15 +24,15 @@ $(document).ready(function () {
     // Write coordinates to the info canvas.
     writeMessage();
     
-    if (clickNum != 0) { toolTypeSelected(); }
-    if (clickNum == 2 && tool == 'line') { clickNum = 0; }
-
     // Draw the pointer on the preview screen
     pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
     
     // Clear and update the preview screen
     updatePreviewScreen();
     
+    if (clickNum != 0) { toolTypeSelected(); }
+    if (clickNum == 2 && tool == 'line') { clickNum = 0; }
+
   });
   
   
