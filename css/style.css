@@ -74,9 +74,10 @@ body {
   border: black solid 2px;
   background-color: light-gray;
 }
+
 .applyChange {
-  float: left;
-  clear: left;
+  float: right;
+  clear: both;
 }
 
 .cancelChange {
@@ -86,7 +87,31 @@ body {
 
 #settings {
   clear: both;
+  padding-top: 6px;
+}
+
+.shortcut {
+  font-size: 11px;
+  clear: both;
+  padding-top: 6px;
+  height: auto;
+}
+
+.shortcut.first {
+  font-size: 13px;
   padding-top: 20px;
+}
+
+.shortcut .key, .shortcut .info {
+  float: left;
+}
+
+.shortcut .key {
+  width: 20px;
+}
+
+.shortcut .info {
+  width: 130px;
 }
 
 /* MIDDLE SECTION */
