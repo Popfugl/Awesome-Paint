@@ -5,7 +5,7 @@ function magnify() {
   var magWidth;
   var magHeight = imgHeight;
   
-  if ( fullscreen ) {
+  if ( splitscreen == -1) {
     magPosX = 0;
     magWidth = imgWidth;
   } else {

@@ -84,6 +84,13 @@ body {
   clear: right;
 }
 
+#settings {
+  clear: both;
+  padding-top: 20px;
+}
+
+/* MIDDLE SECTION */
+
 .sidebar, #middle {float: left;}
 .sidebar { width: 172px; margin-top: 4px; }
 

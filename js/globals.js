@@ -20,7 +20,7 @@ var overscan        =  20;
 
 // magnify
 var magnifyOn       = false;
-var fullscreen      = false;
+var splitscreen     = 1;
 var multiplier      = zoomLevel + 3;
 var magAdjustX, magAdjustY, imgAdjustX, imgAdjustY;
 var magCenterX, magCenterY;

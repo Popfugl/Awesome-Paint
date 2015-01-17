@@ -159,6 +159,11 @@ function getLength( X0, Y0, X1, Y1 ) {
   }
 }
 
+function toggleSplitscreen() {
+  splitscreen *= -1;
+  if ( magnifyOn ) { magnify(); }
+}
+
 function pointer(x, y, mx, my, preview, brush) {
   
   if (!brush && !clickNum && !commaDown) { setPixel( colFG, mx, my, 0, 0, preview); }
