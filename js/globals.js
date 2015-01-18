@@ -48,6 +48,7 @@ var brushBuffer   = [];
 
 // Mouse
 var globalMouse;
+var mousePos;
 var clickBuffer   = [];
 clickBuffer.push ({ x: 0, y:0 });
 var clickNum      =  0;

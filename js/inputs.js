@@ -18,20 +18,22 @@ $(document).ready(function () {
     if (escPressed) {debugger;}
     hasMoved = true;
     
-    var mousePos = getMousePos(e);
-    updateMouseMoves(mousePos);
+    mousePos = getMousePos(e);
+    updateMouseMoves();
 
-    // Write coordinates to the info canvas.
-    writeMessage();
-    
     // Draw the pointer on the preview screen
     pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
-    
+
     // Clear and update the preview screen
     updatePreviewScreen();
+
+    // Write coordinates to the top bar.
+    writeMessage();
     
     if (clickNum != 0) { toolTypeSelected(); }
     if (clickNum == 2 && tool == 'line') { clickNum = 0; }
+    
+    update = true;
 
   });
   
@@ -42,7 +44,6 @@ $(document).ready(function () {
     mouseButton = e.which;
     dbb2 = mouseButton;
     var cmd;
-    var mousePos = getMousePos(e);
     
     // Clear and update the preview screen
     updatePreviewScreen();
@@ -50,7 +51,7 @@ $(document).ready(function () {
     /* Colourpicker not active - continue with clicks */
     if (! commaDown ) {
       clickNum++;
-      updateClickBuffer(mousePos);
+      updateClickBuffer();
 
       if (dbb2 == 3) { activeColour = colBG; }
       else { activeColour = colFG; }
@@ -63,8 +64,6 @@ $(document).ready(function () {
   
   // Mouse button is released
   cc.mouseup(function(e){
-    var mousePos = getMousePos(e);
-    
 
     if ( commaDown && dbb2 != 2 ) {
       colour = getColour( mousePos.x, mousePos.y );
@@ -88,13 +87,13 @@ $(document).ready(function () {
     
     if (hasMoved && clickNum == 2) {
       if (tool == 'curve') {clickNum++;}
-      updateClickBuffer(mousePos);
+      updateClickBuffer();
     }
 
     if (hasMoved && clickNum == 1) {
       // click-dragged and then released.
       if (tool == 'line' || tool == 'curve' || tool == 'rectangle' || tool == 'circle' || tool == 'ellipse') {clickNum++;}
-      updateClickBuffer(mousePos);
+      updateClickBuffer();
     }
     
     if (dbb2 == 2) {
@@ -103,7 +102,7 @@ $(document).ready(function () {
     
     if (clickNum){ toolTypeSelected(); }
     
-    pointer(mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false);
+    pointer( true, false );
     
     // Clear and update the preview screen
     updatePreviewScreen();
@@ -114,7 +113,7 @@ $(document).ready(function () {
   });
   
 
-  function updateClickBuffer(mousePos) {
+  function updateClickBuffer() {
     if (clickBuffer[clickNum]) {
       clickBuffer[clickNum].x = parseInt(mousePos.x);
       clickBuffer[clickNum].y = parseInt(mousePos.y);
@@ -124,7 +123,7 @@ $(document).ready(function () {
   }
   
   
-  function updateMouseMoves(mousePos) {
+  function updateMouseMoves() {
     dbx0 = dbx1; dbx1 = dbx2;
     dby0 = dby1; dby1 = dby2;
 
@@ -153,10 +152,7 @@ $(document).ready(function () {
       } else {
         magX += imgAdjustX;
         magY += imgAdjustY;
-  
       }
-      // Pointer not over magnify canvas
-      console.log(magAdjustX, magAdjustY);
     }
     
     return {
@@ -310,9 +306,7 @@ $(document).ready(function () {
           setColour( newCol );
           colourChanged = colBG = activeColour;
         }
-        
-        updatePaletteSelection()
-        
+        updatePaletteSelection();
         break;
 
       case 221: // ¨
@@ -333,9 +327,7 @@ $(document).ready(function () {
           
           //dbug( '//colBG: ' + newCol );
         }
-        
-        updatePaletteSelection()
-        
+        updatePaletteSelection();
         break;
         
         case 192: // < ( > with shift )
@@ -355,8 +347,8 @@ $(document).ready(function () {
     }
     
     if (tempTool) { updateTool( tempTool, filler ); }
+    // updatePreviewScreen();
     
-    // pointer( dbx2, dby2, true, false );
     update = true;
     
   });
@@ -369,7 +361,6 @@ $(document).ready(function () {
     if(e.which == 188){ commaDown = false; }
     
     update = true;
-    //pointer( dbx2, dby2, true, false );
   });
   
 ///////////////

@@ -349,8 +349,8 @@ function radius( x0, y0, x1, y1 ) {
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
-  var radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
-  return radius;
+  var r = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
+  return r;
 }
 
 function circle( x0, y0, x1, y1, filled, mode, brush, preview) {

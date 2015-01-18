@@ -48,7 +48,7 @@ function toolTypeSelected() {
     if (tool == 'line') {
       drawLine( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, mode, brush, false );
       clickNum = 0;
-      saveToHistoryBuffer('line  : '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y);
+      saveToHistoryBuffer('line  : '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+';'+clickBuffer[2].x+','+clickBuffer[2].y);
     }
     
     if (tool == 'rectangle') {

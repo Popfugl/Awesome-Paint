@@ -5,7 +5,18 @@ $(document).ready(function(){
   // Sets the screen to update every 1/60 of a second.
   setInterval(function(){
     if (update){
-      if ( !magnifyOn ) { updateScreen(); } else { magnify(); }
+      
+      if ( mousePos ){
+      }
+      if ( !magnifyOn ) {
+        updateScreen();
+      } else {
+        // Draw the pointer on the preview screen
+        pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
+        
+        // updatePreviewScreen;
+        magnify();
+      }
       update = false;
     }
   }, 1000/60 ); // Set framerate 60 frames per second.
