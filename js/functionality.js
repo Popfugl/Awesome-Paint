@@ -17,6 +17,7 @@ function toolTypeSelected() {
   }
   
   if (tool == 'sketch' || tool == 'draw') {
+    if ( !startCoordColour ) { startCoordColour = activeColour; }
     clickNum = 1;
     return;
   }
@@ -81,6 +82,9 @@ function toolTypeSelected() {
       saveToHistoryBuffer( 'curve : ' + activeColour + '|' + clickBuffer[1].x + ',' + clickBuffer[1].y + ',' + clickBuffer[2].x + ',' + clickBuffer[2].y + ',' + clickBuffer[3].x + ',' + clickBuffer[3].y );
     }
   }
+  
+  lastCoordX = dbx2;
+  lastCoordY = dby2;
 }
 
 // When the tool is changed (usually by keyboard press)

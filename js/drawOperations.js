@@ -1,13 +1,13 @@
 function updateScreen() {
   // Copy the 1:1 image while scaling it to the screen.
-  $imgCtx.drawImage($imgTemp,0,0,imgPixelWidth,imgPixelHeight);
+  $imgCtx.drawImage( $imgTemp, 0, 0, imgPixelWidth, imgPixelHeight );
 }
 
 function updatePreviewScreen() {
-  $ovrCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight);
-  $ovrCtx.drawImage($ovrTemp,0,0,imgPixelWidth,imgPixelHeight);
+  $ovrCtx.clearRect( 0, 0, imgPixelWidth, imgPixelHeight );
+  $ovrCtx.drawImage( $ovrTemp, 0, 0, imgPixelWidth, imgPixelHeight );
   if ( magnifyOn ) { magnify(); }
-  $ovrTempCtx.clearRect(0, 0, imgWidth, imgHeight);
+  $ovrTempCtx.clearRect( 0, 0, imgWidth, imgHeight );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +68,7 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   }
 }
 
+
 ///////////////////////////////////////
 // The actual drawing tool functions //
 ///////////////////////////////////////
@@ -77,9 +78,7 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
 // Sketch //
 ////////////
 function sketch( x, y, mode, brush ) {
-  if ( coords ) { coords += ';'+x+','+y;} 
-  else { coords = x+','+y; }
-  
+  updateCoords( x, y );
   if (brush) { /* placeBrush( activeColour, x, y, frameNum ); */ } 
   else { setPixel( activeColour, x, y, frameNum ); }
 }
@@ -103,8 +102,7 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
   lenY = length.lenY;
   
   if ( tool == 'sketch' || tool == 'draw' ) {
-    if ( coords ) { coords += ';' + x0 + ',' + y0; } 
-    else { coords = x0 + ',' + y0; }
+    updateCoords( x0, y0 );
   }
 
   if ( Math.abs( lenX ) < Math.abs( lenY ) )
@@ -113,8 +111,6 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     {
       stepX = ( lenX / Math.abs( lenY ) );
       stepY = length.dirY;
-      
-      
       
       setPixel( activeColour,
                x0 + Math.round( stepX * i ),
@@ -131,6 +127,7 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     {
       stepX = length.dirX;
       stepY = ( lenY / Math.abs( lenX ) );
+      
       setPixel( activeColour, 
                x0 + Math.round( stepX * i ), 
                y0 + Math.round( stepY * i ), 
@@ -140,11 +137,32 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
                true );
     }
   }
+  
   pastePixelBuffer();
+  
   if (tool == 'line') {
     radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
     degrees = Math.floor( getDegrees( lenX, lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt( radius ), true );
+  }
+}
+
+function updateCoords( x, y ) {
+  if ( coords ) {
+    
+    // if the colour has changed, add it. Even if the mouse hasn't moved.
+    if ( parseInt( activeColour ) != parseInt( lastCoordColour ) ) {
+      coords += ';c' + activeColour + '_' + x + ',' + y;
+      lastCoordColour = activeColour;
+//    debugger;
+    } else {
+      // if the colour hasn't changed and the mouse hasn't moved, ignore it.
+      if ( lastCoordX == x && lastCoordY == y ) { return; }
+      // if the mouse has moved, add it.
+      else { coords += ';' + x + ',' + y; }
+    }
+  } else {
+    coords = x+','+y;
   }
 }
 

@@ -279,11 +279,11 @@ body {
 
 #output {
   font-family: monospace;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   margin: 4px;
   width: 160px;
   white-space: pre;
-  overflow: hidden;
+  /* overflow: hidden; */
   overflow-y: auto;
   height: 460px;
 }

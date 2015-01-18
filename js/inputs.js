@@ -81,8 +81,8 @@ $(document).ready(function () {
       if (tool == 'sketch') {t = 'sketch: '} else {t = 'draw  : '}
       clickNum = 0;
       if (coords) {
-        saveToHistoryBuffer(t+activeColour+'|'+coords);
-        coords = '';
+        saveToHistoryBuffer(t+startCoordColour+'|'+coords);
+        lastCoordX = lastCoordY = startCoordColour = coords = null;
       }
     }
     

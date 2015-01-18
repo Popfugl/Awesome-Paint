@@ -32,8 +32,15 @@ var historyBuffer = [];
 var historyStep   = null;
 var historyLimit  = 25;
 var pixelBuffer   = [];
+
+// Coords for Command History
 var coordBuffer   = [];
 var coords;
+var startCoordColour;
+var lastCoordColour    =  1; // used to see if the colour has changed since last coordinate.
+var lastCoordX;
+var lastCoordY;
+
 var pixel         = [];         
 var counter       =  0;
 var brush         = false;
@@ -45,9 +52,9 @@ var clickBuffer   = [];
 clickBuffer.push ({ x: 0, y:0 });
 var clickNum      =  0;
 var hasMoved      = false;
-var mouseButton;              // holds the info about the mouse buttons
-var click         = [];       // some operations calls for multiple clicks, like the curve.
-var pointerFlag;
+var mouseButton;                  // holds the info about the mouse buttons
+var click         = [];           // some operations calls for multiple clicks, like the curve.
+var pointerFlag;                  // for when setPixel draws the pointer to a different canvas than normal.
 
 // Keyboard
 var escPressed    = false;
@@ -56,8 +63,8 @@ var commaDown     = false;
 var ctrlCmdDown   = false;
 
 // Colour select
-var colFG         =  1;       // Foreground colour
-var colBG         =  0;       // Background colour
+var colFG         =  1; // Foreground colour
+var colBG         =  0; // Background colour
 var activeColour  =  1;
 var colourChanged =  1;
 
