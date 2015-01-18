@@ -171,7 +171,7 @@ function parseCommandHistory() {
         x2 = Math.round( parseInt( crds[4] ) * scaleX );
         y2 = Math.round( parseInt( crds[5] ) * scaleY );
         
-        curve( x0, y0, x1, y1, x2, xy );
+        curve( x0, y0, x1, y1, x2, y2 );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
