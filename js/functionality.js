@@ -41,7 +41,6 @@ function toolTypeSelected() {
     if (tool == 'rectangle') { rectangle( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, rotation, mode, brush, true ); }
     if (tool == 'circle') { circle( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, mode, brush, true ); }
     if (tool == 'ellipse') { ellipse( clickBuffer[1].x, clickBuffer[1].y, dbx2, dby2, filled, 0, mode, brush, true ); }
-    
   }
                                                       
   if (clickNum == 2) {

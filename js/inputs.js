@@ -318,7 +318,7 @@ $(document).ready(function () {
       case 221: // ¨
         if ( !shiftDown ) {
           var newCol = colFG + 1;
-          if ( newCol == frame[frameNum].pal.length - 1 ) { newCol = 0; }
+          if ( newCol == frame[frameNum].pal.length ) { newCol = 0; }
           
           setColour( newCol );
           colourChanged = colFG = activeColour;
@@ -326,7 +326,7 @@ $(document).ready(function () {
           //dbug( '//colFG: ' + newCol );
         } else {
           var newCol = colBG + 1;
-          if ( newCol == frame[frameNum].pal.length - 1 ) { newCol = 0; }
+          if ( newCol == frame[frameNum].pal.length ) { newCol = 0; }
           
           setColour( newCol );
           colourChanged = colBG = activeColour;
