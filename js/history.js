@@ -286,7 +286,7 @@ function parseCommandHistory() {
     }
   }
   if ( scaleX != 1 || scaleY != 1 ){ dbug( 'scale: 1.0, 1.0 '); }
-  if ( moveY != 0 || moveX != 0 ){ dbug( 'move: 1.0, 1.0 '); }
+  if ( moveX != 0 || moveY != 0 ){ dbug( 'move: 0.0, 0.0 '); }
   updatePreviewScreen();
   updateScreen();
   update = true;
