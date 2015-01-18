@@ -84,6 +84,7 @@ function getArray(a) {
 
 function parseCommandHistory() {
   
+  var scaleX = scaleY = 1;
   var CMDhistory = $('#input').val();
   CMDhistory = CMDhistory.split('\n');
   
@@ -97,6 +98,13 @@ function parseCommandHistory() {
     
     // It's not a comment or an undo / redo
     if ( CMD.length == 2 ) {
+      
+      if ( CMD[0] == 'scale' ) {
+        // scale : 1.2,1.3
+        CMD = CMD[1].split(',');
+        scaleX = parseFloat ( CMD[0] );
+        scaleY = parseFloat ( CMD[1] );
+      }
       
       if ( CMD[0] == 'cls' ) {
         clearScreen( parseInt( CMD[1] ) );
@@ -122,7 +130,7 @@ function parseCommandHistory() {
             crds[0] = col[1]; 
           }
 
-          setPixel(colour, parseInt( crds[0] ), parseInt( crds[1] ), frameNum);
+          setPixel(colour, parseInt( crds[0] ) * scaleX , parseInt( crds[1] ) * scaleY, frameNum);
         }
         saveToHistoryBuffer( save );
         historyStep = null;
@@ -156,7 +164,14 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
-        curve( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), parseInt( crds[4] ), parseInt( crds[5] ) );
+        x0 = Math.round( parseInt( crds[0] ) * scaleX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY );
+        x1 = Math.round( parseInt( crds[2] ) * scaleX );
+        y1 = Math.round( parseInt( crds[3] ) * scaleY );
+        x2 = Math.round( parseInt( crds[4] ) * scaleX );
+        y2 = Math.round( parseInt( crds[5] ) * scaleY );
+        
+        curve( x0, y0, x1, y1, x2, xy );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
@@ -167,7 +182,10 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
-        floodFill( colour, parseInt( crds[0] ), parseInt( crds[1] ) );
+        x0 = Math.round( parseInt( crds[0] ) * scaleX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY );
+
+        floodFill( colour, x0, y0 );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
@@ -178,8 +196,13 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
+        x0 = Math.round( parseInt( crds[0] ) * scaleX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY );
+        x1 = Math.round( parseInt( crds[2] ) * scaleX );
+        y1 = Math.round( parseInt( crds[3] ) * scaleY );
+        
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
-        rectangle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
+        rectangle( x0, y0, x1, y1, flag );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
@@ -190,8 +213,13 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
+        x0 = Math.round( parseInt( crds[0] ) * scaleX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY );
+        x1 = Math.round( parseInt( crds[2] ) * scaleX );
+        y1 = Math.round( parseInt( crds[3] ) * scaleY );
+        
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
-        circle( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
+        circle( x0, y0, x1, y1, flag );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
@@ -202,8 +230,13 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
+        x0 = Math.round( parseInt( crds[0] ) * scaleX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY );
+        x1 = Math.round( parseInt( crds[2] ) * scaleX );
+        y1 = Math.round( parseInt( crds[3] ) * scaleY );
+        
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
-        ellipse( parseInt( crds[0] ), parseInt( crds[1] ), parseInt( crds[2] ), parseInt( crds[3] ), flag );
+        ellipse( x0, y0, x1, y1, flag );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
@@ -230,21 +263,27 @@ function parseCommandHistory() {
             colour = activeColour;
             crds[0] = col[1]; 
           }
+          
+          x0 = Math.round( parseInt( crds[0] ) * scaleX );
+          y0 = Math.round( parseInt( crds[1] ) * scaleY );
+          
           if ( sketchFlag ) {
-            setPixel( colour, parseInt( crds[0] ), parseInt( crds[1] ), frameNum );
+            setPixel( colour, x0, y0, frameNum );
           } else {
             // 2 sets of coords means it's a line.
             if ( crds.length == 4 ) {
-              lastX = parseInt( crds[0] );
-              lastY = parseInt( crds[1] );
-              crds[0] = parseInt( crds[2] );
-              crds[1] = parseInt( crds[3] );
+              x1 = Math.round( parseInt( crds[2] ) * scaleX );
+              y1 = Math.round( parseInt( crds[3] ) * scaleY );
+              lastX = x0;
+              lastY = y0;
+              x0 = x1;
+              y0 = y1;
             }
             if (lastX != null && lastY != null) {
-              drawLine( lastX, lastY, parseInt( crds[0] ), parseInt( crds[1] ) );
+              drawLine( lastX, lastY, x0, y0 );
             }
-            lastX = parseInt( crds[0] );
-            lastY = parseInt( crds[1] );
+            lastX = x0;
+            lastY = y0;
           }
         }
         saveToHistoryBuffer( save );
