@@ -83,8 +83,10 @@ function getArray(a) {
 }
 
 function parseCommandHistory() {
-  
-  var scaleX = scaleY = 1;
+  var moveX = 0.0;
+  var moveY = 0.0;
+  var scaleX = 1.0;
+  var scaleY = 1.0;
   var CMDhistory = $('#input').val();
   CMDhistory = CMDhistory.split('\n');
   
@@ -99,11 +101,18 @@ function parseCommandHistory() {
     // It's not a comment or an undo / redo
     if ( CMD.length == 2 ) {
       
+      if ( CMD[0] == 'move' ) {
+        CMD = CMD[1].split(',');
+        moveX = parseFloat ( CMD[0] );
+        moveY = parseFloat ( CMD[1] );
+        dbug(save);
+      }
+      
       if ( CMD[0] == 'scale' ) {
-        // scale : 1.2,1.3
         CMD = CMD[1].split(',');
         scaleX = parseFloat ( CMD[0] );
         scaleY = parseFloat ( CMD[1] );
+        dbug(save);
       }
       
       if ( CMD[0] == 'cls' ) {
@@ -164,12 +173,12 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
-        x0 = Math.round( parseInt( crds[0] ) * scaleX );
-        y0 = Math.round( parseInt( crds[1] ) * scaleY );
-        x1 = Math.round( parseInt( crds[2] ) * scaleX );
-        y1 = Math.round( parseInt( crds[3] ) * scaleY );
-        x2 = Math.round( parseInt( crds[4] ) * scaleX );
-        y2 = Math.round( parseInt( crds[5] ) * scaleY );
+        x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
+        x1 = Math.round( parseInt( crds[2] ) * scaleX + moveX );
+        y1 = Math.round( parseInt( crds[3] ) * scaleY + moveY );
+        x2 = Math.round( parseInt( crds[4] ) * scaleX + moveX );
+        y2 = Math.round( parseInt( crds[5] ) * scaleY + moveY );
         
         curve( x0, y0, x1, y1, x2, y2 );
         saveToHistoryBuffer( save );
@@ -182,61 +191,31 @@ function parseCommandHistory() {
         setColour( colour );
         
         var crds = CMD[1].split(',');
-        x0 = Math.round( parseInt( crds[0] ) * scaleX );
-        y0 = Math.round( parseInt( crds[1] ) * scaleY );
+        x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
 
         floodFill( colour, x0, y0 );
         saveToHistoryBuffer( save );
         historyStep = null;
       }
       
-      if ( CMD[0] == 'rect' ) {
+      if ( CMD[0] == 'rect' || CMD[0] == 'circle' || CMD[0] == 'ellipse' ) {
+        var t = CMD[0];
+
         CMD = CMD[1].split('|');
         var colour = CMD[0];
         setColour( colour );
         
         var crds = CMD[1].split(',');
-        x0 = Math.round( parseInt( crds[0] ) * scaleX );
-        y0 = Math.round( parseInt( crds[1] ) * scaleY );
-        x1 = Math.round( parseInt( crds[2] ) * scaleX );
-        y1 = Math.round( parseInt( crds[3] ) * scaleY );
+        x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
+        y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
+        x1 = Math.round( parseInt( crds[2] ) * scaleX + moveX );
+        y1 = Math.round( parseInt( crds[3] ) * scaleY + moveY );
         
         if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
-        rectangle( x0, y0, x1, y1, flag );
-        saveToHistoryBuffer( save );
-        historyStep = null;
-      }
-      
-      if ( CMD[0] == 'circle' ) {
-        CMD = CMD[1].split('|');
-        var colour = CMD[0];
-        setColour( colour );
-        
-        var crds = CMD[1].split(',');
-        x0 = Math.round( parseInt( crds[0] ) * scaleX );
-        y0 = Math.round( parseInt( crds[1] ) * scaleY );
-        x1 = Math.round( parseInt( crds[2] ) * scaleX );
-        y1 = Math.round( parseInt( crds[3] ) * scaleY );
-        
-        if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
-        circle( x0, y0, x1, y1, flag );
-        saveToHistoryBuffer( save );
-        historyStep = null;
-      }
-      
-      if ( CMD[0] == 'ellipse' ) {
-        CMD = CMD[1].split('|');
-        var colour = CMD[0];
-        setColour( colour );
-        
-        var crds = CMD[1].split(',');
-        x0 = Math.round( parseInt( crds[0] ) * scaleX );
-        y0 = Math.round( parseInt( crds[1] ) * scaleY );
-        x1 = Math.round( parseInt( crds[2] ) * scaleX );
-        y1 = Math.round( parseInt( crds[3] ) * scaleY );
-        
-        if ( crds[4] == "false" ) {var flag = false; } else { var flag = true; }
-        ellipse( x0, y0, x1, y1, flag );
+        if ( t == 'rect' ) { rectangle( x0, y0, x1, y1, flag ); }
+        if ( t == 'circle' ) { circle( x0, y0, x1, y1, flag ); }
+        if ( t == 'ellipse' ) { ellipse( x0, y0, x1, y1, flag ); }
         saveToHistoryBuffer( save );
         historyStep = null;
       }
@@ -264,16 +243,16 @@ function parseCommandHistory() {
             crds[0] = col[1]; 
           }
           
-          x0 = Math.round( parseInt( crds[0] ) * scaleX );
-          y0 = Math.round( parseInt( crds[1] ) * scaleY );
+          x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
+          y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
           
           if ( sketchFlag ) {
             setPixel( colour, x0, y0, frameNum );
           } else {
             // 2 sets of coords means it's a line.
             if ( crds.length == 4 ) {
-              x1 = Math.round( parseInt( crds[2] ) * scaleX );
-              y1 = Math.round( parseInt( crds[3] ) * scaleY );
+              x1 = Math.round( parseInt( crds[2] ) * scaleX + moveX );
+              y1 = Math.round( parseInt( crds[3] ) * scaleY + moveY );
               lastX = x0;
               lastY = y0;
               x0 = x1;
@@ -306,6 +285,8 @@ function parseCommandHistory() {
       }
     }
   }
+  if ( scaleX != 1 || scaleY != 1 ){ dbug( 'scale: 1.0, 1.0 '); }
+  if ( moveY != 0 || moveX != 0 ){ dbug( 'move: 1.0, 1.0 '); }
   updatePreviewScreen();
   updateScreen();
   update = true;

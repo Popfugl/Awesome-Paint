@@ -154,7 +154,6 @@ function updateCoords( x, y ) {
     if ( parseInt( activeColour ) != parseInt( lastCoordColour ) ) {
       coords += ';c' + activeColour + '_' + x + ',' + y;
       lastCoordColour = activeColour;
-//    debugger;
     } else {
       // if the colour hasn't changed and the mouse hasn't moved, ignore it.
       if ( lastCoordX == x && lastCoordY == y ) { return; }
