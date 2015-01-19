@@ -175,10 +175,21 @@ function pointer(x, y, mx, my, preview, brush) {
   $pointCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight );
   pointerFlag = true;
   
-  for (i = x+7; i < imgWidth; i++) {
-    setPixel('rgba(255,255,255,0.75)', i, y, 0, 0, preview);
-  }
+  if ( tool == 'brush' || tool == 'circle' || tool == 'ellipse' || tool == 'rectangle' ) {
   
+    for (i = 0 ; i < x-7; i++) {
+      setPixel('rgba(255,255,255,0.75)', i, y, 0, 0, preview);
+    }
+    for (i = x+7; i < imgWidth; i++) {
+      setPixel('rgba(255,255,255,0.75)', i, y, 0, 0, preview);
+    }
+    for (i = 0; i < y-7; i++) {
+      setPixel('rgba(255,255,255,0.75)', x, i, 0, 0, preview);
+    }
+    for (i = y+7; i < imgHeight; i++) {
+      setPixel('rgba(255,255,255,0.75)', x, i, 0, 0, preview);
+    }
+  }
   setPixel("#EE5522", x+7, y, 0, 0, preview);
   setPixel("#AA5522", x+6, y, 0, 0, preview);
   setPixel("#EE5522", x+5, y, 0, 0, preview);
