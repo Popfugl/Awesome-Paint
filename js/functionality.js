@@ -175,33 +175,37 @@ function pointer(x, y, mx, my, preview, brush) {
   $pointCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight );
   pointerFlag = true;
   
-  setPixel(17, x+7, y, 0, 0, preview);
-  setPixel(18, x+6, y, 0, 0, preview);
-  setPixel(17, x+5, y, 0, 0, preview);
-  setPixel(18, x+4, y, 0, 0, preview);
-  setPixel(17, x+3, y, 0, 0, preview);
-  setPixel(18, x+2, y, 0, 0, preview);
+  for (i = x+7; i < imgWidth; i++) {
+    setPixel('rgba(255,255,255,0.75)', i, y, 0, 0, preview);
+  }
+  
+  setPixel("#EE5522", x+7, y, 0, 0, preview);
+  setPixel("#AA5522", x+6, y, 0, 0, preview);
+  setPixel("#EE5522", x+5, y, 0, 0, preview);
+  setPixel("#AA5522", x+4, y, 0, 0, preview);
+  setPixel("#EE5522", x+3, y, 0, 0, preview);
+  setPixel("#AA5522", x+2, y, 0, 0, preview);
 
-  setPixel(17, x-7, y, 0, 0, preview);
-  setPixel(18, x-6, y, 0, 0, preview);
-  setPixel(17, x-5, y, 0, 0, preview);
-  setPixel(18, x-4, y, 0, 0, preview);
-  setPixel(17, x-3, y, 0, 0, preview);
-  setPixel(18, x-2, y, 0, 0, preview);
+  setPixel("#EE5522", x-7, y, 0, 0, preview);
+  setPixel("#AA5522", x-6, y, 0, 0, preview);
+  setPixel("#EE5522", x-5, y, 0, 0, preview);
+  setPixel("#AA5522", x-4, y, 0, 0, preview);
+  setPixel("#EE5522", x-3, y, 0, 0, preview);
+  setPixel("#AA5522", x-2, y, 0, 0, preview);
 
-  setPixel(17, x, y+7, 0, 0, preview);
-  setPixel(18, x, y+6, 0, 0, preview);
-  setPixel(17, x, y+5, 0, 0, preview);
-  setPixel(18, x, y+4, 0, 0, preview);
-  setPixel(17, x, y+3, 0, 0, preview);
-  setPixel(18, x, y+2, 0, 0, preview);
+  setPixel("#EE5522", x, y+7, 0, 0, preview);
+  setPixel("#AA5522", x, y+6, 0, 0, preview);
+  setPixel("#EE5522", x, y+5, 0, 0, preview);
+  setPixel("#AA5522", x, y+4, 0, 0, preview);
+  setPixel("#EE5522", x, y+3, 0, 0, preview);
+  setPixel("#AA5522", x, y+2, 0, 0, preview);
 
-  setPixel(17, x, y-7, 0, 0, preview);
-  setPixel(18, x, y-6, 0, 0, preview);
-  setPixel(17, x, y-5, 0, 0, preview);
-  setPixel(18, x, y-4, 0, 0, preview);
-  setPixel(17, x, y-3, 0, 0, preview);
-  setPixel(18, x, y-2, 0, 0, preview);
+  setPixel("#EE5522", x, y-7, 0, 0, preview);
+  setPixel("#AA5522", x, y-6, 0, 0, preview);
+  setPixel("#EE5522", x, y-5, 0, 0, preview);
+  setPixel("#AA5522", x, y-4, 0, 0, preview);
+  setPixel("#EE5522", x, y-3, 0, 0, preview);
+  setPixel("#AA5522", x, y-2, 0, 0, preview);
   
   pointerFlag = false;
 

@@ -354,6 +354,9 @@ $(document).ready(function () {
     // Clear and update the preview screen
     updatePreviewScreen();
     
+    // Write coordinates to the top bar.
+    writeMessage();
+    
     if (tempTool) { updateTool( tempTool, filler ); }
     // updatePreviewScreen();
     
