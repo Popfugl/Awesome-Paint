@@ -172,7 +172,7 @@ function clipValue( x, y ) {
   colour = getColour( x, y );
   colour = IndexRGB12Bit ( colour );
   value = RGBtoHSV( colour.r, colour.g, colour.b ).v;
-  if ( value > 50 ) { colour = 'rgb(0,0,0)'; } else { colour = 'rgb(255,255,255)'; }
+  if ( value > 50 ) { colour = '#444444'; } else { colour = '#999999'; }
   return colour;
 }
 
