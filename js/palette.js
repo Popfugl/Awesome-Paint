@@ -7,18 +7,30 @@ function updateInitPalette( index, red, green, blue, alpha, frameNum) {
   });
 }
 
-function initRGBSliders ( index ) {
+function IndexRGB12Bit( index ){
   var r = frame[frameNum].pal[index].r;
   var g = frame[frameNum].pal[index].g;
   var b = frame[frameNum].pal[index].b;
+  var a = frame[frameNum].pal[index].a;
   
-  $('#redSlider').val   ( r );
-  $('#greenSlider').val ( g );
-  $('#blueSlider').val  ( b );
+  return {
+    r: r,
+    g: g,
+    b: b,
+    a: a
+  }
+}
+
+function initRGBSliders ( index ) {
+  var colour = IndexRGB12Bit( index );
   
-  $('#redVal').val      ( r );
-  $('#greenVal').val    ( g );
-  $('#blueVal').val     ( b );
+  $('#redSlider').val   ( colour.r );
+  $('#greenSlider').val ( colour.g );
+  $('#blueSlider').val  ( colour.b );
+  
+  $('#redVal').val      ( colour.r );
+  $('#greenVal').val    ( colour.g );
+  $('#blueVal').val     ( colour.b );
   
   updateRGBtoHSV();
 }
@@ -37,15 +49,12 @@ function setColour( index ) {
 }
 
 function palIndex12to24bit( index ) {
-  var r = frame[frameNum].pal[index].r;
-  var g = frame[frameNum].pal[index].g;
-  var b = frame[frameNum].pal[index].b;
-  var a = frame[frameNum].pal[index].a;
+  var colour = IndexRGB12Bit( index );
   
-  r = palValue12to24bit(r);
-  g = palValue12to24bit(g);
-  b = palValue12to24bit(b);
-  a = palValue12to24bit(a);
+  r = palValue12to24bit( colour.r );
+  g = palValue12to24bit( colour.g );
+  b = palValue12to24bit( colour.b );
+  a = palValue12to24bit( colour.a );
   
   return {
     r: r,

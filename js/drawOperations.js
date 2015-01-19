@@ -345,29 +345,29 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
 // Circle //
 ////////////
 
-function radius( x0, y0, x1, y1 ) {
+function getRadius( x0, y0, x1, y1 ) {
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
-  var r = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
-  return r;
+  var radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
+  return radius;
 }
 
 function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
   // if (escPressed){escPressed = false; debugger;}
   
-  r = Math.round ( radius( x0, y0, x1, y1 ) );
+  radius = Math.round ( getRadius( x0, y0, x1, y1 ) );
   var lastX, lastY;
-  var iterations = r * 8;
+  var iterations = radius * 8;
   len = getLength( x0, y0, x1, y1 );
   
   // Most of the circle can be filled with a rectangle.
   // rsq is the length from the center that doesn't need to be drawn just yet. 
   // - It will be filled by a rectangle later.
-  var rsq = Math.round( r * ( 1 / Math.sqrt( 2 ) ) );
+  var rsq = Math.round( radius * ( 1 / Math.sqrt( 2 ) ) );
   
-  if ( !r ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
-  if ( r == 1 ) { 
+  if ( !radius ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
+  if ( radius == 1 ) { 
     setPixel( activeColour, x0,     y0 - 1, frameNum, 0, preview );
     setPixel( activeColour, x0 + 1, y0,     frameNum, 0.33, preview );
     setPixel( activeColour, x0 - 1, y0,     frameNum, 0.66, preview );
@@ -375,11 +375,11 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
     if ( filled ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
   } 
   
-  if ( r > 1 ) {
+  if ( radius > 1 ) {
     // Only calculate 1/8 of the circle - then copy that bit 8 times flipped and turned to draw the full circle.
     for( var i = 0; i <= iterations/8; i++ ) {
-      var x = Math.round( r * Math.cos( 2 * Math.PI * i / iterations ) );
-      var y = Math.round( r * Math.sin( 2 * Math.PI * i / iterations ) );
+      var x = Math.round( radius * Math.cos( 2 * Math.PI * i / iterations ) );
+      var y = Math.round( radius * Math.sin( 2 * Math.PI * i / iterations ) );
 
       if ( lastY != y ) {
         if ( x < lastX - 1 ){
@@ -412,13 +412,10 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
         lastX = x
       }
       lastY = y;
-
     }
-    
     degrees = Math.floor( getDegrees( len.lenX, len.lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt(r), true );
   }
-  
 }
 
 /////////////
@@ -431,13 +428,13 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   var lenY = len.lenY;
   var radiusX = Math.round ( Math.abs( lenX ) );
   var radiusY = Math.round ( Math.abs( lenY ) );
-  var r = Math.round ( radius( x0, y0, x1, y1 ) );
+  var radius = Math.round ( getRadius( x0, y0, x1, y1 ) );
   var flip = false;
   var ok = false;
   
   var lastX;
   var lastY;
-  var iterations = r * 7;
+  var iterations = radius * 7;
   var halfIterations = iterations / 2;
   
   // Most of the ellipse can be filled with a rectangle.
@@ -446,8 +443,8 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
   var rsqX = Math.floor( radiusX * ( 1 / Math.sqrt(2) ) );
   var rsqY = Math.floor( radiusY * ( 1 / Math.sqrt(2) ) );
   
-  if ( !r ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
-  if ( r == 1 ) { 
+  if ( !radius ) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); } 
+  if ( radius == 1 ) { 
     setPixel( activeColour, x0,     y0 - 1, frameNum, 0, preview );
     setPixel( activeColour, x0 + 1, y0,     frameNum, 0.33, preview );
     setPixel( activeColour, x0 - 1, y0,     frameNum, 0.66, preview );
@@ -455,7 +452,7 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
     if (filled) { setPixel( activeColour, x0, y0, frameNum, 1, preview ); }
   } 
   
-  if ( r > 1 ) {
+  if ( radius > 1 ) {
     // Only calculate 1/4 of the ellipse - then copy that bit 4 times flipped to draw the full ellipse.
     for( var i = 0; i <= parseInt( iterations / 4 ); i++ ) {
       var x = Math.round( radiusX * Math.cos( 2 * Math.PI * i / iterations ) );

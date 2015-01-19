@@ -88,17 +88,17 @@ function RGBtoHSV( r, g, b )
         }
     }
     return {
-        h: Math.round(h * 360),
-        s: Math.round(s * 100),
-        v: Math.round(v * 100)
+        h: Math.round( h * 360 ),
+        s: Math.round( s * 100 ),
+        v: Math.round( v * 100 )
     };
 }
 
 function HSVtoRGBnice( h, s, v) {
   return {
-    r: Math.ceil(HSVtoRGB( h, s, v ).r*15),
-    g: Math.ceil(HSVtoRGB( h, s, v ).g*15),
-    b: Math.ceil(HSVtoRGB( h, s, v ).b*15)
+    r: Math.ceil( HSVtoRGB( h, s, v ).r * 15 ),
+    g: Math.ceil( HSVtoRGB( h, s, v ).g * 15 ),
+    b: Math.ceil( HSVtoRGB( h, s, v ).b * 15 )
   }
 }
 

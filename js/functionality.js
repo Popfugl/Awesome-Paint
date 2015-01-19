@@ -167,6 +167,15 @@ function toggleSplitscreen() {
   if ( magnifyOn ) { magnify(); }
 }
 
+function clipValue( x, y ) {
+  if ( x < 0 || x >= imgWidth || y < 0 || y >= imgHeight ){ return; }
+  colour = getColour( x, y );
+  colour = IndexRGB12Bit ( colour );
+  value = RGBtoHSV( colour.r, colour.g, colour.b ).v;
+  if ( value > 50 ) { colour = 'rgb(0,0,0)'; } else { colour = 'rgb(255,255,255)'; }
+  return colour;
+}
+
 function pointer(x, y, mx, my, preview, brush) {
   
   if (!brush && !clickNum && !commaDown) { setPixel( colFG, mx, my, 0, 0, preview); }
@@ -177,19 +186,24 @@ function pointer(x, y, mx, my, preview, brush) {
   
   if ( tool == 'brush' || tool == 'circle' || tool == 'ellipse' || tool == 'rectangle' ) {
   
-    for (i = 0 ; i < x-7; i++) {
-      setPixel('rgba(255,255,255,0.75)', i, y, 0, 0, preview);
+    for ( i = 0 ; i < x - 7; i++ ) {
+        colour = clipValue ( i, y );
+        setPixel( colour, i, y, 0, 0, preview);
     }
-    for (i = x+7; i < imgWidth; i++) {
-      setPixel('rgba(255,255,255,0.75)', i, y, 0, 0, preview);
+    for ( i = x + 7; i < imgWidth; i++ ) {
+        colour = clipValue ( i, y );
+        setPixel( colour, i, y, 0, 0, preview);
     }
-    for (i = 0; i < y-7; i++) {
-      setPixel('rgba(255,255,255,0.75)', x, i, 0, 0, preview);
+    for ( i = 0; i < y - 7; i++ ) {
+        colour = clipValue ( x, i );
+        setPixel( colour, x, i, 0, 0, preview);
     }
-    for (i = y+7; i < imgHeight; i++) {
-      setPixel('rgba(255,255,255,0.75)', x, i, 0, 0, preview);
+    for ( i = y + 7; i < imgHeight; i++ ) {
+        colour = clipValue ( x, i );
+        setPixel( colour, x, i, 0, 0, preview);
     }
   }
+  
   setPixel("#EE5522", x+7, y, 0, 0, preview);
   setPixel("#AA5522", x+6, y, 0, 0, preview);
   setPixel("#EE5522", x+5, y, 0, 0, preview);
