@@ -58,8 +58,9 @@ $(document).ready(function () {
 
       if (dbb2 != 2) { toolTypeSelected(); } else { clickNum--; }
     }
-    
     writeMessage();
+    
+    update = true;
   });
   
   // Mouse button is released
@@ -102,11 +103,10 @@ $(document).ready(function () {
     
     if (clickNum){ toolTypeSelected(); }
     
-    pointer( true, false );
-    
     // Clear and update the preview screen
     updatePreviewScreen();
 
+    
     hasMoved = false;
     mouseButton = false;
     
@@ -307,6 +307,7 @@ $(document).ready(function () {
           colourChanged = colBG = activeColour;
         }
         updatePaletteSelection();
+        updatePreviewScreen();
         break;
 
       case 221: // ¨
@@ -328,6 +329,7 @@ $(document).ready(function () {
           //dbug( '//colBG: ' + newCol );
         }
         updatePaletteSelection();
+        updatePreviewScreen();
         break;
         
         case 192: // < ( > with shift )
@@ -345,6 +347,12 @@ $(document).ready(function () {
       default:
         console.log('//keydown: ' + e.which);
     }
+    
+    // Draw the pointer on the preview screen
+    pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
+
+    // Clear and update the preview screen
+    updatePreviewScreen();
     
     if (tempTool) { updateTool( tempTool, filler ); }
     // updatePreviewScreen();

@@ -8,6 +8,7 @@ function updatePreviewScreen() {
   $ovrCtx.drawImage( $ovrTemp, 0, 0, imgPixelWidth, imgPixelHeight );
   if ( magnifyOn ) { magnify(); }
   $ovrTempCtx.clearRect( 0, 0, imgWidth, imgHeight );
+//  pointer( true, false );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
