@@ -185,32 +185,30 @@ function clipValue( x, y ) {
 
 function pointer(x, y, mx, my, preview, brush) {
   
-  if (!brush && !clickNum && !commaDown) { setPixel( colFG, mx, my, 0, 0, preview); }
-  
   // clear pointer canvas
   $pointCtx.clearRect(0, 0, imgPixelWidth, imgPixelHeight );
+  
   pointerFlag = true;
-  
+  previewSpecial = true;
+
   if ( tool == 'brush' || tool == 'circle' || tool == 'ellipse' || tool == 'rectangle' ) {
-  
-    for ( i = 0 ; i < x - 7; i++ ) {
-        colour = clipValue ( i, y );
-        setPixel( colour, i, y, 0, 0, preview);
+    for ( i = 0 ; i < imgWidth; i++ ) {
+        colour = clipValue ( i, my );
+        setPixel( colour, i, my, 0, 0, preview);
     }
-    for ( i = x + 7; i < imgWidth; i++ ) {
-        colour = clipValue ( i, y );
-        setPixel( colour, i, y, 0, 0, preview);
-    }
-    for ( i = 0; i < y - 7; i++ ) {
-        colour = clipValue ( x, i );
-        setPixel( colour, x, i, 0, 0, preview);
-    }
-    for ( i = y + 7; i < imgHeight; i++ ) {
-        colour = clipValue ( x, i );
-        setPixel( colour, x, i, 0, 0, preview);
+    for ( i = 0; i < imgHeight; i++ ) {
+        colour = clipValue ( mx, i );
+        setPixel( colour, mx, i, 0, 0, preview);
     }
   }
-  
+  previewSpecial = false;
+
+  if (!brush && !clickNum && !commaDown) {
+    pointerFlag = false;
+    setPixel( colFG, mx, my, 0, 0, preview);
+    pointerFlag = true;
+  }
+
   var ColA = "#EE5522";
   var ColB = "#AA5522";
   

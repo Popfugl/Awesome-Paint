@@ -62,9 +62,15 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
       }
     }
   } else {
-    // only plot the pointer on the pointer canvas
-    $pointCtx.fillStyle = colour;
-    $pointCtx.fillRect( parseInt(x * pixelSize), parseInt(y * pixelSize), pixelSize, pixelSize );
+    if ( previewSpecial ) {
+      // only plot the pointer on the pointer canvas
+      $ovrTempCtx.fillStyle = colour;
+      $ovrTempCtx.fillRect( parseInt(x), parseInt(y), 1, 1 );
+    } else {
+      // only plot the pointer on the pointer canvas
+      $pointCtx.fillStyle = colour;
+      $pointCtx.fillRect( parseInt(x * pixelSize), parseInt(y * pixelSize), pixelSize, pixelSize );
+    }
   }
 }
 

@@ -59,6 +59,7 @@ var hasMoved      = false;
 var mouseButton;                  // holds the info about the mouse buttons
 var click         = [];           // some operations calls for multiple clicks, like the curve.
 var pointerFlag;                  // for when setPixel draws the pointer to a different canvas than normal.
+var previewSpecial;
 
 // Keyboard
 var escPressed    = false;
