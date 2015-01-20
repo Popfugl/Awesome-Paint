@@ -21,18 +21,31 @@ $(document).ready(function () {
     mousePos = getMousePos(e);
     updateMouseMoves();
 
+    if ( magnifyOn ) {
+      // Draw the pointer on the preview screen
+      pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
+
+      // Clear and update the preview screen
+      updatePreviewScreen();
+
+      // Write coordinates to the top bar.
+      writeMessage();
+    }
+    
     if (clickNum != 0) { toolTypeSelected(); }
     if (clickNum == 2 && tool == 'line') { clickNum = 0; }
-    
-    // Draw the pointer on the preview screen
-    pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
 
-    // Clear and update the preview screen
-    updatePreviewScreen();
+    if ( !magnifyOn ) {
+      // Draw the pointer on the preview screen
+      pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
 
-    // Write coordinates to the top bar.
-    writeMessage();
-    
+      // Clear and update the preview screen
+      updatePreviewScreen();
+
+      // Write coordinates to the top bar.
+      writeMessage();
+    }
+      
     update = true;
 
   });
