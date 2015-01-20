@@ -128,16 +128,23 @@ function saveImageAsPNG (saveImageName){
 
 
 function dbug( log ) {
-  // console.log(log);
+  //console.log(log);
+  var redoCheck = log.replace( 'redo','');
+  if ( redoCheck == log ){ commandBuffer.push( log ); } else { commandBuffer.pop(); }
+
+  var text = '';
   var op = $('#output');
-  var h = 1000000000000; // Since .scrollHeight doesn't seem to work with jQuery, and as I only want to scroll to the bottom, this should be sufficient.
-  op.text( op.text() + log + '\n' );
+  var h = 100000000000; // Since .scrollHeight doesn't seem to work with jQuery, and as I only want to scroll to the bottom, this should be sufficient.
+  for ( i = 0; i < commandBuffer.length; i++ ){
+    text += commandBuffer[i] + '\n'
+  }
+  op.text( text );
   op.scrollTop( h );
 }
 
 
 function addFrame(index) {
-  dbug('addFrame: '+index);
+  if ( commandBuffer[1] ){ dbug('addFrame: '+index); }
   var pal = [];
   frame.push ({
     index: index,
@@ -204,33 +211,36 @@ function pointer(x, y, mx, my, preview, brush) {
     }
   }
   
-  setPixel("#EE5522", x+7, y, 0, 0, preview);
-  setPixel("#AA5522", x+6, y, 0, 0, preview);
-  setPixel("#EE5522", x+5, y, 0, 0, preview);
-  setPixel("#AA5522", x+4, y, 0, 0, preview);
-  setPixel("#EE5522", x+3, y, 0, 0, preview);
-  setPixel("#AA5522", x+2, y, 0, 0, preview);
+  var ColA = "#EE5522";
+  var ColB = "#AA5522";
+  
+  setPixel( ColA, x+7, y, 0, 0, preview );
+  setPixel( ColB, x+6, y, 0, 0, preview );
+  setPixel( ColA, x+5, y, 0, 0, preview );
+  setPixel( ColB, x+4, y, 0, 0, preview );
+  setPixel( ColA, x+3, y, 0, 0, preview );
+  setPixel( ColB, x+2, y, 0, 0, preview );
 
-  setPixel("#EE5522", x-7, y, 0, 0, preview);
-  setPixel("#AA5522", x-6, y, 0, 0, preview);
-  setPixel("#EE5522", x-5, y, 0, 0, preview);
-  setPixel("#AA5522", x-4, y, 0, 0, preview);
-  setPixel("#EE5522", x-3, y, 0, 0, preview);
-  setPixel("#AA5522", x-2, y, 0, 0, preview);
+  setPixel( ColA, x-7, y, 0, 0, preview );
+  setPixel( ColB, x-6, y, 0, 0, preview );
+  setPixel( ColA, x-5, y, 0, 0, preview );
+  setPixel( ColB, x-4, y, 0, 0, preview );
+  setPixel( ColA, x-3, y, 0, 0, preview );
+  setPixel( ColB, x-2, y, 0, 0, preview );
 
-  setPixel("#EE5522", x, y+7, 0, 0, preview);
-  setPixel("#AA5522", x, y+6, 0, 0, preview);
-  setPixel("#EE5522", x, y+5, 0, 0, preview);
-  setPixel("#AA5522", x, y+4, 0, 0, preview);
-  setPixel("#EE5522", x, y+3, 0, 0, preview);
-  setPixel("#AA5522", x, y+2, 0, 0, preview);
+  setPixel( ColA, x, y+7, 0, 0, preview );
+  setPixel( ColB, x, y+6, 0, 0, preview );
+  setPixel( ColA, x, y+5, 0, 0, preview );
+  setPixel( ColB, x, y+4, 0, 0, preview );
+  setPixel( ColA, x, y+3, 0, 0, preview );
+  setPixel( ColB, x, y+2, 0, 0, preview );
 
-  setPixel("#EE5522", x, y-7, 0, 0, preview);
-  setPixel("#AA5522", x, y-6, 0, 0, preview);
-  setPixel("#EE5522", x, y-5, 0, 0, preview);
-  setPixel("#AA5522", x, y-4, 0, 0, preview);
-  setPixel("#EE5522", x, y-3, 0, 0, preview);
-  setPixel("#AA5522", x, y-2, 0, 0, preview);
+  setPixel( ColA, x, y-7, 0, 0, preview );
+  setPixel( ColB, x, y-6, 0, 0, preview );
+  setPixel( ColA, x, y-5, 0, 0, preview );
+  setPixel( ColB, x, y-4, 0, 0, preview );
+  setPixel( ColA, x, y-3, 0, 0, preview );
+  setPixel( ColB, x, y-2, 0, 0, preview );
   
   pointerFlag = false;
 

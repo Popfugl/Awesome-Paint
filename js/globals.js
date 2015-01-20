@@ -28,12 +28,14 @@ var magPosX;
 var magStart;
 
 var debug         = true;
+
+// History
 var historyBuffer = [];
 var historyStep   = null;
 var historyLimit  = 25;
-var pixelBuffer   = [];
 
-// Coords for Command History
+// Command History
+var commandBuffer = [];
 var coordBuffer   = [];
 var coords;
 var startCoordColour;
@@ -42,6 +44,7 @@ var lastCoordX;
 var lastCoordY;
 
 var pixel         = [];         
+var pixelBuffer   = [];
 var counter       =  0;
 var brush         = false;
 var brushBuffer   = [];

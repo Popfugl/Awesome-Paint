@@ -116,7 +116,11 @@ body {
 
 /* MIDDLE SECTION */
 
-.sidebar, #middle {float: left;}
+.sidebar, #middle {
+position: relative;
+top: -20px;
+float: left;
+}
 .sidebar { width: 172px; margin-top: 4px; }
 
 #initZoom, #saveBtn, #tooltype {

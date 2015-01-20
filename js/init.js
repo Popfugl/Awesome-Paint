@@ -50,7 +50,7 @@ $(document).ready(function(){
   $('#canvasContainer').css( 'width', ( imgPixelWidth + overscan * pixelSize ) ).css( 'height', ( imgPixelHeight + overscan * pixelSize ) );
   
   $('#output').height( imgPixelHeight - 12 );
-  $('#runBtn').css( 'top', - overscan - 8 );
+  //$('#runBtn').css( 'top', - overscan - 8 );
   
   /* // This bit often don't work for some reason - constants used in the css instead.
   $('#inputContainer, #input').width( $('#outputContainer').width() - 2);
