@@ -183,8 +183,20 @@ $(document).ready(function () {
   
   $('.tool.ready').click(function() {
     $('.tool.ready').removeClass('active');
-    $(this).addClass('active')
+    $(this).addClass('active');
     tool = $(this).html();
+  });
+  
+  $('.tool.ready.sub').mousedown(function(e){
+    $('.tool.ready').removeClass('active');
+    $('.tool.ready').removeClass('filled');
+    filled = false;
+    globalMouse = e.which;
+    if (globalMouse == 3) {
+      $(this).addClass('filled').addClass('active');
+      tool = $(this).html();
+      filled = true;
+    }
   });
   
   // Clear

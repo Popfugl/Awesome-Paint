@@ -245,6 +245,7 @@ float: left;
 }
 
 .activePal {
+  pointer-events: none;
   height: 0;
 }
 
