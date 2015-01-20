@@ -136,9 +136,9 @@ function dbug( log ) {
   var op = $('#output');
   var h = 100000000000; // Since .scrollHeight doesn't seem to work with jQuery, and as I only want to scroll to the bottom, this should be sufficient.
   for ( i = 0; i < commandBuffer.length; i++ ){
-    text += commandBuffer[i] + '\n'
+    text += '<div>' + commandBuffer[i] + '</div>'
   }
-  op.text( text );
+  op.html( text );
   op.scrollTop( h );
 }
 

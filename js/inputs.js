@@ -21,6 +21,9 @@ $(document).ready(function () {
     mousePos = getMousePos(e);
     updateMouseMoves();
 
+    if (clickNum != 0) { toolTypeSelected(); }
+    if (clickNum == 2 && tool == 'line') { clickNum = 0; }
+    
     // Draw the pointer on the preview screen
     pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
 
@@ -29,9 +32,6 @@ $(document).ready(function () {
 
     // Write coordinates to the top bar.
     writeMessage();
-    
-    if (clickNum != 0) { toolTypeSelected(); }
-    if (clickNum == 2 && tool == 'line') { clickNum = 0; }
     
     update = true;
 
@@ -347,7 +347,7 @@ $(document).ready(function () {
       default:
         console.log('//keydown: ' + e.which);
     }
-    
+
     // Draw the pointer on the preview screen
     pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
 
