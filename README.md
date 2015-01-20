@@ -41,9 +41,6 @@ Finding a better name than Awesome Paint (and no; not Epic Paint)
 -- Filled Polygon
 -- Lasso
 
-- Magnify
--- Full screen magnify (all done, but not selectable at the moment)
-
 - Brush (cutout)
 -- Cut out brush
 -- x/y flipping
