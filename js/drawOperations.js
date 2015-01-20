@@ -324,6 +324,7 @@ function fillRect( a, b ) {
 // Consider using ( x-start, y-start, width, height ) instead of ( x-start, y-start, x-end, y-end ).
 
 function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
+  if (escPressed) {debugger;}
   var length = getLength( x0, y0, x1, y1 );
   lenX = length.lenX;
   lenY = length.lenY;
@@ -333,7 +334,11 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   drawLine( x1, y0, x1, y1, mode, brush, preview );
   drawLine( x1, y1, x0, y1, mode, brush, preview );
   drawLine( x0, y1, x0, y0, mode, brush, preview );
-  if ( filled ) { $ovrTempCtx.fillRect( ( x0 + overscan / 2 ) * pixelSize, ( y0 + overscan / 2 ) * pixelSize, lenX * pixelSize, lenY * pixelSize ); }
+
+/*
+  $ovrTempCtx.fillStyle = setColour ( activeColour );
+  if ( filled ) { $ovrTempCtx.fillRect( x0, y0, lenX, lenY ); }
+*/
   if ( filled ){
     if ( len < 0 ) {step = -1; } else { step = 1; }
     if ( !preview ) {
@@ -342,9 +347,10 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
       }
     }
   }
-  if (escPressed) {debugger;}
+/*
   if (filled){ var cmd = 'Filled '; } else { cmd = '';}
   writeMessage( cmd + 'Rectangle', length.lenX, length.lenY );
+*/
 }
 
 ////////////
