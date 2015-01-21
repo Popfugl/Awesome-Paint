@@ -45,13 +45,13 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
       var pixelNum = parseInt( y * imgWidth + x );
       // write the data where it matters.
       frame[frameNum].pxl[pixelNum] = colour;
-
+      
       // then plot the pixel on the main screen.
       if (!pBuffer) {
         $imgTempCtx.fillStyle = $ovrTempCtx.fillStyle;
         $imgTempCtx.fillRect( x, y, 1, 1 ); 
 
-        // Something is being drawn to the screen, so next interval would be a good time to update the screen.
+        // Something is being drawn to the preview screen, so next interval would be a good time to update the screen.
         update = true;
       }
       else {
@@ -326,19 +326,21 @@ function fillRect( a, b ) {
 function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   if (escPressed) {debugger;}
   var length = getLength( x0, y0, x1, y1 );
-  lenX = length.lenX;
-  lenY = length.lenY;
+  lenX = parseInt( length.lenX );
+  lenY = parseInt( length.lenY );
   len = parseInt( lenY );
 
-  drawLine( x0, y0, x1, y0, mode, brush, preview );
-  drawLine( x1, y0, x1, y1, mode, brush, preview );
-  drawLine( x1, y1, x0, y1, mode, brush, preview );
-  drawLine( x0, y1, x0, y0, mode, brush, preview );
-
-/*
-  $ovrTempCtx.fillStyle = setColour ( activeColour );
-  if ( filled ) { $ovrTempCtx.fillRect( x0, y0, lenX, lenY ); }
-*/
+  if ( filled && preview ) {
+    $ovrTempCtx.fillStyle = setColour ( activeColour );
+    $ovrTempCtx.fillRect( x0, y0, length.lenX, length.lenY );
+    $ovrCtx.drawImage( $ovrTemp, 0, 0, imgPixelWidth, imgPixelHeight );
+  } else {
+    drawLine( x0, y0, x1, y0, mode, brush, preview );
+    drawLine( x1, y0, x1, y1, mode, brush, preview );
+    drawLine( x1, y1, x0, y1, mode, brush, preview );
+    drawLine( x0, y1, x0, y0, mode, brush, preview );
+  }
+  
   if ( filled ){
     if ( len < 0 ) {step = -1; } else { step = 1; }
     if ( !preview ) {
@@ -347,10 +349,6 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
       }
     }
   }
-/*
-  if (filled){ var cmd = 'Filled '; } else { cmd = '';}
-  writeMessage( cmd + 'Rectangle', length.lenX, length.lenY );
-*/
 }
 
 ////////////
@@ -389,6 +387,7 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
   
   if ( radius > 1 ) {
     // Only calculate 1/8 of the circle - then copy that bit 8 times flipped and turned to draw the full circle.
+    $ovrTempCtx.fillStyle = setColour ( activeColour );
     for( var i = 0; i <= iterations/8; i++ ) {
       var x = Math.round( radius * Math.cos( 2 * Math.PI * i / iterations ) );
       var y = Math.round( radius * Math.sin( 2 * Math.PI * i / iterations ) );
@@ -401,29 +400,42 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
           y = lastY+1;
         }
         
-        if ( filled && !preview ) {
-          drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview );
-          drawLine( x0 - x, y0 + y, x0 + x, y0 + y, mode, brush, preview );
+        if ( filled ) {
+          
+          if ( preview ) {
+            $ovrTempCtx.fillRect( x0 - x, y0 - y, x * 2, 1 );
+            $ovrTempCtx.fillRect( x0 - x, y0 + y, x * 2, 1 );
+            $ovrTempCtx.fillRect( x0 - y, y0 - x, 1, x * 2 );
+            $ovrTempCtx.fillRect( x0 + y, y0 - x, 1, x * 2 );
+          } else {
+            drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview );
+            drawLine( x0 - x, y0 + y, x0 + x, y0 + y, mode, brush, preview );
 
-          drawLine( x0 + y, y0 + rsq, x0 + y, y0 + x, mode, brush, preview );
-          drawLine( x0 - y, y0 - rsq, x0 - y, y0 - x, mode, brush, preview );
-          drawLine( x0 - y, y0 + rsq, x0 - y, y0 + x, mode, brush, preview );
-          drawLine( x0 + y, y0 - rsq, x0 + y, y0 - x, mode, brush, preview );
+            drawLine( x0 + y, y0 + rsq, x0 + y, y0 + x, mode, brush, preview );
+            drawLine( x0 - y, y0 - rsq, x0 - y, y0 - x, mode, brush, preview );
+            drawLine( x0 - y, y0 + rsq, x0 - y, y0 + x, mode, brush, preview );
+            drawLine( x0 + y, y0 - rsq, x0 + y, y0 - x, mode, brush, preview );
+          }
+        } else {
+          setPixel( activeColour, x0 + x, y0 + y, frameNum, i/iterations, preview );
+          setPixel( activeColour, x0 + y, y0 + x, frameNum, i/iterations, preview );
+          setPixel( activeColour, x0 - y, y0 + x, frameNum, i/iterations, preview );
+          setPixel( activeColour, x0 - x, y0 + y, frameNum, i/iterations, preview );
+
+          setPixel( activeColour, x0 + x, y0 - y, frameNum, i/iterations, preview );
+          setPixel( activeColour, x0 + y, y0 - x, frameNum, i/iterations, preview );
+          setPixel( activeColour, x0 - y, y0 - x, frameNum, i/iterations, preview );
+          setPixel( activeColour, x0 - x, y0 - y, frameNum, i/iterations, preview );
         }
-
-        setPixel( activeColour, x0 + x, y0 + y, frameNum, i/iterations, preview );
-        setPixel( activeColour, x0 + y, y0 + x, frameNum, i/iterations, preview );
-        setPixel( activeColour, x0 - y, y0 + x, frameNum, i/iterations, preview );
-        setPixel( activeColour, x0 - x, y0 + y, frameNum, i/iterations, preview );
-
-        setPixel( activeColour, x0 + x, y0 - y, frameNum, i/iterations, preview );
-        setPixel( activeColour, x0 + y, y0 - x, frameNum, i/iterations, preview );
-        setPixel( activeColour, x0 - y, y0 - x, frameNum, i/iterations, preview );
-        setPixel( activeColour, x0 - x, y0 - y, frameNum, i/iterations, preview );
-
         lastX = x
       }
       lastY = y;
+    }
+    if ( filled && preview ){
+      $ovrCtx.drawImage( $ovrTemp, 0, 0, imgPixelWidth, imgPixelHeight );
+
+      //drawLine( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, mode, brush, preview );
+      //drawLine( x0 - rsq, y0 - rsq, x0 + rsq, y0 + rsq, mode, brush, preview );
     }
     degrees = Math.floor( getDegrees( len.lenX, len.lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt(r), true );
@@ -434,6 +446,7 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
 // Ellipse //
 /////////////
 function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
+$ovrTempCtx.fillStyle = setColour ( activeColour );
 //  if (escPressed){ escPressed = false; debugger; }
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
@@ -481,17 +494,28 @@ function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
       }
 
       if (ok) {
-          if (filled && !preview) {
-            if (i >= halfIterations / 4 ) { drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
-            if (i <= halfIterations / 4 ) { drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
-            if (i <= halfIterations / 4 ) { drawLine( x0 +x, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
-            if (i >= halfIterations / 4 ) { drawLine( x0 + x, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+          if (filled) {
+            if ( preview ){
+              if (i >= halfIterations / 4 ) {
+                $ovrTempCtx.fillRect( x0 - x, y0 + y, x * 2, 1 );
+                $ovrTempCtx.fillRect( x0 - x, y0 - y, x * 2, 1 );
+              }
+              if (i <= halfIterations / 4 ) {
+                $ovrTempCtx.fillRect( x0 - x, y0 + y, x * 2, 1 );
+                $ovrTempCtx.fillRect( x0 - x, y0 - y, x * 2, 1 );
+              }
+            } else {
+              if (i >= halfIterations / 4 ) { drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
+              if (i <= halfIterations / 4 ) { drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview ); }
+              if (i <= halfIterations / 4 ) { drawLine( x0 + x, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+              if (i >= halfIterations / 4 ) { drawLine( x0 + x, y0 + y, x0 - x, y0 + y, mode, brush, preview ); }
+            }
           }
           setPixel( activeColour, x0 + x, y0 + y, frameNum, i/iterations, preview );
           setPixel( activeColour, x0 - x, y0 + y, frameNum, i/iterations, preview );
           setPixel( activeColour, x0 + x, y0 - y, frameNum, i/iterations, preview );
           setPixel( activeColour, x0 - x, y0 - y, frameNum, i/iterations, preview );
-
+          
         lastX = x;
         lastY = y;
       }

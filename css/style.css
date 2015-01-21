@@ -315,7 +315,7 @@ float: left;
   float: right;
 }
 
-.hidden {display: none;}
+.hidden {display: none; float: left;}
 
 #footer {
   clear: both;

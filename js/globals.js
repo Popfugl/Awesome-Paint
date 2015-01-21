@@ -48,6 +48,8 @@ var pixelBuffer   = [];
 var counter       =  0;
 var brush         = false;
 var brushBuffer   = [];
+var drawFlag = false;
+var drawMove;
 
 // Mouse
 var globalMouse;

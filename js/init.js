@@ -1,11 +1,26 @@
 addFrame(currentFrame);
+
+function pausecomp(millis) 
+{
+  //document.getElementById("status").style.visibility = "visible"
+  setTimeout("work(" + millis + ")", 1)
+} 
+
+function work(millis){
+  var date = new Date();
+  var curDate = null;
+
+  do { curDate = new Date(); }
+  while(curDate-date < millis);
+}
+
   
 $(document).ready(function(){
 
   // Sets the screen to update every 1/60 of a second.
   setInterval(function(){
     if (update){
-      
+      // pausecomp(10); // testing
       if ( mousePos ){
       }
       if ( !magnifyOn ) {
@@ -21,6 +36,8 @@ $(document).ready(function(){
     }
   }, 1000/60 ); // Set framerate 60 frames per second.
 
+  
+  
   $('#initZoom').val(zoomLevel);
   
   colour = colFG; // Set the starting colour here.

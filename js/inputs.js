@@ -17,6 +17,7 @@ $(document).ready(function () {
   cc.mousemove(function(e){
     if (escPressed) {debugger;}
     hasMoved = true;
+    if ( drawFlag ){ drawMove = true; }
     
     mousePos = getMousePos(e);
     updateMouseMoves();
