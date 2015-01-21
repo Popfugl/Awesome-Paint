@@ -401,12 +401,11 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
         }
         
         if ( filled ) {
-          
           if ( preview ) {
-            $ovrTempCtx.fillRect( x0 - x, y0 - y, x * 2, 1 );
-            $ovrTempCtx.fillRect( x0 - x, y0 + y, x * 2, 1 );
-            $ovrTempCtx.fillRect( x0 - y, y0 - x, 1, x * 2 );
-            $ovrTempCtx.fillRect( x0 + y, y0 - x, 1, x * 2 );
+            $ovrTempCtx.fillRect( x0 - x, y0 - y, (x * 2) + 1, 1 );
+            $ovrTempCtx.fillRect( x0 - x, y0 + y, (x * 2) + 1, 1 );
+            $ovrTempCtx.fillRect( x0 - y, y0 - x, 1, (x * 2) + 1 );
+            $ovrTempCtx.fillRect( x0 + y, y0 - x, 1, (x * 2) + 1 );
           } else {
             drawLine( x0 - x, y0 - y, x0 + x, y0 - y, mode, brush, preview );
             drawLine( x0 - x, y0 + y, x0 + x, y0 + y, mode, brush, preview );
@@ -431,12 +430,7 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
       }
       lastY = y;
     }
-    if ( filled && preview ){
-      $ovrCtx.drawImage( $ovrTemp, 0, 0, imgPixelWidth, imgPixelHeight );
-
-      //drawLine( x0 - rsq, y0 + rsq, x0 + rsq, y0 - rsq, mode, brush, preview );
-      //drawLine( x0 - rsq, y0 - rsq, x0 + rsq, y0 + rsq, mode, brush, preview );
-    }
+    if ( filled && preview ){ $ovrCtx.drawImage( $ovrTemp, 0, 0, imgPixelWidth, imgPixelHeight ); }
     degrees = Math.floor( getDegrees( len.lenX, len.lenY ) * 1 ) / 1;
     writeMessage( '', degrees+'°', parseInt(r), true );
   }
