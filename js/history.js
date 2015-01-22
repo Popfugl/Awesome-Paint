@@ -93,7 +93,9 @@ function parseCommandHistory(CMDhistory) {
   var scaleX = 1.0;
   var scaleY = 1.0;
   var forceColour = false;
-  if (!CMDhistory){ CMDhistory = $('#input').val(); }
+  if ( shiftDown ){ forceColour = colFG; }
+  if ( !shiftDown && ctrlCmdDown ){ forceColour = colBG; }
+  if ( !CMDhistory ){ CMDhistory = $('#input').val(); }
   CMDhistory = CMDhistory.split('\n');
   
   while (CMDhistory.length) {
@@ -127,7 +129,6 @@ function parseCommandHistory(CMDhistory) {
       
       if ( CMD[0] == 'forceColour' ) {
         forceColour = CMD[1];
-        // dbug(save);
       }
       
       if ( CMD[0] == 'cls' ) {
@@ -212,7 +213,7 @@ function parseCommandHistory(CMDhistory) {
         x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
         y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
 
-        floodFill( colour, x0, y0 );
+        floodFill( activeColour, x0, y0 );
         if ( !prv ) { saveToHistoryBuffer( save ); historyStep = null; } 
       }
       
@@ -258,7 +259,6 @@ function parseCommandHistory(CMDhistory) {
           if ( col[1]) {
             setColour( col[0].replace( /c/g,'' ) );
             if ( forceColour ){ setColour( forceColour ); }
-            colour = activeColour;
             crds[0] = col[1]; 
           }
           
@@ -266,7 +266,7 @@ function parseCommandHistory(CMDhistory) {
           y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
           
           if ( sketchFlag ) {
-            setPixel( colour, x0, y0, frameNum );
+            setPixel( activeColour, x0, y0, frameNum );
           } else {
             // 2 sets of coords means it's a line.
             if ( crds.length == 4 ) {

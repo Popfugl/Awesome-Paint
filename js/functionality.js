@@ -137,14 +137,12 @@ function dbug( log ) {
   for ( i = 0; i < commandBuffer.length; i++ ){
     text += '<div id="cmdHis' + i + '" ondblclick="pch(' + i + ')">' + commandBuffer[i] + '</div>'
   }
-  op.html( text );
+  op.html( text+'<br />' );
   op.scrollTop( h );
 }
 
 function pch(num, prv){
-  var txt = '';
-  if ( shiftDown ) { txt = 'forceColour: ' + colFG + '\n'; }
-  txt += $('#cmdHis' + num).text();
+  var txt = $('#cmdHis' + num).text();
   parseCommandHistory(txt);
 };
 

@@ -370,6 +370,7 @@ $(document).ready(function () {
     }
 
     // Draw the pointer on the preview screen
+    // (If we don't do it here, we can't see the colour change of the pixel!)
     pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
 
     // Clear and update the preview screen
