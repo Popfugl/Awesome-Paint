@@ -175,7 +175,7 @@ function getDegrees( lenX, lenY ){
   var slope = parseFloat( lenY / lenX );
   var theta = Math.atan2( -lenY, lenX );
   var get360 = theta * 180 / Math.PI;
-  if (get360 < 0) { get360 += 360; }
+  if ( get360 < 0 ) { get360 += 360; }
   return get360;
 }
 

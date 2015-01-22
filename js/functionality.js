@@ -128,7 +128,6 @@ function saveImageAsPNG (saveImageName){
 
 
 function dbug( log ) {
-  //console.log(log);
   var redoCheck = log.replace( 'redo','');
   if ( redoCheck == log ){ commandBuffer.push( log ); } else { commandBuffer.pop(); }
 
@@ -136,11 +135,18 @@ function dbug( log ) {
   var op = $('#output');
   var h = 100000000000; // Since .scrollHeight doesn't seem to work with jQuery, and as I only want to scroll to the bottom, this should be sufficient.
   for ( i = 0; i < commandBuffer.length; i++ ){
-    text += '<div>' + commandBuffer[i] + '</div>'
+    text += '<div id="cmdHis' + i + '" ondblclick="pch(' + i + ')">' + commandBuffer[i] + '</div>'
   }
   op.html( text );
   op.scrollTop( h );
 }
+
+function pch(num, prv){
+  var txt = '';
+  if ( shiftDown ) { txt = 'forceColour: ' + colFG + '\n'; }
+  txt += $('#cmdHis' + num).text();
+  parseCommandHistory(txt);
+};
 
 
 function addFrame(index) {

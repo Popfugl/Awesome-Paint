@@ -46,9 +46,7 @@ $(document).ready(function () {
       // Write coordinates to the top bar.
       writeMessage();
     }
-      
     update = true;
-
   });
   
   
@@ -73,7 +71,6 @@ $(document).ready(function () {
       if (dbb2 != 2) { toolTypeSelected(); } else { clickNum--; }
     }
     writeMessage();
-    
     update = true;
   });
   
@@ -87,7 +84,6 @@ $(document).ready(function () {
       if (dbb2 == 3) { colourChanged = activeColour = colBG = colour; /* dbug( '//colBG: ' + colour ); */ }
       
       updatePaletteSelection();
-      
     }
     
     if (tool == 'sketch' || tool == 'draw') {
@@ -119,11 +115,8 @@ $(document).ready(function () {
     
     // Clear and update the preview screen
     updatePreviewScreen();
-
-    
     hasMoved = false;
     mouseButton = false;
-    
   });
   
 
@@ -177,6 +170,7 @@ $(document).ready(function () {
     };
   }
   
+  
 /////////////////////////////////////
 // Event handlers for tool buttons //
 /////////////////////////////////////
@@ -217,6 +211,7 @@ $(document).ready(function () {
       redo();
     }
   });
+  
   
 /////////////////////////////////
 // Keyboard handlers for tools //
@@ -431,7 +426,7 @@ $(document).ready(function () {
   });
   
   
-  
+  // Applies the colour change to the current frame
   $('.applyChange').click( applyChange );
   
   function applyChange (e){
@@ -451,7 +446,6 @@ $(document).ready(function () {
     $('#backgroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
     $('#foregroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
     
-    
     // Build a pixelbuffer of all pixels with this colour
     pixelBuffer = [];
     for (i = 0; i < frame[frameNum].pxl.length; i++) {
@@ -466,11 +460,9 @@ $(document).ready(function () {
         });
       }
     }
-    
     // Redraw pixels from the buffer with the new colour
     if (pixelBuffer) { pastePixelBuffer(); }
-    
     saveToHistoryBuffer( 'newCol: ' + colourChanged + '|' + red + ',' + green + ',' + blue );
-    
   };
+  
 });

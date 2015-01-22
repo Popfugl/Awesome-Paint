@@ -52,6 +52,10 @@ function getPalette() {
 }
 
 function saveToHistoryBuffer(cmd){
+  if (historyStep != null){
+    deleteFutureHistory(historyStep+1);
+    historyStep = null;
+  }
   // save all data for the current frame
   // later it might be wise to only store the relevant change.
   var image = new Image();
@@ -82,16 +86,18 @@ function getArray(a) {
   return b;
 }
 
-function parseCommandHistory() {
+function parseCommandHistory(CMDhistory) {
+  var prv = false;
   var moveX = 0.0;
   var moveY = 0.0;
   var scaleX = 1.0;
   var scaleY = 1.0;
-  var CMDhistory = $('#input').val();
+  var forceColour = false;
+  if (!CMDhistory){ CMDhistory = $('#input').val(); }
   CMDhistory = CMDhistory.split('\n');
   
   while (CMDhistory.length) {
-    update = true;
+ //   update = true;
     
     var CMD = CMDhistory.shift();
     var save = CMD;
@@ -100,6 +106,10 @@ function parseCommandHistory() {
     
     // It's not a comment or an undo / redo
     if ( CMD.length == 2 ) {
+      
+      if ( CMD[0] == 'preview' ) {
+        prv = true;
+      }
       
       if ( CMD[0] == 'move' ) {
         CMD = CMD[1].split(',');
@@ -115,15 +125,21 @@ function parseCommandHistory() {
         dbug(save);
       }
       
+      if ( CMD[0] == 'forceColour' ) {
+        forceColour = CMD[1];
+        // dbug(save);
+      }
+      
       if ( CMD[0] == 'cls' ) {
         clearScreen( parseInt( CMD[1] ) );
-        saveToHistoryBuffer( save );
+        if ( !prv ) { saveToHistoryBuffer( save ); } 
       }
 
       if ( CMD[0] == 'sketch' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
         setColour( colour );
+        if ( forceColour ){ setColour( forceColour ); }
         
         CMD = CMD[1].split(';');
         
@@ -135,14 +151,15 @@ function parseCommandHistory() {
           
           if ( col[1] ) {
             setColour( col[0].replace( /c/g,'' ) );
+            if ( forceColour ){ setColour( forceColour ); }
             colour = activeColour;
+
             crds[0] = col[1]; 
           }
 
-          setPixel(colour, parseInt( crds[0] ) * scaleX , parseInt( crds[1] ) * scaleY, frameNum);
+          setPixel(activeColour, parseInt( crds[0] ) * scaleX , parseInt( crds[1] ) * scaleY, frameNum, 0, prv);
         }
-        saveToHistoryBuffer( save );
-        historyStep = null;
+        if ( !prv ) { saveToHistoryBuffer( save ); historyStep = null; } 
       }
       
       if ( CMD[0] == 'newCol' ) {
@@ -171,6 +188,7 @@ function parseCommandHistory() {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
         setColour( colour );
+        if ( forceColour ){ setColour( forceColour ); }
         
         var crds = CMD[1].split(',');
         x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
@@ -181,22 +199,21 @@ function parseCommandHistory() {
         y2 = Math.round( parseInt( crds[5] ) * scaleY + moveY );
         
         curve( x0, y0, x1, y1, x2, y2 );
-        saveToHistoryBuffer( save );
-        historyStep = null;
+        if ( !prv ) { saveToHistoryBuffer( save ); historyStep = null; } 
       }
       
       if ( CMD[0] == 'fill' ) {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
         setColour( colour );
+        if ( forceColour ){ setColour( forceColour ); }
         
         var crds = CMD[1].split(',');
         x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
         y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
 
         floodFill( colour, x0, y0 );
-        saveToHistoryBuffer( save );
-        historyStep = null;
+        if ( !prv ) { saveToHistoryBuffer( save ); historyStep = null; } 
       }
       
       if ( CMD[0] == 'rect' || CMD[0] == 'circle' || CMD[0] == 'ellipse' ) {
@@ -205,6 +222,7 @@ function parseCommandHistory() {
         CMD = CMD[1].split('|');
         var colour = CMD[0];
         setColour( colour );
+        if ( forceColour ){ setColour( forceColour ); }
         
         var crds = CMD[1].split(',');
         x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
@@ -216,8 +234,7 @@ function parseCommandHistory() {
         if ( t == 'rect' ) { rectangle( x0, y0, x1, y1, flag ); }
         if ( t == 'circle' ) { circle( x0, y0, x1, y1, flag ); }
         if ( t == 'ellipse' ) { ellipse( x0, y0, x1, y1, flag ); }
-        saveToHistoryBuffer( save );
-        historyStep = null;
+        if ( !prv ) { saveToHistoryBuffer( save ); historyStep = null; } 
       }
       
       if ( CMD[0] == 'draw' || CMD[0] == 'line' ) {
@@ -233,12 +250,14 @@ function parseCommandHistory() {
         
         while (CMD.length) {
           setColour( colour );
+          if ( forceColour ){ setColour( forceColour ); }
           crds = CMD.shift();
           crds = crds.split(',');
           
           var col = crds[0].split('_');
-          if ( col[1] ) {
+          if ( col[1]) {
             setColour( col[0].replace( /c/g,'' ) );
+            if ( forceColour ){ setColour( forceColour ); }
             colour = activeColour;
             crds[0] = col[1]; 
           }
@@ -265,33 +284,34 @@ function parseCommandHistory() {
             lastY = y0;
           }
         }
-        saveToHistoryBuffer( save );
+        if ( !prv ){ saveToHistoryBuffer( save ); historyStep = null; } 
         lastX = null;
         lastY = null;
-        historyStep = null;
       }
     } else { // The command is split by a comma, so it must be a cls, an undo or a redo.
     
       // if undo is part of the string, it will be changed and so we fire and undo()
       var checkUndo = CMD[0].replace( /undo/g,'' );
-      if ( checkUndo != CMD[0] ) {
+      if ( checkUndo != CMD[0] && !prv) {
         undo();
       }
 
       // same as with undo above
       var checkRedo = CMD[0].replace( /redo/g,'' );
-      if ( checkRedo != CMD[0] ) {
+      if ( checkRedo != CMD[0] && !prv) {
         redo();
       }
     }
   }
   if ( scaleX != 1 || scaleY != 1 ){ dbug( 'scale: 1.0, 1.0 '); }
   if ( moveX != 0 || moveY != 0 ){ dbug( 'move: 0.0, 0.0 '); }
-  updatePreviewScreen();
-  updateScreen();
-  update = true;
-  clickNum = 0;
-  $('#input').val('');
+  if (!prv){
+    updatePreviewScreen();
+    updateScreen();
+    update = true;
+    clickNum = 0;
+    $('#input').val('');
+  }
 }
 
 /*

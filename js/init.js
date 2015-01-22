@@ -36,8 +36,6 @@ $(document).ready(function(){
     }
   }, 1000/60 ); // Set framerate 60 frames per second.
 
-  
-  
   $('#initZoom').val(zoomLevel);
   
   colour = colFG; // Set the starting colour here.
