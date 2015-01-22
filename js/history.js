@@ -115,8 +115,8 @@ function parseCommandHistory(CMDhistory) {
       
       if ( CMD[0] == 'move' ) {
         CMD = CMD[1].split(',');
-        moveX = parseFloat ( CMD[0] );
-        moveY = parseFloat ( CMD[1] );
+        moveX += parseFloat ( CMD[0] );
+        moveY += parseFloat ( CMD[1] );
         dbug(save);
       }
       
@@ -158,7 +158,7 @@ function parseCommandHistory(CMDhistory) {
             crds[0] = col[1]; 
           }
 
-          setPixel(activeColour, parseInt( crds[0] ) * scaleX , parseInt( crds[1] ) * scaleY, frameNum, 0, prv);
+          setPixel(activeColour, parseInt( crds[0] ) * scaleX  + moveX, parseInt( crds[1] ) * scaleY + moveY, frameNum, 0, prv);
         }
         if ( !prv ) { saveToHistoryBuffer( save ); historyStep = null; } 
       }
