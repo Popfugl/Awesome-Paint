@@ -27,7 +27,7 @@ body {
 }
 
 #hueVal, #satVal, #valVal {
-  display: none;
+  display: xnone;
 }
 
 .ui-slider .ui-slider-handle {
@@ -67,7 +67,7 @@ body {
   border-color: white;
 }
 
-.applyChange, .cancelChange {
+.applySpread, .applyChange, .cancelChange {
   font-size: 12px;
   margin-top: 4px;
   padding: 2px 4px;
@@ -77,12 +77,12 @@ body {
 
 .applyChange {
   float: right;
-  clear: both;
+  clear: right;
 }
 
-.cancelChange {
-  float: right;
-  clear: right;
+.applySpread {
+  float: left;
+  clear: left;
 }
 
 #settings {
@@ -211,7 +211,7 @@ float: left;
   user-select: none;
 }
 
-.tool.ready, .tool.clear, .tool.undo, .tool.redo, .cancelChange, .applyChange {
+.tool.ready, .tool.clear, .tool.undo, .tool.redo, .cancelChange, .applyChange, .applySpread {
   color: black;
   background-color: rgb(185, 185, 185);
 }
@@ -222,7 +222,7 @@ float: left;
 
 .tool.ready.active.filled {background-color: rgb(0, 186, 255);}
 
-.tool.ready:hover, .tool.clear:hover, .tool.undo:hover, .tool.redo:hover, .cancelChange:hover, .applyChange:hover {
+.tool.ready:hover, .tool.clear:hover, .tool.undo:hover, .tool.redo:hover, .cancelChange:hover, .applyChange:hover, .applySpread:hover {
   cursor: pointer;
 }
 

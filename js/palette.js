@@ -235,6 +235,17 @@ function displayPalette(){
   $('#backgroundColour').css('background-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
 }
 
+function updateDisplayPalette(){
+  for (var p = 0; p < frame[frameNum].pal.length; p++){
+    var pi = $('#palIndex' + p);
+    var red = palIndex12to24bit(p).r;
+    var green = palIndex12to24bit(p).g;
+    var blue = palIndex12to24bit(p).b;
+    pi.css('background-color','rgb(' + red + ',' + green + ',' + blue + ')');
+  }
+}
+
+
 ////////////////////
 // OnClick Event! //
 ////////////////////
@@ -447,7 +458,7 @@ function updatePaletteSelection() {
     $('#backgroundColour').addClass('active');
     $('#palIndex'+activeColour).css('border-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
     $('#palIndex'+activeColour).css('background-color','rgb(' + redBG + ',' + greenBG + ',' + blueBG + ')');
-    $('#bgActive').css('left', activeColour * ( $('#palIndex0').width() + 2 ) );
+    $('#bgActive').css('left', colBG * ( $('#palIndex0').width() + 2 ) );
   }
 
   $('.palIndex').css( 'border-color', 'black' );
@@ -459,3 +470,47 @@ function updatePaletteSelection() {
   initRGBSliders ( activeColour );
 }
 
+function spreadColours( a, b ){
+  if ( !a || !b ){
+    a = colFG;
+    b = colBG;
+  }
+  // a = 1; b = 10;
+  if (a == b || a == (b + 1) || a == (b - 1)){ return; }
+  var test = [];
+  var min = Math.min(a,b);
+  var max = Math.max(a,b);
+  var num = max - min + 1;
+  var minColour = IndexRGB12Bit( min );
+  var maxColour = IndexRGB12Bit( max );
+  var minHSV = RGBtoHSV( minColour.r, minColour.g, minColour.b );
+  var maxHSV = RGBtoHSV( maxColour.r, maxColour.g, maxColour.b );
+
+  var distH = maxHSV.h - minHSV.h;
+  var distS = maxHSV.s - minHSV.s;
+  var distV = maxHSV.v - minHSV.v;
+  
+  // if the hue distance is greater than 180 go the other way around
+  if (distH > 180){ distH -= 360; }
+  if (distH < -180){ distH += 360; }
+  
+  var count = 1;
+  for (i = min + 1; i < max; i++){
+    count++;
+    var div = count / num;
+    var hsvH = minHSV.h + Math.round(distH * div);
+    var hsvS = minHSV.s + Math.round(distS * div);
+    var hsvV = minHSV.v + Math.round(distV * div);
+    
+    
+    var pal = frame[frameNum].pal[i];
+    if ( hsvH > 360 ){ hsvH -= 360; }
+    if ( hsvH < -360 ){ hsvH -= 360; }
+    
+    var rgb = HSVtoRGBnice( hsvH, hsvS/100, hsvV/100 );
+    frame[frameNum].pal[i].r = rgb.r;
+    frame[frameNum].pal[i].g = rgb.g;
+    frame[frameNum].pal[i].b = rgb.b;
+  }
+  updateDisplayPalette();
+}

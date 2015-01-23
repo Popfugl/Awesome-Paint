@@ -135,6 +135,12 @@ function parseCommandHistory(CMDhistory) {
         clearScreen( parseInt( CMD[1] ) );
         if ( !prv ) { saveToHistoryBuffer( save ); } 
       }
+      
+      if ( CMD[0] == 'spread' ) {
+        CMD = CMD[1].split(',');
+        spreadColours( CMD[0], CMD[1] );
+        if ( !prv ) { saveToHistoryBuffer( save ); } 
+      }
 
       if ( CMD[0] == 'sketch' ) {
         CMD = CMD[1].split('|');

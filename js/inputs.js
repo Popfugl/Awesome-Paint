@@ -429,8 +429,13 @@ $(document).ready(function () {
   
   // Applies the colour change to the current frame
   $('.applyChange').click( applyChange );
-  
-  function applyChange (e){
+  $('.applySpread').click( function (){
+    spreadColours();
+    saveToHistoryBuffer('spread : ' + colFG + ',' + colBG );
+  });
+});
+
+  function applyChange (){
     red = parseInt( $('#redVal').val() );
     green = parseInt( $('#greenVal').val() );
     blue = parseInt( $('#blueVal').val() );
@@ -466,4 +471,3 @@ $(document).ready(function () {
     saveToHistoryBuffer( 'newCol: ' + colourChanged + '|' + red + ',' + green + ',' + blue );
   };
   
-});
