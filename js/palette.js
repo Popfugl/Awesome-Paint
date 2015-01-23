@@ -489,15 +489,15 @@ function spreadColours( a, b ){
   var distH = maxHSV.h - minHSV.h;
   var distS = maxHSV.s - minHSV.s;
   var distV = maxHSV.v - minHSV.v;
-  
+  console.log (maxHSV.s, minHSV.s);
   // if the hue distance is greater than 180 go the other way around
   if (distH > 180){ distH -= 360; }
   if (distH < -180){ distH += 360; }
   
-  var count = 1;
+  var count = 0;
   for (i = min + 1; i < max; i++){
     count++;
-    var div = count / num;
+    var div = count / (num - 1);
     var hsvH = minHSV.h + Math.round(distH * div);
     var hsvS = minHSV.s + Math.round(distS * div);
     var hsvV = minHSV.v + Math.round(distV * div);
@@ -506,8 +506,10 @@ function spreadColours( a, b ){
     var pal = frame[frameNum].pal[i];
     if ( hsvH > 360 ){ hsvH -= 360; }
     if ( hsvH < -360 ){ hsvH -= 360; }
-    
-    var rgb = HSVtoRGBnice( hsvH, hsvS/100, hsvV/100 );
+    console.log('div: ' + div, 'num: ' + num);
+    console.log(hsvH, hsvS, hsvV);
+    console.log(distH*div, distS*div, distV*div);
+    var rgb = HSVtoRGBnice( hsvH, parseFloat( hsvS / 100 ), parseFloat( hsvV / 100 ) );
     frame[frameNum].pal[i].r = rgb.r;
     frame[frameNum].pal[i].g = rgb.g;
     frame[frameNum].pal[i].b = rgb.b;
