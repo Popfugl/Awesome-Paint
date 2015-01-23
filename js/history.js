@@ -145,14 +145,16 @@ function parseCommandHistory(CMDhistory) {
         CMD = CMD[1].split(';');
         
         while (CMD.length) {
-          var crds = CMD.pop();
+          var crds = CMD.shift();
           crds = crds.split(',');
           
-          var col = crds[0].split('_');
+          var col = crds[0].replace( /;/g,',' ).split('_');
           
           if ( col[1] ) {
-            setColour( col[0].replace( /c/g,'' ) );
+            colour = col[0].replace( /c/g,'' );
+            setColour( colour );
             if ( forceColour ){ setColour( forceColour ); }
+            console.log(colour);
             colour = activeColour;
 
             crds[0] = col[1]; 
@@ -191,7 +193,9 @@ function parseCommandHistory(CMDhistory) {
         setColour( colour );
         if ( forceColour ){ setColour( forceColour ); }
         
-        var crds = CMD[1].split(',');
+        
+        var crds = CMD[1].replace( /;/g,',' ).split(',');
+        
         x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
         y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
         x1 = Math.round( parseInt( crds[2] ) * scaleX + moveX );
@@ -225,7 +229,7 @@ function parseCommandHistory(CMDhistory) {
         setColour( colour );
         if ( forceColour ){ setColour( forceColour ); }
         
-        var crds = CMD[1].split(',');
+        var crds = CMD[1].replace( /;/g,',' ).split(',');
         x0 = Math.round( parseInt( crds[0] ) * scaleX + moveX );
         y0 = Math.round( parseInt( crds[1] ) * scaleY + moveY );
         x1 = Math.round( parseInt( crds[2] ) * scaleX + moveX );
@@ -259,6 +263,7 @@ function parseCommandHistory(CMDhistory) {
           if ( col[1]) {
             setColour( col[0].replace( /c/g,'' ) );
             if ( forceColour ){ setColour( forceColour ); }
+            colour = activeColour;
             crds[0] = col[1]; 
           }
           

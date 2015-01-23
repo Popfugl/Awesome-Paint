@@ -54,19 +54,19 @@ function toolTypeSelected() {
     if (tool == 'rectangle') {
       rectangle(clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, rotation, mode, brush, false );
       clickNum = 0;
-      saveToHistoryBuffer('rect  : '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
+      saveToHistoryBuffer('rect  : '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+';'+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
     }
     
     if (tool == 'circle') {
       circle( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, mode, brush, false );
       clickNum = 0;
-      saveToHistoryBuffer('circle: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
+      saveToHistoryBuffer('circle: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+';'+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
     }
     
     if (tool == 'ellipse') {
       ellipse( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, filled, mode, brush, false );
       clickNum = 0;
-      saveToHistoryBuffer('ellipse: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+','+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
+      saveToHistoryBuffer('ellipse: '+activeColour+'|'+clickBuffer[1].x+','+clickBuffer[1].y+';'+clickBuffer[2].x+','+clickBuffer[2].y+','+filled);
     }
     
     // not quite done yet
@@ -78,7 +78,7 @@ function toolTypeSelected() {
     if (tool == 'curve') {
       curve( clickBuffer[1].x, clickBuffer[1].y, clickBuffer[2].x, clickBuffer[2].y, clickBuffer[3].x, clickBuffer[3].y, mode, 0, false );
       clickNum = 0;
-      saveToHistoryBuffer( 'curve : ' + activeColour + '|' + clickBuffer[1].x + ',' + clickBuffer[1].y + ',' + clickBuffer[2].x + ',' + clickBuffer[2].y + ',' + clickBuffer[3].x + ',' + clickBuffer[3].y );
+      saveToHistoryBuffer( 'curve : ' + activeColour + '|' + clickBuffer[1].x + ',' + clickBuffer[1].y + ';' + clickBuffer[2].x + ',' + clickBuffer[2].y + ';' + clickBuffer[3].x + ',' + clickBuffer[3].y );
     }
   }
   
