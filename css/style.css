@@ -23,7 +23,7 @@ body {
   float: right;
   clear: right;
   text-align: center;
-  width: 16px;
+  width: 22px;
 }
 
 #hueVal, #satVal, #valVal {
@@ -67,7 +67,7 @@ body {
   border-color: white;
 }
 
-.applySpread, .applyChange, .cancelChange {
+.applySpread, .applyCopy, .applySwap, .cancelChange, .applyChange {
   font-size: 12px;
   margin-top: 4px;
   padding: 2px 4px;
@@ -75,13 +75,22 @@ body {
   background-color: light-gray;
 }
 
-.applyChange {
+.applySpread, .applyCopy, .applySwap {
+  width: 44px;
+  text-align: center;
+}
+
+.applyChange, .applySwap {
   float: right;
   clear: right;
 }
 
-.applySpread {
+.applySpread, .applyCopy {
   float: left;
+}
+
+.applySpread {
+  margin-right: 2px;
   clear: left;
 }
 
@@ -211,9 +220,10 @@ float: left;
   user-select: none;
 }
 
-.tool.ready, .tool.clear, .tool.undo, .tool.redo, .cancelChange, .applyChange, .applySpread {
+.tool.ready, .tool.clear, .tool.undo, .tool.redo, .cancelChange, .applySpread, .applyCopy, .applySwap, .applyChange {
   color: black;
   background-color: rgb(185, 185, 185);
+  cursor: pointer;
 }
 
 .tool.ready.active {
@@ -221,10 +231,6 @@ float: left;
 }
 
 .tool.ready.active.filled {background-color: rgb(0, 186, 255);}
-
-.tool.ready:hover, .tool.clear:hover, .tool.undo:hover, .tool.redo:hover, .cancelChange:hover, .applyChange:hover, .applySpread:hover {
-  cursor: pointer;
-}
 
 #palette {
   border: solid 1px black;

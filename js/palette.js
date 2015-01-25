@@ -485,11 +485,14 @@ function spreadColours( a, b ){
   var maxColour = IndexRGB12Bit( max );
   var minHSV = RGBtoHSV( minColour.r, minColour.g, minColour.b );
   var maxHSV = RGBtoHSV( maxColour.r, maxColour.g, maxColour.b );
+  
+  if ( maxHSV.s == 0 ){ maxHSV.h = minHSV.h; }
+  if ( minHSV.s == 0 ){ minHSV.h = maxHSV.h; }
 
   var distH = maxHSV.h - minHSV.h;
   var distS = maxHSV.s - minHSV.s;
   var distV = maxHSV.v - minHSV.v;
-  console.log (maxHSV.s, minHSV.s);
+  
   // if the hue distance is greater than 180 go the other way around
   if (distH > 180){ distH -= 360; }
   if (distH < -180){ distH += 360; }
@@ -514,5 +517,33 @@ function spreadColours( a, b ){
     frame[frameNum].pal[i].g = rgb.g;
     frame[frameNum].pal[i].b = rgb.b;
   }
+  updateDisplayPalette();
+}
+
+function copyColour( a, b ){
+  if ( !a || !b ){
+    a = colFG;
+    b = colBG;
+  }
+  sourceRGB = IndexRGB12Bit(a);
+  frame[frameNum].pal[b].r = sourceRGB.r;
+  frame[frameNum].pal[b].g = sourceRGB.g;
+  frame[frameNum].pal[b].b = sourceRGB.b;
+  updateDisplayPalette();
+}
+
+function swapColours( a, b ){
+  if ( !a || !b ){
+    a = colFG;
+    b = colBG;
+  }
+  tempRGB = IndexRGB12Bit(b);
+  destRGB = IndexRGB12Bit(a)
+  frame[frameNum].pal[b].r = destRGB.r;
+  frame[frameNum].pal[b].g = destRGB.g;
+  frame[frameNum].pal[b].b = destRGB.b;
+  frame[frameNum].pal[a].r = tempRGB.r;
+  frame[frameNum].pal[a].g = tempRGB.g;
+  frame[frameNum].pal[a].b = tempRGB.b;
   updateDisplayPalette();
 }

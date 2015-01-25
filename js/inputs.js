@@ -433,6 +433,14 @@ $(document).ready(function () {
     spreadColours();
     saveToHistoryBuffer('spread : ' + colFG + '-' + colBG );
   });
+  $('.applyCopy').click( function (){
+    copyColour();
+    saveToHistoryBuffer('colCopy : ' + colFG + ';' + colBG );
+  });
+  $('.applySwap').click( function (){
+    swapColours();
+    saveToHistoryBuffer('colSwap : ' + colFG + ';' + colBG );
+  });
 });
 
   function applyChange (){
