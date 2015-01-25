@@ -37,37 +37,37 @@ all buttons will eventually be drawn by me in Awesome Paint.
 Finding a better name than Awesome Paint (and no; not Epic Paint)
 
 - Tools
--- Polygon
--- Filled Polygon
--- Lasso
+- Polygon
+- Filled Polygon
+- Lasso
 
 - Brush (cutout)
--- Cut out brush
--- x/y flipping
--- 90° rotation
--- free rotation
--- Perspective distortion of brush
+- Cut out brush
+- x/y flipping
+- 90° rotation
+- free rotation
+- Perspective distortion of brush
 
 - Drawing tool handling (grip)
--- positioning relative to pointer
--- quick snap positioning to corners / sides or middle
+- positioning relative to pointer
+- quick snap positioning to corners / sides or middle
 
 - Animation!
--- Light table
--- Animated brush
+- Light table
+- Animated brush
 
 - Grid handling
 
 - palette editor
--- colour ranges
--- colour cycling
--- swap colours
+- colour ranges
+- colour cycling
 
 - image formats
--- ilbm loader
--- ilbm saver
--- anim loader
--- anim saver
--- png loader (indexed palette)
--- png saver (indexed palette)
+- Awesome Paint file format (image-frames, frame-data, frame-palettes, full history) 
+- ilbm loader
+- ilbm saver
+- anim loader
+- anim saver
+- png loader (indexed palette)
+- png saver (indexed palette)
 
