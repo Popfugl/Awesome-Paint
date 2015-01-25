@@ -117,6 +117,7 @@ $(document).ready(function () {
     updatePreviewScreen();
     hasMoved = false;
     mouseButton = false;
+    update = true;
   });
   
 

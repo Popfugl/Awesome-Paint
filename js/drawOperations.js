@@ -1,6 +1,6 @@
 function updateScreen() {
   // Copy the 1:1 image while scaling it to the screen.
-  drawImageFromColourMap();
+  if ( !preview ){ drawImageFromColourMap(); }
   $imgCtx.drawImage( $imgTemp, 0, 0, imgPixelWidth, imgPixelHeight );
 }
 
@@ -36,22 +36,21 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   
   activeColour = tmpColor; // Restore the activeColour
   
-    if (preview)
-    {
+    if (preview) {
       // only plot the pixel on the preview screen.
       $ovrTempCtx.fillRect( x, y, 1, 1 );
-    }
-    else
-    {
+    } else {
       var pixelNum = parseInt( y * imgWidth + x );
       // write the data where it matters.
       frame[frameNum].pxl[pixelNum] = colour;
       
       // then plot the pixel on the main screen.
       if (!pBuffer) {
+        $imgTempCtx.fillStyle = $ovrTempCtx.fillStyle;
+        $imgTempCtx.fillRect( x, y, 1, 1 ); 
+        // Something is being drawn to the preview screen, so next interval would be a good time to update the screen.
         update = true;
-      }
-      else {
+      } else {
         pixelBuffer.push ({
           x: x,
           y: y
@@ -204,7 +203,7 @@ function curve( Ax, Ay, Bx, By, Cx, Cy, brush, mode, preview ){
 // Fill //
 //////////
 function floodFill( colour, startX, startY ){
-
+  if (startX < 0 || startX >= imgWidth || startY < 0 || startY >= imgHeight ) {return false;}
   pixelStack = [[startX, startY]];
   startColour = getColour( startX, startY );
   if (startColour == colour) { return; }
@@ -263,6 +262,7 @@ function floodFill( colour, startX, startY ){
     }
   }
   if ( pixelBuffer ){ pastePixelBuffer(); }
+  return true;
 }
   
 function matchStartColor( x, y )

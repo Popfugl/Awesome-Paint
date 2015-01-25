@@ -25,13 +25,12 @@ function toolTypeSelected() {
   if (clickNum == 1) {
     // ends here
     if (tool == 'fill') {
-      floodFill( activeColour, dbx2, dby2 );
+      var flag = floodFill( activeColour, dbx2, dby2 );
       clickNum = 0;
       
       // Testing - should fix history buffer problem.
-      toolTypeSelected();
-
-      saveToHistoryBuffer('fill  : '+activeColour+'|'+dbx2+','+dby2);
+      // toolTypeSelected();
+      if (flag){ saveToHistoryBuffer('fill  : '+activeColour+'|'+dbx2+','+dby2); }
     }
     
     // not quite done yet
