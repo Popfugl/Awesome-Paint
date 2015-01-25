@@ -8,6 +8,7 @@ function undo() {
   
   copyFromHistory();
   var toolHist = historyBuffer[historyStep+1].action.split(':',1);
+  updateDisplayPalette();
   
   dbug('undo ' + toolHist);
 }
@@ -20,6 +21,7 @@ function redo() {
   
   copyFromHistory();
   var toolHist = historyBuffer[historyStep].action.split(':',1);
+  updateDisplayPalette();
   
   dbug('redo ' + toolHist);
 }

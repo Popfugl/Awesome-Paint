@@ -243,6 +243,7 @@ function updateDisplayPalette(){
     var blue = palIndex12to24bit(p).b;
     pi.css('background-color','rgb(' + red + ',' + green + ',' + blue + ')');
   }
+  drawImageFromColourMap();
 }
 
 
@@ -382,9 +383,9 @@ function updateHSVtoRGB() {
   
   var rgb = HSVtoRGBnice( h, s, v );
   
-  $('#redVal').val( Math.ceil(rgb.r) );
-  $('#greenVal').val( Math.ceil(rgb.g) );
-  $('#blueVal').val( Math.ceil(rgb.b) );
+  $('#redVal').val( Math.round(rgb.r) );
+  $('#greenVal').val( Math.round(rgb.g) );
+  $('#blueVal').val( Math.round(rgb.b) );
   
   updateTempColour();
 }
@@ -509,11 +510,7 @@ function spreadColours( a, b ){
     var pal = frame[frameNum].pal[i];
     if ( hsvH > 360 ){ hsvH -= 360; }
     if ( hsvH < -360 ){ hsvH -= 360; }
-/*
-    console.log('div: ' + div, 'num: ' + num);
-    console.log(hsvH, hsvS, hsvV);
-    console.log(distH*div, distS*div, distV*div);
-*/
+    
     var rgb = HSVtoRGBnice( hsvH, parseFloat( hsvS / 100 ), parseFloat( hsvV / 100 ) );
     frame[frameNum].pal[i].r = rgb.r;
     frame[frameNum].pal[i].g = rgb.g;

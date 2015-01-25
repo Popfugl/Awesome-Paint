@@ -247,3 +247,20 @@ function pointer(x, y, mx, my, preview, brush) {
   pointerFlag = false;
 
 }
+
+function drawImageFromColourMap(){
+  var imageData = $imgTempCtx.getImageData(0, 0, imgWidth, imgHeight);
+  var pixels = imageData.data;
+  var numPxl = frame[frameNum].pxl.length;
+  var pxl;
+  var colour;
+  for ( i = 0; i < numPxl; i++ ){
+    pxl = frame[frameNum].pxl[i];
+    colour = palIndex12to24bit(pxl);
+    pixels[i*4]   = colour.r; // Red
+    pixels[i*4+1] = colour.g; // Green
+    pixels[i*4+2] = colour.b; // Blue
+  }
+  $imgTempCtx.clearRect(0, 0, imgWidth, imgHeight);
+  $imgTempCtx.putImageData(imageData, 0, 0);
+}

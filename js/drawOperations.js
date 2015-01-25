@@ -1,5 +1,6 @@
 function updateScreen() {
   // Copy the 1:1 image while scaling it to the screen.
+  drawImageFromColourMap();
   $imgCtx.drawImage( $imgTemp, 0, 0, imgPixelWidth, imgPixelHeight );
 }
 
@@ -48,10 +49,6 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
       
       // then plot the pixel on the main screen.
       if (!pBuffer) {
-        $imgTempCtx.fillStyle = $ovrTempCtx.fillStyle;
-        $imgTempCtx.fillRect( x, y, 1, 1 ); 
-
-        // Something is being drawn to the preview screen, so next interval would be a good time to update the screen.
         update = true;
       }
       else {
