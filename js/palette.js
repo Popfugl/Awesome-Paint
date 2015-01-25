@@ -509,9 +509,11 @@ function spreadColours( a, b ){
     var pal = frame[frameNum].pal[i];
     if ( hsvH > 360 ){ hsvH -= 360; }
     if ( hsvH < -360 ){ hsvH -= 360; }
+/*
     console.log('div: ' + div, 'num: ' + num);
     console.log(hsvH, hsvS, hsvV);
     console.log(distH*div, distS*div, distV*div);
+*/
     var rgb = HSVtoRGBnice( hsvH, parseFloat( hsvS / 100 ), parseFloat( hsvV / 100 ) );
     frame[frameNum].pal[i].r = rgb.r;
     frame[frameNum].pal[i].g = rgb.g;

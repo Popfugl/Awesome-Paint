@@ -172,10 +172,10 @@ function parseCommandHistory(CMDhistory) {
             colour = col[0].replace( /c/g,'' );
             setColour( colour );
             if ( forceColour ){ setColour( forceColour ); }
-            console.log(colour);
+            // console.log(colour);
             colour = activeColour;
 
-            crds[0] = col[1]; 
+            crds[0] = col[1];
           }
 
           setPixel(activeColour, parseInt( crds[0] ) * scaleX  + moveX, parseInt( crds[1] ) * scaleY + moveY, frameNum, 0, prv);
