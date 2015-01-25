@@ -30,7 +30,8 @@ function toolTypeSelected() {
       
       // Testing - should fix history buffer problem.
       // toolTypeSelected();
-      if (flag){ saveToHistoryBuffer('fill  : '+activeColour+'|'+dbx2+','+dby2); }
+
+      if ( flag ){ saveToHistoryBuffer('fill  : '+activeColour+'|'+dbx2+','+dby2); }
     }
     
     // not quite done yet
@@ -262,4 +263,5 @@ function drawImageFromColourMap(){
   }
   $imgTempCtx.clearRect(0, 0, imgWidth, imgHeight);
   $imgTempCtx.putImageData(imageData, 0, 0);
+  update = true;
 }
