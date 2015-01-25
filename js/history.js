@@ -133,13 +133,13 @@ function parseCommandHistory(CMDhistory) {
       
       if ( CMD[0] == 'cls' ) {
         clearScreen( parseInt( CMD[1] ) );
-        if ( !prv ) { saveToHistoryBuffer( save ); } 
+        if ( !prv ) { saveToHistoryBuffer( save ); }
       }
       
       if ( CMD[0] == 'spread' ) {
-        CMD = CMD[1].split(',');
+        CMD = CMD[1].split('-');
         spreadColours( CMD[0], CMD[1] );
-        if ( !prv ) { saveToHistoryBuffer( save ); } 
+        if ( !prv ) { saveToHistoryBuffer( save ); }
       }
 
       if ( CMD[0] == 'sketch' ) {

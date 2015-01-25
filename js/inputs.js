@@ -431,7 +431,7 @@ $(document).ready(function () {
   $('.applyChange').click( applyChange );
   $('.applySpread').click( function (){
     spreadColours();
-    saveToHistoryBuffer('spread : ' + colFG + ',' + colBG );
+    saveToHistoryBuffer('spread : ' + colFG + '-' + colBG );
   });
 });
 
