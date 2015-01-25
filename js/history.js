@@ -136,9 +136,21 @@ function parseCommandHistory(CMDhistory) {
         if ( !prv ) { saveToHistoryBuffer( save ); }
       }
       
-      if ( CMD[0] == 'spread' ) {
+      if ( CMD[0] == 'colSpread' ) {
         CMD = CMD[1].split('-');
         spreadColours( CMD[0], CMD[1] );
+        if ( !prv ) { saveToHistoryBuffer( save ); }
+      }
+
+      if ( CMD[0] == 'colCopy' ) {
+        CMD = CMD[1].split(';');
+        copyColour( CMD[0], CMD[1] );
+        if ( !prv ) { saveToHistoryBuffer( save ); }
+      }
+
+      if ( CMD[0] == 'colSwap' ) {
+        CMD = CMD[1].split(';');
+        swapColours( CMD[0], CMD[1] );
         if ( !prv ) { saveToHistoryBuffer( save ); }
       }
 

@@ -431,51 +431,51 @@ $(document).ready(function () {
   $('.applyChange').click( applyChange );
   $('.applySpread').click( function (){
     spreadColours();
-    saveToHistoryBuffer('spread : ' + colFG + '-' + colBG );
+    saveToHistoryBuffer('colSpread: ' + colFG + '-' + colBG );
   });
   $('.applyCopy').click( function (){
     copyColour();
-    saveToHistoryBuffer('colCopy : ' + colFG + ';' + colBG );
+    saveToHistoryBuffer('colCopy: ' + colFG + ';' + colBG );
   });
   $('.applySwap').click( function (){
     swapColours();
-    saveToHistoryBuffer('colSwap : ' + colFG + ';' + colBG );
+    saveToHistoryBuffer('colSwap: ' + colFG + ';' + colBG );
   });
 });
 
-  function applyChange (){
-    red = parseInt( $('#redVal').val() );
-    green = parseInt( $('#greenVal').val() );
-    blue = parseInt( $('#blueVal').val() );
-    
-    // Set the colour in the palette
-    frame[frameNum].pal[colourChanged].r = red;
-    frame[frameNum].pal[colourChanged].g = green;
-    frame[frameNum].pal[colourChanged].b = blue;
+function applyChange (){
+  red = parseInt( $('#redVal').val() );
+  green = parseInt( $('#greenVal').val() );
+  blue = parseInt( $('#blueVal').val() );
 
-    // Set the colour in the visible palette
-    $('#palIndex'+colourChanged).css('background-color', $('#tempColour').css('background-color') );
-    setColour( colourChanged );
-    
-    $('#backgroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
-    $('#foregroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
-    
-    // Build a pixelbuffer of all pixels with this colour
-    pixelBuffer = [];
-    for (i = 0; i < frame[frameNum].pxl.length; i++) {
-      if (frame[frameNum].pxl[i] == activeColour) {
-        
-        yPos = Math.floor(i / imgWidth);
-        xPos = (i - yPos * imgWidth);
+  // Set the colour in the palette
+  frame[frameNum].pal[colourChanged].r = red;
+  frame[frameNum].pal[colourChanged].g = green;
+  frame[frameNum].pal[colourChanged].b = blue;
 
-        pixelBuffer.push ({
-          x: xPos,
-          y: yPos
-        });
-      }
+  // Set the colour in the visible palette
+  $('#palIndex'+colourChanged).css('background-color', $('#tempColour').css('background-color') );
+  setColour( colourChanged );
+
+  $('#backgroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
+  $('#foregroundColour.active').css( 'background-color', $('#tempColour').css('background-color') );
+
+  // Build a pixelbuffer of all pixels with this colour
+  pixelBuffer = [];
+  for (i = 0; i < frame[frameNum].pxl.length; i++) {
+    if (frame[frameNum].pxl[i] == activeColour) {
+
+      yPos = Math.floor(i / imgWidth);
+      xPos = (i - yPos * imgWidth);
+
+      pixelBuffer.push ({
+        x: xPos,
+        y: yPos
+      });
     }
-    // Redraw pixels from the buffer with the new colour
-    if (pixelBuffer) { pastePixelBuffer(); }
-    saveToHistoryBuffer( 'newCol: ' + colourChanged + '|' + red + ',' + green + ',' + blue );
-  };
+  }
+  // Redraw pixels from the buffer with the new colour
+  if (pixelBuffer) { pastePixelBuffer(); }
+  saveToHistoryBuffer( 'newCol: ' + colourChanged + '|' + red + ',' + green + ',' + blue );
+};
   
