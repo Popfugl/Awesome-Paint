@@ -263,5 +263,5 @@ function drawImageFromColourMap(){
   }
   $imgTempCtx.clearRect(0, 0, imgWidth, imgHeight);
   $imgTempCtx.putImageData(imageData, 0, 0);
-  update = true;
+  //update = true;
 }

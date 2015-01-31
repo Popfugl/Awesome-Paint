@@ -46,7 +46,7 @@ $(document).ready(function () {
       // Write coordinates to the top bar.
       writeMessage();
     }
-    update = true;
+    //update = true;
   });
   
   
@@ -72,7 +72,7 @@ $(document).ready(function () {
       if (dbb2 != 2) { toolTypeSelected(); } else { clickNum--; }
     }
     writeMessage();
-    update = true;
+    updatePreviewScreen();// = true;
   });
   
   // Mouse button is released
@@ -395,7 +395,7 @@ $(document).ready(function () {
     if(e.which == 18){ altDown = false; }
     if(e.which == 188){ commaDown = false; }
     
-    update = true;
+    //update = true;
   });
   
 ///////////////
