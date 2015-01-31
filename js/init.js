@@ -20,17 +20,14 @@ $(document).ready(function(){
   // Sets the screen to update every 1/60 of a second.
   setInterval(function(){
     if (update){
-      // pausecomp(10); // testing
-      if ( mousePos ){
-      }
-      if ( !magnifyOn ) {
-        updateScreen();
-      } else {
+      if ( magnifyOn ) {
         // Draw the pointer on the preview screen
         pointer( mousePos.pointerX, mousePos.pointerY, mousePos.x, mousePos.y, true, false );
-        
+        updateScreen();
         // updatePreviewScreen;
         magnify();
+      } else {
+        updateScreen();
       }
       update = false;
     }

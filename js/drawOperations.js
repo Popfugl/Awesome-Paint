@@ -36,13 +36,10 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   
   activeColour = tmpColor; // Restore the activeColour
   
-    if (preview)
-    {
+    if (preview) {
       // only plot the pixel on the preview screen.
       $ovrTempCtx.fillRect( x, y, 1, 1 );
-    }
-    else
-    {
+    } else {
       var pixelNum = parseInt( y * imgWidth + x );
       // write the data where it matters.
       frame[frameNum].pxl[pixelNum] = colour;
@@ -50,8 +47,7 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
       // then plot the pixel on the main screen.
       if (!pBuffer) {
         update = true;
-      }
-      else {
+      } else {
         pixelBuffer.push ({
           x: x,
           y: y
@@ -108,10 +104,8 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     updateCoords( x0, y0 );
   }
 
-  if ( Math.abs( lenX ) < Math.abs( lenY ) )
-  {
-    for ( i = 0; i <= Math.abs( lenY ); i++ )
-    {
+  if ( Math.abs( lenX ) < Math.abs( lenY ) ) {
+    for ( i = 0; i <= Math.abs( lenY ); i++ ) {
       stepX = ( lenX / Math.abs( lenY ) );
       stepY = length.dirY;
       
@@ -123,11 +117,8 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
                preview,
                true );
     }
-  }
-  else
-  {
-    for (i = 0; i <= Math.abs( lenX ); i++)
-    {
+  } else {
+    for (i = 0; i <= Math.abs( lenX ); i++) {
       stepX = length.dirX;
       stepY = ( lenY / Math.abs( lenX ) );
       

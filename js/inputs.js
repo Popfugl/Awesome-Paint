@@ -15,7 +15,7 @@ $(document).ready(function () {
   
   // Mouse is on the move
   cc.mousemove(function(e){
-    if (escPressed) {debugger;}
+//    if (escPressed) {debugger;}
     hasMoved = true;
     if ( drawFlag ){ drawMove = true; }
     
@@ -52,6 +52,7 @@ $(document).ready(function () {
   
   // Mouse button is down.
   cc.mousedown(function(e){
+//    if (escPressed) {debugger;}
     hasMoved = false;
     mouseButton = e.which;
     dbb2 = mouseButton;
