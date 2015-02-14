@@ -111,10 +111,10 @@ $(document).ready(function(){
           }
           dbug('// Project loaded');
 
-          var FrmNum = parseInt( textDrop.shift() );
           var Timing = parseFloat( textDrop.shift() );
-          var palDump = textDrop.shift().replace(/EOL/g,'');
+          var FrmNum = parseInt( textDrop.shift() );
           var pxlDump = textDrop.shift().replace(/EOL/g,'');
+          var palDump = textDrop.shift().replace(/EOL/g,'');
 
           frame[FrmNum].timing = Timing;
 
