@@ -126,7 +126,6 @@ function saveImageAsPNG (saveImageName){
   saveCanvas.toBlob(function(blob) { saveAs(blob, name); });
 }
 
-
 function dbug( log ) {
   var redoCheck = log.replace( 'redo','');
   if ( redoCheck == log ){ commandBuffer.push( log ); } else { commandBuffer.pop(); }
@@ -145,7 +144,6 @@ function pch(num, prv){
   var txt = $('#cmdHis' + num).text();
   parseCommandHistory(txt);
 };
-
 
 function addFrame(index) {
   if ( commandBuffer[1] ){ dbug('addFrame: '+index); }

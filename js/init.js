@@ -61,7 +61,7 @@ $(document).ready(function(){
   $('#imageCanvas, #overlayCanvas, #magnifyCanvas, #pointerCanvas').css( "margin", overscan * pixelSize / 2 );
   $('#canvasContainer').css( 'width', ( imgPixelWidth + overscan * pixelSize ) ).css( 'height', ( imgPixelHeight + overscan * pixelSize ) );
   
-  $('#output').height( imgPixelHeight - 12 );
+  $('#output').height( imgPixelHeight - 12 - 100 );
   //$('#runBtn').css( 'top', - overscan - 8 );
   
   /* // This bit often don't work for some reason - constants used in the css instead.

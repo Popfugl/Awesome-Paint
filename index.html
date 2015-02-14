@@ -20,9 +20,11 @@
   <script type="text/javascript" src="js/palette.js"></script>
   <script type="text/javascript" src="js/init.js"></script>
   <script type="text/javascript" src="js/inputs.js"></script>
+  <script type="text/javascript" src="js/output.js"></script>
+  <script type="text/javascript" src="js/filedrop-min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
-<body>
+<body id="loadDropContainer">
 <div id="wrap">
   <div id="resizeContainer">
     <div id="topBar">
@@ -36,7 +38,7 @@
       <div id="version">V0.1</div>
       <div id="hoverCol"></div>
       <div id="info"></div>
-      <button id="saveBtn" value="Save">Save</button>
+      <button id="saveBtn" value="Save">Save PNG</button>
       <div id="coords"><div id="coordX"></div><div id="coordY"></div></div>
     </div>
 
@@ -156,9 +158,13 @@
       </div>
       <div id="inputContainer">
         <div class="info">Paste or write commands here</div>
-        <textarea id="input" rows="5">
-</textarea>
+        <textarea id="input" rows="5"></textarea>
         <button id="runBtn" onClick="parseCommandHistory()">Run</button>
+      </div>
+      <div id="saveContainer">
+        <label>Project filename:</label>
+        <input id="saveFileName" type="text" value="AwesomePaint.txt" />
+        <button id="saveProject" onClick="dumpFrameToText()">Download AP Project file</button>
       </div>
     </div>
   </div>

@@ -12,7 +12,6 @@ $(document).ready(function () {
     globalMouse = e.which;
   });
 
-  
   // Mouse is on the move
   cc.mousemove(function(e){
 //    if (escPressed) {debugger;}
@@ -48,7 +47,6 @@ $(document).ready(function () {
     }
     //update = true;
   });
-  
   
   // Mouse button is down.
   cc.mousedown(function(e){
@@ -121,7 +119,6 @@ $(document).ready(function () {
     update = true;
   });
   
-
   function updateClickBuffer() {
     if (clickBuffer[clickNum]) {
       clickBuffer[clickNum].x = parseInt(mousePos.x);
@@ -130,7 +127,6 @@ $(document).ready(function () {
       clickBuffer.push ({ x: mousePos.x, y:mousePos.y });
     }
   }
-  
   
   function updateMouseMoves() {
     dbx0 = dbx1; dbx1 = dbx2;
@@ -141,7 +137,6 @@ $(document).ready(function () {
       dby2 = mousePos.y;
     }
   }
-  
   
   // Get the mouse position
   function getMousePos(e) {
@@ -428,17 +423,19 @@ $(document).ready(function () {
     
   });
   
-  
   // Applies the colour change to the current frame
   $('.applyChange').click( applyChange );
+  
   $('.applySpread').click( function (){
     spreadColours();
     saveToHistoryBuffer('colSpread: ' + colFG + '-' + colBG );
   });
+  
   $('.applyCopy').click( function (){
     copyColour();
     saveToHistoryBuffer('colCopy: ' + colFG + ';' + colBG );
   });
+  
   $('.applySwap').click( function (){
     swapColours();
     saveToHistoryBuffer('colSwap: ' + colFG + ';' + colBG );

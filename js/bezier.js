@@ -2,8 +2,9 @@ function point(x, y) {
   return {'x':x, 'y': y}
 }
 
-// Bezier Cubic
-
+//////////////////
+// Bezier Cubic //
+//////////////////
 function bezierPointCubic(P0, P1, P2, P3, t) {
   var x = (1.0-t) * (1.0-t) * (1.0-t) * P0.x + 3.0 * (1.0-t) * (1.0-t) * t * P1.x + 3.0 * (1.0-t) * t * t * P2.x + t * t * t * P3.x;
   var y = (1.0-t) * (1.0-t) * (1.0-t) * P0.y + 3.0 * (1.0-t) * (1.0-t) * t * P1.y + 3.0 * (1.0-t) * t * t * P2.y + t * t * t * P3.y;
@@ -55,8 +56,9 @@ function bezierCubic(colour, P0x, P0y, P1x, P1y, P2x, P2y, P3x, P3y, preview) {
   }
 }
 
-// Bezier Quadratic
-
+//////////////////////
+// Bezier Quadratic //
+//////////////////////
 function bezierPoint(P0, P1, P2, t) {
   var x = (1.0-t) * (1.0-t) * P0.x + 2.0 * (1.0 - t)*t*P1.x + t*t*P2.x;
   var y = (1.0-t) * (1.0-t) * P0.y + 2.0 * (1.0 - t)*t*P1.y + t*t*P2.y;

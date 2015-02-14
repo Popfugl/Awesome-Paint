@@ -296,7 +296,7 @@ float: left;
   white-space: pre;
   /* overflow: hidden; */
   overflow-y: auto;
-  height: 460px;
+  height: 400px;
 }
 
 #inputContainer {
@@ -321,7 +321,20 @@ float: left;
   float: right;
 }
 
+#saveFileName {
+  width: 100%
+}
+
+#saveContainer {
+  margin-top: 28px;
+  text-align: center;
+}
+#saveContainer label {float: left;}
 .hidden {display: none; float: left;}
+
+#saveContainer button {
+  margin-top: 8px;
+}
 
 #footer {
   clear: both;

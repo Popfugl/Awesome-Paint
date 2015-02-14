@@ -14,7 +14,6 @@ function updatePreviewScreen() {
 ///////////////////////////////////////////////////////////////////////////////////////////
 // The very heart of the drawing functions. The routine that plots each individual pixel //
 ///////////////////////////////////////////////////////////////////////////////////////////
-
 function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   
   // progress is used to change colour if for example a cycle range is selected.
@@ -28,13 +27,13 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   if ( x < 0 || x >= imgWidth || y < 0 || y >= imgHeight ) { return; }
   
   if ( !pointerFlag ) {
-  colour = parseInt(colour);
-  
-  tmpColor = activeColour; // Store the activeColour. If for instance a brush is drawn, we need to restore the color.
-  
-  $ovrTempCtx.fillStyle = setColour( colour );
-  
-  activeColour = tmpColor; // Restore the activeColour
+    colour = parseInt(colour);
+
+    tmpColor = activeColour; // Store the activeColour. If for instance a brush is drawn, we need to restore the color.
+
+    $ovrTempCtx.fillStyle = setColour( colour );
+
+    activeColour = tmpColor; // Restore the activeColour
   
     if (preview) {
       // only plot the pixel on the preview screen.
@@ -67,11 +66,9 @@ function setPixel( colour, x, y, frameNum, progress, preview, pBuffer ) {
   }
 }
 
-
 ///////////////////////////////////////
 // The actual drawing tool functions //
 ///////////////////////////////////////
-
 
 ////////////
 // Sketch //
@@ -82,14 +79,12 @@ function sketch( x, y, mode, brush ) {
   else { setPixel( activeColour, x, y, frameNum ); }
 }
 
-
 //////////
 // Draw //
 //////////
 function draw( x1, y1, x0, y0, mode, brush ) {
   drawLine( x0, y0, x1, y1, mode, brush );
 }
-
 
 //////////
 // Line //
@@ -140,7 +135,6 @@ function drawLine( x0, y0, x1, y1, mode, brush, preview ) {
     writeMessage( '', degrees+'°', parseInt( radius ), true );
   }
 }
-
 function updateCoords( x, y ) {
   if ( coords ) {
     
@@ -158,7 +152,6 @@ function updateCoords( x, y ) {
     coords = x+','+y;
   }
 }
-
 function getDegrees( lenX, lenY ){
   var slope = parseFloat( lenY / lenX );
   var theta = Math.atan2( -lenY, lenX );
@@ -166,7 +159,6 @@ function getDegrees( lenX, lenY ){
   if ( get360 < 0 ) { get360 += 360; }
   return get360;
 }
-
 
 ///////////
 // Curve //
@@ -189,7 +181,6 @@ function curve( Ax, Ay, Bx, By, Cx, Cy, brush, mode, preview ){
   bezier( Ax, Ay, P1x, P1y, Bx, By, preview );
   // if (pixelBuffer) { pastePixelBuffer(); }
 }
-
 
 //////////
 // Fill //
@@ -255,13 +246,10 @@ function floodFill( colour, startX, startY ){
   if ( pixelBuffer ){ pastePixelBuffer(); }
   return true;
 }
-  
-function matchStartColor( x, y )
-{
+function matchStartColor( x, y ){
   var thisColour = getColour( x, y );
   return ( thisColour == startColour );
 }
-
 function pastePixelBuffer() {
   // fill colour is not set here, so remember to do that before using pastePixelBuffer()!
   
@@ -294,23 +282,19 @@ function pastePixelBuffer() {
   fillRect( a1, b1 );
   update = true;
 }
-
 function sortByPosition( a, b ){
   if ( a.y == b.y ) return a.x - b.x;
   return a.y - b.y;
 }
-
 function fillRect( a, b ) {
   if ( a && b ){ $imgTempCtx.fillRect( a.x, a.y, ( 1 + b.x - a.x ), 1 ) };
 }
-
 
 ///////////////
 // Rectangle //
 ///////////////
 
 // Consider using ( x-start, y-start, width, height ) instead of ( x-start, y-start, x-end, y-end ).
-
 function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
   if (escPressed) {debugger;}
   var length = getLength( x0, y0, x1, y1 );
@@ -342,7 +326,6 @@ function rectangle( x0, y0, x1, y1, filled, rotation, mode, brush, preview ) {
 ////////////
 // Circle //
 ////////////
-
 function getRadius( x0, y0, x1, y1 ) {
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
@@ -350,7 +333,6 @@ function getRadius( x0, y0, x1, y1 ) {
   var radius = Math.sqrt( ( lenX * lenX ) + ( lenY * lenY ) );
   return radius;
 }
-
 function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
   // if (escPressed){escPressed = false; debugger;}
   
@@ -428,8 +410,8 @@ function circle( x0, y0, x1, y1, filled, mode, brush, preview) {
 // Ellipse //
 /////////////
 function ellipse( x0, y0, x1, y1, filled, rotation, mode, brush, preview) {
-$ovrTempCtx.fillStyle = setColour ( activeColour );
-//  if (escPressed){ escPressed = false; debugger; }
+  $ovrTempCtx.fillStyle = setColour ( activeColour );
+  //  if (escPressed){ escPressed = false; debugger; }
   len = getLength( x0, y0, x1, y1 );
   var lenX = len.lenX;
   var lenY = len.lenY;
@@ -510,14 +492,12 @@ $ovrTempCtx.fillStyle = setColour ( activeColour );
   }
 }
 
-
 /////////////
 // Polygon //
 /////////////
 function polygon( clickBuffer, filled, rotation, mode, brush, preview) {
   
 }
-
 
 /////////
 // CLS //
